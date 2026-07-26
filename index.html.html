@@ -14,9 +14,8 @@
       max-width: 100%;
       margin: 0;
       padding: 15px;
-      /* Image de fond des Alpes avec un voile sombre pour laisser transparaître le paysage */
-      background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), 
-                  url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80');
+      /* Image de fond des Alpes sans assombrissement excessif */
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -24,13 +23,17 @@
       box-sizing: border-box;
     }
     
-    /* Fond blanc très légèrement translucide pour voir le décor en dessous sans gêner la lecture */
+    /* Fond des cartes et barres semi-transparent pour voir le décor à travers tout */
+    .card, .top-bar, table, .autocomplete-wrapper input, input, select {
+      background: rgba(255, 255, 255, 0.65) !important;
+      backdrop-filter: blur(5px);
+    }
+
     .card {
-      background: rgba(255, 255, 255, 0.93);
-      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
       margin-bottom: 20px;
     }
 
@@ -43,9 +46,8 @@
       padding: 10px;
       margin-top: 4px;
       box-sizing: border-box;
-      border: 1px solid #ccc;
+      border: 1px solid rgba(200, 200, 200, 0.8);
       border-radius: 6px;
-      background-color: rgba(255, 255, 255, 0.9);
     }
 
     /* Champ mot de passe avec œil */
@@ -71,8 +73,8 @@
     }
 
     .checkbox-container {
-      background-color: rgba(255, 249, 219, 0.95);
-      border: 1px solid #ffe066;
+      background-color: rgba(255, 249, 219, 0.7);
+      border: 1px solid rgba(255, 224, 102, 0.8);
       border-radius: 8px;
       padding: 12px;
       margin-top: 12px;
@@ -96,7 +98,7 @@
 
     .checkbox-help {
       font-size: 0.85em;
-      color: #555;
+      color: #333;
       font-weight: normal;
       margin-top: 6px;
       line-height: 1.4;
@@ -104,11 +106,11 @@
 
     .privacy-notice {
       font-size: 0.85em;
-      color: #2b6cb0;
-      background: rgba(235, 248, 255, 0.95);
+      color: #1a365d;
+      background: rgba(235, 248, 255, 0.7);
       padding: 10px;
       border-radius: 6px;
-      border: 1px solid #bee3f8;
+      border: 1px solid rgba(190, 227, 248, 0.8);
       margin-top: 12px;
     }
     
@@ -118,7 +120,8 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: white;
+      background: rgba(255, 255, 255, 0.9) !important;
+      backdrop-filter: blur(5px);
       border: 1px solid #cbd5e0;
       border-top: none;
       border-radius: 0 0 6px 6px;
@@ -134,7 +137,7 @@
       border-bottom: 1px solid #edf2f7;
     }
     .suggestion-item:hover {
-      background-color: #ebf8ff;
+      background-color: rgba(235, 248, 255, 0.9);
       color: #2b6cb0;
       font-weight: bold;
     }
@@ -191,15 +194,14 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
-      background: white;
     }
     th, td {
-      border: 1px solid #ddd;
+      border: 1px solid rgba(220, 220, 220, 0.8);
       padding: 10px;
       text-align: left;
       font-size: 0.9em;
     }
-    th { background-color: #f1f5f9; color: #1a365d; }
+    th { background-color: rgba(241, 245, 249, 0.8); color: #1a365d; }
     
     .minyan-status-card {
       padding: 15px;
@@ -209,14 +211,14 @@
       font-weight: bold;
     }
     .minyan-ok {
-      background-color: #d4edda;
+      background-color: rgba(212, 237, 218, 0.8) !important;
       color: #155724;
-      border: 1px solid #c3e6cb;
+      border: 1px solid rgba(195, 230, 203, 0.8);
     }
     .minyan-missing {
-      background-color: #fff3cd;
+      background-color: rgba(255, 243, 205, 0.8) !important;
       color: #856404;
-      border: 1px solid #ffeeba;
+      border: 1px solid rgba(255, 238, 186, 0.8);
     }
     .badge-minyan {
       background-color: #17a2b8;
@@ -228,8 +230,8 @@
     }
 
     .selected-preview-card {
-      background-color: #f0fdf4;
-      border: 1px solid #bbf7d0;
+      background-color: rgba(240, 253, 244, 0.8) !important;
+      border: 1px solid rgba(187, 247, 208, 0.8);
       padding: 15px;
       border-radius: 8px;
       margin-bottom: 15px;
@@ -243,15 +245,13 @@
       text-align: center;
       font-weight: bold;
     }
-    .status-alert.error { background-color: rgba(248, 215, 218, 0.95); color: #721c24; }
-    .status-alert.success { background-color: rgba(212, 237, 218, 0.95); color: #155724; }
+    .status-alert.error { background-color: rgba(248, 215, 218, 0.8); color: #721c24; }
+    .status-alert.success { background-color: rgba(212, 237, 218, 0.8); color: #155724; }
 
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(255, 255, 255, 0.93);
-      backdrop-filter: blur(4px);
       padding: 12px 15px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -312,7 +312,7 @@
       <button id="btnShowSignup" type="button" class="btn-secondary" style="background-color: #28a745;">Faire un nouveau compte</button>
     </div>
 
-    <div id="signupSection" class="hidden" style="margin-top: 15px; border-top: 2px dashed #ccc; padding-top: 15px;">
+    <div id="signupSection" class="hidden" style="margin-top: 15px; border-top: 2px dashed rgba(200,200,200,0.8); padding-top: 15px;">
       <h3 style="color: #28a745; font-size: 1.1em;">📝 Inscription d'un nouveau compte</h3>
       <div class="row">
         <div class="col">
@@ -337,9 +337,9 @@
     </div>
 
     <!-- VOLET PROFIL -->
-    <div id="profileCard" class="card hidden" style="border-left: 4px solid #007bff; background-color: rgba(248, 250, 252, 0.95);">
+    <div id="profileCard" class="card hidden" style="border-left: 4px solid #007bff;">
       <h3>⚙️ Mon Profil</h3>
-      <p style="font-size: 0.9em; color: #555;">Modifiez vos informations de connexion ou déconnectez-vous.</p>
+      <p style="font-size: 0.9em; color: #333;">Modifiez vos informations de connexion ou déconnectez-vous.</p>
       
       <label for="new_email">Modifier mon adresse e-mail :</label>
       <input type="email" id="new_email" placeholder="Nouvelle adresse e-mail">
@@ -352,7 +352,7 @@
       </div>
       <button id="btnUpdatePassword" class="btn-warning" type="button">Mettre à jour mon mot de passe</button>
       
-      <hr style="margin: 15px 0; border:0; border-top:1px solid #ddd;">
+      <hr style="margin: 15px 0; border:0; border-top:1px solid rgba(200,200,200,0.8);">
       <button id="btnLogout" class="btn-danger" style="width:100%;">Se déconnecter</button>
     </div>
 
@@ -408,7 +408,7 @@
     </div>
 
     <!-- RECHERCHE CIBLÉE -->
-    <div class="card" style="background-color: rgba(238, 246, 255, 0.95); border: 1px solid #bee3f8;">
+    <div class="card" style="border: 1px solid rgba(190, 227, 248, 0.8);">
       <h3>🔍 Recherche de Séjours</h3>
       <div class="autocomplete-wrapper">
         <label for="recherche_adresse">Entrez une ville pour cibler :</label>
@@ -443,7 +443,7 @@
       <div class="card" style="border-top: 4px solid #17a2b8;">
         <h3>📌 Détails du séjour sélectionné</h3>
         <div id="detailSelectionContainer">
-          <p style="color: #666; font-style: italic;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici.</p>
+          <p style="color: #333; font-style: italic;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici.</p>
         </div>
       </div>
 
@@ -911,7 +911,7 @@
           </div>
         `;
       } else {
-        detailContainer.innerHTML = `<p style="color: #666; font-style: italic; margin:0;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici en haut.</p>`;
+        detailContainer.innerHTML = `<p style="color: #333; font-style: italic; margin:0;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici en haut.</p>`;
       }
 
       const listeTbody = document.getElementById('listeInscrits');
@@ -919,13 +919,13 @@
 
       listeTbody.innerHTML = '';
       if (sejoursAffiches.length === 0) {
-        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#777;">Aucun séjour trouvé dans cette zone.</td></tr>';
+        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#333;">Aucun séjour trouvé dans cette zone.</td></tr>';
       } else {
         const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
 
         sejoursAffiches.forEach(s => {
           const isOwner = s.userId === currentUserId;
-          const nomAffichage = s.nom ? `<strong>${s.nom}</strong>` : '<i style="color:#888;">-</i>';
+          const nomAffichage = s.nom ? `<strong>${s.nom}</strong>` : '<i style="color:#555;">-</i>';
 
           const tr = document.createElement('tr');
           tr.style.cursor = 'pointer';
@@ -954,7 +954,7 @@
 
       totauxContainer.innerHTML = '';
       if (sejoursAffiches.length === 0) {
-        totauxContainer.innerHTML = '<p style="color:#777;">Aucun séjour enregistré.</p>';
+        totauxContainer.innerHTML = '<p style="color:#333;">Aucun séjour enregistré.</p>';
       } else {
         const totalHommesZone = sejoursAffiches.reduce((sum, s) => sum + s.nbHommes, 0);
         const statusDiv = document.createElement('div');
