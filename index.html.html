@@ -603,7 +603,7 @@
           lon: e.latlng.lng,
           label: "Point cliqué"
         };
-        filtrerEtAfficher();
+        mettreAJourAffichageGlobal();
       });
     }
 
@@ -636,7 +636,7 @@
         showAlert("Veuillez choisir une ville dans la liste déroulante des suggestions.", true);
         return;
       }
-      filtrerEtAfficher();
+      mettreAJourAffichageGlobal();
     });
 
     document.getElementById('recherche_adresse').addEventListener('input', function() {
@@ -649,7 +649,7 @@
     });
 
     document.getElementById('rayon_select').addEventListener('change', () => {
-      if (selectedLocationSearch) filtrerEtAfficher();
+      if (selectedLocationSearch) mettreAJourAffichageGlobal();
     });
 
     function setupAutocomplete(inputId, boxId, onSelect) {
@@ -767,11 +767,7 @@
           });
         }
         
-        if (!selectedLocationSearch) {
-          mettreAJourMarqueursCarteSeuls();
-        } else {
-          filtrerEtAfficher();
-        }
+        mettreAJourAffichageGlobal();
       });
     }
 
@@ -801,25 +797,50 @@
         
         marker.on('click', () => {
           selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
-          filtrerEtAfficher();
+          mettreAJourAffichageGlobal();
         });
 
         markers.push(marker);
       });
     }
 
-    function filtrerEtAfficher() {
+    function mettreAJourAffichageGlobal() {
       if (!map) return;
 
       const listeTbody = document.getElementById('listeInscrits');
       const totauxContainer = document.getElementById('totauxContainer');
 
+      // 1. Afficher TOUS les marqueurs sur la carte sans en supprimer aucun
+      markers.forEach(m => map.removeLayer(m));
+      markers = [];
+
+      sejours.forEach(s => {
+        const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
+        const marker = L.marker([s.lat, s.lon]).addTo(map);
+        marker.bindPopup(`
+          ${nomAffiche}
+          👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
+          📍 Ville : <strong>${s.lieu}</strong><br>
+          📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
+          📅 Du ${s.dateDebut} au ${s.dateFin}
+        `);
+        
+        marker.on('click', () => {
+          selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
+          mettreAJourAffichageGlobal();
+        });
+
+        markers.push(marker);
+      });
+
+      // 2. Si aucune recherche ou clic n'a été fait, masquer le bloc du bas
       if (!selectedLocationSearch) {
         resultatsBasContainer.classList.add('hidden');
-        mettreAJourMarqueursCarteSeuls();
+        if (circleRayon) { map.removeLayer(circleRayon); circleRayon = null; }
         return;
       }
 
+      // 3. Afficher les résultats du bas correspondants au rayon choisi autour du point sélectionné
       resultatsBasContainer.classList.remove('hidden');
 
       const rayonKm = parseFloat(document.getElementById('rayon_select').value);
@@ -839,23 +860,7 @@
         radius: rayonKm * 1000
       }).addTo(map);
 
-      map.setView([centerLat, centerLon], rayonKm <= 2 ? 14 : rayonKm <= 5 ? 12 : 10);
-
-      markers.forEach(m => map.removeLayer(m));
-      markers = [];
-
-      sejoursAffiches.forEach(s => {
-        const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
-        const marker = L.marker([s.lat, s.lon]).addTo(map);
-        marker.bindPopup(`
-          ${nomAffiche}
-          👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
-          📍 Ville : <strong>${s.lieu}</strong><br>
-          📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
-          📅 Du ${s.dateDebut} au ${s.dateFin}
-        `);
-        markers.push(marker);
-      });
+      // (Note : on ne modifie plus le zoom/setView de la carte pour éviter tout déplacement brusque)
 
       listeTbody.innerHTML = '';
       if (sejoursAffiches.length === 0) {
