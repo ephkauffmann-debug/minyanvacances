@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MinyanVacances - Séjours & Carte Proximité</title>
+  
+  <!-- CSS Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 680px;
+      margin: 20px auto;
+      padding: 15px;
+      background-color: #f4f6f9;
+      color: #333;
+    }
+    .card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+    h2, h3 { color: #1a365d; margin-top: 0; }
+    label { display: block; margin-top: 10px; font-weight: bold; font-size: 0.9em; }
+    input, select {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 4px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .checkbox-container {
+      background-color: #fff9db;
+      border: 1px solid #ffe066;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-weight: bold;
+      font-size: 0.9em;
+      cursor: pointer;
+      color: #1a365d;
+    }
+
+    .checkbox-label input {
+      width: auto;
+      margin-top: 3px;
+      cursor: pointer;
+    }
+
+    .checkbox-help {
+      font-size: 0.85em;
+      color: #555;
+      font-weight: normal;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    .privacy-notice {
+      font-size: 0.85em;
+      color: #2b6cb0;
+      background: #ebf8ff;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #bee3f8;
+      margin-top: 12px;
+    }
+    
+    .autocomplete-wrapper { position: relative; }
+    .suggestions-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #cbd5e0;
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .suggestion-item {
+      padding: 10px 12px;
+      cursor: pointer;
+      font-size: 0.9em;
+      border-bottom: 1px solid #edf2f7;
+    }
+    .suggestion-item:hover {
+      background-color: #ebf8ff;
+      color: #2b6cb0;
+      font-weight: bold;
+    }
+
+    .row { display: flex; gap: 10px; }
+    .col { flex: 1; }
+    button {
+      display: block;
+      width: 100%;
+      margin-top: 15px;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #0056b3; }
+    
+    .btn-secondary { background-color: #6c757d; }
+    .btn-secondary:hover { background-color: #5a6268; }
+
+    .btn-danger {
+      background-color: #dc3545;
+      padding: 6px 10px;
+      font-size: 0.8em;
+      margin-top: 0;
+      width: auto;
+    }
+    .btn-danger:hover { background-color: #bd2130; }
+
+    #map {
+      height: 400px;
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 10px;
+      z-index: 1;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      font-size: 0.9em;
+    }
+    th { background-color: #f1f5f9; color: #1a365d; }
+    
+    .minyan-status-card {
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .minyan-ok {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .minyan-missing {
+      background-color: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
+    }
+    .badge-minyan {
+      background-color: #17a2b8;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 0.85em;
+    }
+
+    .status-alert {
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      font-size: 0.9em;
+      text-align: center;
+    }
+    .status-alert.error { background-color: #f8d7da; color: #721c24; }
+    .status-alert.success { background-color: #d4edda; color: #155724; }
+
+    .user-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #e2e8f0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      font-size: 0.9em;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+  <!-- JS Leaflet -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+  <div id="statusAlert" class="status-alert hidden"></div>
+
+  <!-- ÉCRAN CONNEXION / INSCRIPTION -->
+  <div id="authCard" class="card">
+    <h2>MinyanVacances ✡️</h2>
+    <p>Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
+    
+    <div class="row">
+      <div class="col">
+        <label for="auth_email">Adresse Email :</label>
+        <input type="email" id="auth_email" placeholder="votre.email@exemple.fr">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label for="auth_password">Mot de passe :</label>
+        <input type="password" id="auth_password" placeholder="••••••••">
+      </div>
+    </div>
+
+    <button id="btnLogin" type="button">Se connecter</button>
+    <button id="btnSignup" type="button" class="btn-secondary">Créer un compte</button>
+  </div>
+
+  <!-- APPLICATION PRINCIPALE -->
+  <div id="appContent" class="hidden">
+    
+    <div class="user-header">
+      <span>Connecté en tant que : <strong id="userEmailDisplay"></strong></span>
+      <button id="btnLogout" class="btn-danger" style="width:auto; margin-top:0;">Déconnexion</button>
+    </div>
+
+    <!-- FORMULAIRE D'INSCRIPTION SÉJOUR -->
+    <div class="card">
+      <h2>Publier un Séjour ✡️</h2>
+      <p>Inscrivez votre séjour et vos participants :</p>
+      
+      <form id="minyanForm">
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" placeholder="Ex: Cohen (optionnel)">
+
+        <label for="telephone">Numéro de téléphone :</label>
+        <input type="tel" id="telephone" placeholder="06 00 00 00 00" required>
+
+        <div class="checkbox-container">
+          <label class="checkbox-label">
+            <input type="checkbox" id="autoriser_tel" required>
+            <span>J'accepte d'afficher mon numéro de téléphone public *</span>
+          </label>
+          <div class="checkbox-help">
+            ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>
+            Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement (par appel ou WhatsApp) pour constituer le Minyan (Limon / Tefila).
+          </div>
+        </div>
+
+        <label for="nb_hommes">Nombre d'hommes / garçons (+13 ans) :</label>
+        <input type="number" id="nb_hommes" min="1" value="1" required>
+
+        <label for="adresse_input">Adresse ou Ville (France) :</label>
+        <div class="autocomplete-wrapper">
+          <input type="text" id="adresse_input" placeholder="Ex: Promenade des Anglais, Nice..." autocomplete="off" required>
+          <div id="suggestions" class="suggestions-list" style="display: none;"></div>
+        </div>
+
+        <div class="privacy-notice">
+          🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement. Votre numéro de rue reste strictement confidentiel.
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label for="date_debut">Date d'arrivée :</label>
+            <input type="date" id="date_debut" required>
+          </div>
+          <div class="col">
+            <label for="date_fin">Date de départ :</label>
+            <input type="date" id="date_fin" required>
+          </div>
+        </div>
+
+        <button type="submit">Valider et enregistrer</button>
+      </form>
+    </div>
+
+    <!-- RECHERCHE PAR RAYON DE PROXIMITÉ -->
+    <div class="card" style="background-color: #eef6ff; border: 1px solid #bee3f8;">
+      <h3>🔍 Rechercher autour de vous</h3>
+      <div class="autocomplete-wrapper">
+        <label for="recherche_adresse">Point de départ (votre adresse / ville) :</label>
+        <input type="text" id="recherche_adresse" placeholder="Ex: Annecy, Cannes, Strasbourg..." autocomplete="off">
+        <div id="suggestions_recherche" class="suggestions-list" style="display: none;"></div>
+      </div>
+
+      <label for="rayon_select">Rayon de recherche :</label>
+      <select id="rayon_select">
+        <option value="1">1 km autour</option>
+        <option value="2">2 km autour</option>
+        <option value="5" selected>5 km autour</option>
+        <option value="10">10 km autour</option>
+        <option value="20">20 km autour</option>
+        <option value="0">Afficher toute la France</option>
+      </select>
+    </div>
+
+    <!-- CARTE INTERACTIVE -->
+    <div class="card">
+      <h3>Carte des Séjours 🗺️</h3>
+      <div id="map"></div>
+    </div>
+
+    <!-- COMPTEUR MINYAN & DÉCOMPTE -->
+    <div class="card">
+      <h3>📊 État du Minyan dans le secteur</h3>
+      <div id="totauxContainer">
+        <p style="color:#777;">Aucun séjour dans cette zone.</p>
+      </div>
+    </div>
+
+    <!-- LISTE DES SÉJOURS -->
+    <div class="card">
+      <h3>Liste des foyers & participants</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Téléphone</th>
+            <th>+13 ans</th>
+            <th>Ville / Secteur</th>
+            <th>Dates</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="listeInscrits">
+          <tr>
+            <td colspan="6" style="text-align:center; color:#777;">La liste est vide.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script>
+    // --- 1. CONFIGURATION FIREBASE ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyCp4ekhaoc3avzF1O_GXZUbRLWIF-rGLTo",
+      authDomain: "minyanvacance.firebaseapp.com",
+      databaseURL: "https://minyanvacance-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "minyanvacance",
+      storageBucket: "minyanvacance.firebasestorage.app",
+      messagingSenderId: "660785177394",
+      appId: "1:660785177394:web:c21522036a30b4d0f12d2b",
+      measurementId: "G-2VNCDKQBP4"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const rtdb = firebase.database();
+
+    let sejours = [];
+    let map = null;
+    let markers = [];
+    let circleRayon = null;
+    let selectedLocationForm = null;
+    let selectedLocationSearch = null;
+
+    const franceBounds = L.latLngBounds(
+      L.latLng(41.2, -5.5),
+      L.latLng(51.2, 9.6)
+    );
+
+    const authCard = document.getElementById('authCard');
+    const appContent = document.getElementById('appContent');
+    const userEmailDisplay = document.getElementById('userEmailDisplay');
+    const statusAlert = document.getElementById('statusAlert');
+
+    function showAlert(msg, isError = false) {
+      statusAlert.textContent = msg;
+      statusAlert.className = `status-alert ${isError ? 'error' : 'success'}`;
+      statusAlert.classList.remove('hidden');
+      setTimeout(() => statusAlert.classList.add('hidden'), 4000);
+    }
+
+    // --- 2. AUTHENTIFICATION FIREBASE ---
+    document.getElementById('btnLogin').addEventListener('click', () => {
+      const email = document.getElementById('auth_email').value;
+      const pass = document.getElementById('auth_password').value;
+      if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
+
+      auth.signInWithEmailAndPassword(email, pass)
+        .then(() => showAlert("Connexion réussie !"))
+        .catch(err => showAlert("Erreur connexion : " + err.message, true));
+    });
+
+    document.getElementById('btnSignup').addEventListener('click', () => {
+      const email = document.getElementById('auth_email').value;
+      const pass = document.getElementById('auth_password').value;
+      if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
+
+      auth.createUserWithEmailAndPassword(email, pass)
+        .then(() => showAlert("Compte créé avec succès !"))
+        .catch(err => showAlert("Erreur création : " + err.message, true));
+    });
+
+    document.getElementById('btnLogout').addEventListener('click', () => {
+      auth.signOut();
+    });
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        authCard.classList.add('hidden');
+        appContent.classList.remove('hidden');
+        userEmailDisplay.textContent = user.email;
+
+        if (!map) initMap();
+        écouterBaseDeDonnees();
+      } else {
+        authCard.classList.remove('hidden');
+        appContent.classList.add('hidden');
+      }
+    });
+
+    // --- 3. CARTE LEAFLET GOOGLE MAPS ---
+    function initMap() {
+      map = L.map('map', {
+        maxBounds: franceBounds,
+        maxBoundsViscosity: 0.8,
+        minZoom: 5
+      }).setView([46.603354, 1.888334], 6);
+
+      L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        attribution: '© Google Maps'
+      }).addTo(map);
+    }
+
+    // --- 4. CALCUL DISTANCE ---
+    function calculerDistanceKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+
+    // --- 5. AUTOCOMPLÉTION (FRANCE) ---
+    setupAutocomplete('adresse_input', 'suggestions', (location) => {
+      selectedLocationForm = location;
+    });
+
+    setupAutocomplete('recherche_adresse', 'suggestions_recherche', (location) => {
+      selectedLocationSearch = location;
+      filtrerEtAfficher();
+    });
+
+    document.getElementById('rayon_select').addEventListener('change', filtrerEtAfficher);
+
+    function setupAutocomplete(inputId, boxId, onSelect) {
+      const input = document.getElementById(inputId);
+      const box = document.getElementById(boxId);
+
+      input.addEventListener('input', async function() {
+        const query = this.value.trim();
+        if (query.length < 3) {
+          box.style.display = 'none';
+          return;
+        }
+
+        try {
+          const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`);
+          const data = await response.json();
+
+          box.innerHTML = '';
+          if (data.features && data.features.length > 0) {
+            box.style.display = 'block';
+            data.features.forEach(f => {
+              const label = f.properties.label;
+              const city = f.properties.city || f.properties.name;
+              const postcode = f.properties.postcode || '';
+              const lat = f.geometry.coordinates[1];
+              const lon = f.geometry.coordinates[0];
+
+              const item = document.createElement('div');
+              item.className = 'suggestion-item';
+              item.textContent = label;
+
+              item.addEventListener('click', function() {
+                input.value = label;
+                onSelect({ label, city, postcode, lat, lon });
+                box.style.display = 'none';
+              });
+              box.appendChild(item);
+            });
+          } else {
+            box.style.display = 'none';
+          }
+        } catch (err) {
+          console.error("Erreur autocomplétion :", err);
+        }
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!input.contains(e.target) && !box.contains(e.target)) {
+          box.style.display = 'none';
+        }
+      });
+    }
+
+    // --- 6. SOUMISSION ENREGISTREMENT ---
+    document.getElementById('minyanForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const autoriserTel = document.getElementById('autoriser_tel').checked;
+      if (!autoriserTel) {
+        alert("Vous devez accepter l'affichage du numéro pour valider l'enregistrement et permettre la prise de contact pour le Minyan.");
+        return;
+      }
+
+      if (!selectedLocationForm) {
+        alert("Veuillez choisir une adresse dans la liste déroulante.");
+        return;
+      }
+
+      const nom = document.getElementById('nom').value.trim();
+      const telephone = document.getElementById('telephone').value.trim();
+      const nbHommes = parseInt(document.getElementById('nb_hommes').value, 10) || 1;
+      const dateDebut = document.getElementById('date_debut').value;
+      const dateFin = document.getElementById('date_fin').value;
+
+      const offsetLat = (Math.random() - 0.5) * 0.006;
+      const offsetLon = (Math.random() - 0.5) * 0.006;
+      const lat = selectedLocationForm.lat + offsetLat;
+      const lon = selectedLocationForm.lon + offsetLon;
+      
+      const lieuAffichage = selectedLocationForm.postcode 
+        ? `${selectedLocationForm.city} (${selectedLocationForm.postcode})`
+        : selectedLocationForm.city;
+
+      const newRef = rtdb.ref('sejours').push();
+      newRef.set({
+        nom: nom,
+        telephone: telephone,
+        nbHommes: nbHommes,
+        lieu: lieuAffichage,
+        dateDebut: dateDebut,
+        dateFin: dateFin,
+        lat: lat,
+        lon: lon,
+        userId: auth.currentUser.uid,
+        userEmail: auth.currentUser.email
+      }).then(() => {
+        showAlert("Séjour enregistré avec succès !");
+        this.reset();
+        document.getElementById('nb_hommes').value = "1";
+        selectedLocationForm = null;
+      }).catch(err => {
+        showAlert("Erreur enregistrement : " + err.message, true);
+      });
+    });
+
+    // --- 7. ÉCOUTE BASE DE DONNÉES ---
+    function écouterBaseDeDonnees() {
+      rtdb.ref('sejours').on('value', snapshot => {
+        const val = snapshot.val();
+        sejours = [];
+        if (val) {
+          Object.keys(val).forEach(key => {
+            sejours.push({
+              id: key,
+              ...val[key]
+            });
+          });
+        }
+        filtrerEtAfficher();
+      });
+    }
+
+    window.supprimerSejour = function(id) {
+      if (confirm("Voulez-vous vraiment supprimer votre séjour ?")) {
+        rtdb.ref('sejours/' + id).remove()
+          .then(() => showAlert("Séjour supprimé."))
+          .catch(err => showAlert("Erreur : " + err.message, true));
+      }
+    };
+
+    // --- 8. FILTRAGE ET AFFICHAGE ---
+    function filtrerEtAfficher() {
+      if (!map) return;
+
+      const rayonKm = parseFloat(document.getElementById('rayon_select').value);
+      let sejoursFiltres = sejours;
+
+      if (circleRayon) {
+        map.removeLayer(circleRayon);
+        circleRayon = null;
+      }
+
+      if (selectedLocationSearch && rayonKm > 0) {
+        const centerLat = selectedLocationSearch.lat;
+        const centerLon = selectedLocationSearch.lon;
+
+        sejoursFiltres = sejours.filter(s => {
+          const dist = calculerDistanceKm(centerLat, centerLon, s.lat, s.lon);
+          return dist <= rayonKm;
+        });
+
+        circleRayon = L.circle([centerLat, centerLon], {
+          color: '#007bff',
+          fillColor: '#3085d6',
+          fillOpacity: 0.15,
+          radius: rayonKm * 1000
+        }).addTo(map);
+
+        map.setView([centerLat, centerLon], rayonKm <= 2 ? 14 : rayonKm <= 5 ? 12 : 10);
+      }
+
+      markers.forEach(m => map.removeLayer(m));
+      markers = [];
+      const boundsGroup = [];
+
+      sejoursFiltres.forEach(s => {
+        const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
+
+        const marker = L.marker([s.lat, s.lon]).addTo(map);
+        marker.bindPopup(`
+          ${nomAffiche}
+          👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
+          📍 Ville : <strong>${s.lieu}</strong><br>
+          📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
+          📅 Du ${s.dateDebut} au ${s.dateFin}
+        `);
+        markers.push(marker);
+        boundsGroup.push([s.lat, s.lon]);
+      });
+
+      if (!selectedLocationSearch && boundsGroup.length > 0) {
+        if (boundsGroup.length === 1) {
+          map.setView(boundsGroup[0], 12);
+        } else {
+          map.fitBounds(boundsGroup, { padding: [30, 30] });
+        }
+      }
+
+      // Mise à jour du tableau
+      const listeTbody = document.getElementById('listeInscrits');
+      listeTbody.innerHTML = '';
+
+      if (sejoursFiltres.length === 0) {
+        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#777;">Aucun membre dans ce secteur.</td></tr>';
+      } else {
+        const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
+
+        sejoursFiltres.forEach(s => {
+          const isOwner = s.userId === currentUserId;
+          const nomAffichage = s.nom ? `<strong>${s.nom}</strong>` : '<i style="color:#888;">-</i>';
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${nomAffichage}</td>
+            <td><a href="tel:${s.telephone}"><strong>${s.telephone}</strong></a></td>
+            <td><span class="badge-minyan">${s.nbHommes} homme(s)</span></td>
+            <td><strong>${s.lieu}</strong></td>
+            <td>Du ${s.dateDebut} au ${s.dateFin}</td>
+            <td>
+              ${isOwner ? `<button class="btn-danger" onclick="supprimerSejour('${s.id}')">Supprimer</button>` : '-'}
+            </td>
+          `;
+          listeTbody.appendChild(tr);
+        });
+      }
+
+      // État du Minyan
+      const totauxContainer = document.getElementById('totauxContainer');
+      totauxContainer.innerHTML = '';
+
+      if (sejoursFiltres.length === 0) {
+        totauxContainer.innerHTML = '<p style="color:#777;">Aucun séjour dans cette zone.</p>';
+      } else {
+        const totalHommesZone = sejoursFiltres.reduce((sum, s) => sum + s.nbHommes, 0);
+        
+        const statusDiv = document.createElement('div');
+        if (totalHommesZone >= 10) {
+          statusDiv.className = 'minyan-status-card minyan-ok';
+          statusDiv.innerHTML = `🎉 <strong>MINYAN ASSURÉ !</strong><br>Il y a <strong>${totalHommesZone} hommes (+13 ans)</strong> recensés dans cette zone.`;
+        } else {
+          const manquants = 10 - totalHommesZone;
+          statusDiv.className = 'minyan-status-card minyan-missing';
+          statusDiv.innerHTML = `⚠️ <strong>MINYAN INCOMPLET</strong><br>Il y a <strong>${totalHommesZone} / 10 hommes (+13 ans)</strong>.<br>Il en manque encore <strong>${manquants}</strong> pour former le Minyan.`;
+        }
+        totauxContainer.appendChild(statusDiv);
+      }
+    }
+  </script>
+
+  <!-- Script de déconnexion automatique avec avertissement 1 minute avant -->
+  <script>
+    let warningTimeout;
+    let logoutTimeout;
+
+    function resetTimer() {
+      clearTimeout(warningTimeout);
+      clearTimeout(logoutTimeout);
+
+      // 29 minutes en millisecondes (avertissement 1 min avant)
+      warningTimeout = setTimeout(() => {
+        showAlert("⚠️ Inactivité détectée : votre session expirera dans 1 minute.", true);
+      }, 1740000); // 29 * 60 * 1000
+
+      // 30 minutes en millisecondes (déconnexion/rechargement effectif)
+      logoutTimeout = setTimeout(() => {
+        alert("Session expirée pour cause d'inactivité.");
+        window.location.reload(); 
+      }, 1800000); // 30 * 60 * 1000
+    }
+
+    window.onload = resetTimer;
+    window.onmousemove = resetTimer;
+    window.onmousedown = resetTimer;
+    window.onclick = resetTimer;
+    window.onkeypress = resetTimer;
+    window.addEventListener('scroll', resetTimer, true);
+  </script>
+</body>
+</html>
