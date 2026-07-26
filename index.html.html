@@ -409,7 +409,7 @@
 
     <!-- CARTE INTERACTIVE -->
     <div class="card">
-      <h3>Carte des Séjours 🗺️ (Cliquez sur un endroit pour voir les détails en bas)</h3>
+      <h3>Carte des Séjours 🗺️ (Cliquez sur une goutte pour voir les détails)</h3>
       <div id="map"></div>
     </div>
 
@@ -797,7 +797,7 @@
         
         marker.on('click', () => {
           selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
-          mettreAJourAffichageGlobal();
+          // Ne cache pas le bloc du bas si un utilisateur clique sur une épingle
         });
 
         markers.push(marker);
@@ -807,7 +807,7 @@
     function mettreAJourAffichageGlobal() {
       if (!map) return;
 
-      // 1. Afficher TOUS les marqueurs sur la carte sans en supprimer aucun
+      // 1. Afficher TOUS les marqueurs sur la carte
       markers.forEach(m => map.removeLayer(m));
       markers = [];
 
@@ -824,20 +824,23 @@
         
         marker.on('click', () => {
           selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
-          mettreAJourAffichageGlobal();
+          resultatsBasControllerAffichage();
         });
 
         markers.push(marker);
       });
 
-      // 2. Si aucune recherche ou clic n'a été fait, masquer le bloc du bas
+      // 2. Si aucune recherche n'est active, on s'arrête là
       if (!selectedLocationSearch) {
         resultatsBasContainer.classList.add('hidden');
         if (circleRayon) { map.removeLayer(circleRayon); circleRayon = null; }
         return;
       }
 
-      // 3. Afficher les résultats du bas et dessiner la zone de recherche sur la carte
+      resultatsBasControllerAffichage();
+    }
+
+    function resultatsBasControllerAffichage() {
       resultatsBasContainer.classList.remove('hidden');
 
       const rayonKm = parseFloat(document.getElementById('rayon_select').value);
