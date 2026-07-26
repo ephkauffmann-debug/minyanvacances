@@ -134,6 +134,16 @@
     }
     .btn-danger:hover { background-color: #bd2130; }
 
+    .btn-warning {
+      background-color: #ffc107;
+      color: #212529;
+      padding: 8px 12px;
+      font-size: 0.9em;
+      margin-top: 10px;
+      width: auto;
+    }
+    .btn-warning:hover { background-color: #e0a800; }
+
     #map {
       height: 400px;
       width: 100%;
@@ -243,13 +253,78 @@
   <div id="appContent" class="hidden">
     
     <div class="user-header">
-      <span>Connecté en tant que : <strong id="userEmailDisplay"></strong></span>
+      <span>Connecté : <strong id="userEmailDisplay"></strong></span>
       <button id="btnLogout" class="btn-danger" style="width:auto; margin-top:0;">Déconnexion</button>
+    </div>
+
+    <!-- PROFIL SÉCURITAIRE & GESTION DU COMPTE -->
+    <div class="card" style="border-left: 4px solid #007bff;">
+      <h3>🔒 Mon Profil & Sécurité</h3>
+      <p style="font-size: 0.9em; color: #555;">Gérez vos accès et la sécurité de votre compte personnel.</p>
+      <label for="new_password">Modifier mon mot de passe :</label>
+      <input type="password" id="new_password" placeholder="Nouveau mot de passe sécurisé">
+      <button id="btnUpdatePassword" class="btn-warning" type="button">Mettre à jour mon mot de passe</button>
+    </div>
+
+    <!-- RECHERCHE PAR RAYON DE PROXIMITÉ ( FILTRE PRINCIPAL PAR VILLE ) -->
+    <div class="card" style="background-color: #eef6ff; border: 1px solid #bee3f8;">
+      <h3>🔍 Filtrer par Ville / Secteur</h3>
+      <div class="autocomplete-wrapper">
+        <label for="recherche_adresse">Entrez la ville recherchée :</label>
+        <input type="text" id="recherche_adresse" placeholder="Ex: Annecy, Cannes, Strasbourg..." autocomplete="off">
+        <div id="suggestions_recherche" class="suggestions-list" style="display: none;"></div>
+      </div>
+
+      <label for="rayon_select">Rayon autour de cette ville :</label>
+      <select id="rayon_select">
+        <option value="1">1 km autour</option>
+        <option value="2">2 km autour</option>
+        <option value="5" selected>5 km autour</option>
+        <option value="10">10 km autour</option>
+        <option value="20">20 km autour</option>
+        <option value="0">Toute la France</option>
+      </select>
+    </div>
+
+    <!-- CARTE INTERACTIVE -->
+    <div class="card">
+      <h3>Carte des Séjours de la Ville 🗺️</h3>
+      <div id="map"></div>
+    </div>
+
+    <!-- COMPTEUR MINYAN & DÉCOMPTE -->
+    <div class="card">
+      <h3>📊 État du Minyan dans ce secteur</h3>
+      <div id="totauxContainer">
+        <p style="color:#777;">Veuillez sélectionner une ville pour voir le détail du Minyan.</p>
+      </div>
+    </div>
+
+    <!-- LISTE DES SÉJOURS DU SECTEUR -->
+    <div class="card">
+      <h3>Liste des foyers & participants du secteur</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Téléphone</th>
+            <th>+13 ans</th>
+            <th>Ville / Secteur</th>
+            <th>Dates</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="listeInscrits">
+          <tr>
+            <td colspan="6" style="text-align:center; color:#777;">Veuillez chercher une ville pour afficher les séjours correspondants.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- FORMULAIRE D'INSCRIPTION SÉJOUR -->
     <div class="card">
-      <h2>Publier un Séjour ✡️</h2>
+      <h2>Publier ou Modifier mon Séjour ✡️</h2>
       <p>Inscrivez votre séjour et vos participants :</p>
       
       <form id="minyanForm">
@@ -266,7 +341,7 @@
           </label>
           <div class="checkbox-help">
             ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>
-            Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement (par appel ou WhatsApp) pour constituer le Minyan (Limon / Tefila).
+            Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.
           </div>
         </div>
 
@@ -280,7 +355,7 @@
         </div>
 
         <div class="privacy-notice">
-          🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement. Votre numéro de rue reste strictement confidentiel.
+          🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.
         </div>
 
         <div class="row">
@@ -294,64 +369,8 @@
           </div>
         </div>
 
-        <button type="submit">Valider et enregistrer</button>
+        <button type="submit">Valider et enregistrer mon séjour</button>
       </form>
-    </div>
-
-    <!-- RECHERCHE PAR RAYON DE PROXIMITÉ -->
-    <div class="card" style="background-color: #eef6ff; border: 1px solid #bee3f8;">
-      <h3>🔍 Rechercher autour de vous</h3>
-      <div class="autocomplete-wrapper">
-        <label for="recherche_adresse">Point de départ (votre adresse / ville) :</label>
-        <input type="text" id="recherche_adresse" placeholder="Ex: Annecy, Cannes, Strasbourg..." autocomplete="off">
-        <div id="suggestions_recherche" class="suggestions-list" style="display: none;"></div>
-      </div>
-
-      <label for="rayon_select">Rayon de recherche :</label>
-      <select id="rayon_select">
-        <option value="1">1 km autour</option>
-        <option value="2">2 km autour</option>
-        <option value="5" selected>5 km autour</option>
-        <option value="10">10 km autour</option>
-        <option value="20">20 km autour</option>
-        <option value="0">Afficher toute la France</option>
-      </select>
-    </div>
-
-    <!-- CARTE INTERACTIVE -->
-    <div class="card">
-      <h3>Carte des Séjours 🗺️</h3>
-      <div id="map"></div>
-    </div>
-
-    <!-- COMPTEUR MINYAN & DÉCOMPTE -->
-    <div class="card">
-      <h3>📊 État du Minyan dans le secteur</h3>
-      <div id="totauxContainer">
-        <p style="color:#777;">Aucun séjour dans cette zone.</p>
-      </div>
-    </div>
-
-    <!-- LISTE DES SÉJOURS -->
-    <div class="card">
-      <h3>Liste des foyers & participants</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Téléphone</th>
-            <th>+13 ans</th>
-            <th>Ville / Secteur</th>
-            <th>Dates</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="listeInscrits">
-          <tr>
-            <td colspan="6" style="text-align:center; color:#777;">La liste est vide.</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
 
   </div>
@@ -397,7 +416,7 @@
       setTimeout(() => statusAlert.classList.add('hidden'), 4000);
     }
 
-    // --- 2. AUTHENTIFICATION FIREBASE ---
+    // --- 2. AUTHENTIFICATION & SÉCURITÉ PROFIL ---
     document.getElementById('btnLogin').addEventListener('click', () => {
       const email = document.getElementById('auth_email').value;
       const pass = document.getElementById('auth_password').value;
@@ -422,6 +441,23 @@
       auth.signOut();
     });
 
+    // Modification du mot de passe (Profil sécuritaire)
+    document.getElementById('btnUpdatePassword').addEventListener('click', () => {
+      const newPassword = document.getElementById('new_password').value;
+      if (!newPassword || newPassword.length < 6) {
+        return showAlert("Le mot de passe doit faire au moins 6 caractères.", true);
+      }
+      const user = auth.currentUser;
+      if (user) {
+        user.updatePassword(newPassword).then(() => {
+          showAlert("Mot de passe mis à jour avec succès !");
+          document.getElementById('new_password').value = '';
+        }).catch(err => {
+          showAlert("Erreur : " + err.message + " (Reconnectez-vous si nécessaire).", true);
+        });
+      }
+    });
+
     auth.onAuthStateChanged(user => {
       if (user) {
         authCard.classList.add('hidden');
@@ -436,7 +472,7 @@
       }
     });
 
-    // --- 3. CARTE LEAFLET GOOGLE MAPS ---
+    // --- 3. CARTE LEAFLET ---
     function initMap() {
       map = L.map('map', {
         maxBounds: franceBounds,
@@ -461,7 +497,7 @@
       return R * c;
     }
 
-    // --- 5. AUTOCOMPLÉTION (FRANCE) ---
+    // --- 5. AUTOCOMPLÉTION ---
     setupAutocomplete('adresse_input', 'suggestions', (location) => {
       selectedLocationForm = location;
     });
@@ -530,7 +566,7 @@
 
       const autoriserTel = document.getElementById('autoriser_tel').checked;
       if (!autoriserTel) {
-        alert("Vous devez accepter l'affichage du numéro pour valider l'enregistrement et permettre la prise de contact pour le Minyan.");
+        alert("Vous devez accepter l'affichage du numéro pour valider l'enregistrement.");
         return;
       }
 
@@ -594,51 +630,59 @@
     }
 
     window.supprimerSejour = function(id) {
-      if (confirm("Voulez-vous vraiment supprimer votre séjour ?")) {
+      if (confirm("Voulez-vous vraiment supprimer ce séjour ?")) {
         rtdb.ref('sejours/' + id).remove()
           .then(() => showAlert("Séjour supprimé."))
           .catch(err => showAlert("Erreur : " + err.message, true));
       }
     };
 
-    // --- 8. FILTRAGE ET AFFICHAGE ---
+    // --- 8. FILTRAGE ET AFFICHAGE SÉPARÉ PAR VILLE/SECTEUR ---
     function filtrerEtAfficher() {
       if (!map) return;
 
       const rayonKm = parseFloat(document.getElementById('rayon_select').value);
-      let sejoursFiltres = sejours;
+      const listeTbody = document.getElementById('listeInscrits');
+      const totauxContainer = document.getElementById('totauxContainer');
+
+      // Si aucune ville n'est recherchée, on vide la carte et la liste pour ne pas tout mélanger
+      if (!selectedLocationSearch) {
+        markers.forEach(m => map.removeLayer(m));
+        markers = [];
+        if (circleRayon) { map.removeLayer(circleRayon); circleRayon = null; }
+        
+        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#777;">Veuillez chercher une ville ci-dessus pour afficher les séjours de ce secteur.</td></tr>';
+        totauxContainer.innerHTML = '<p style="color:#777;">Veuillez sélectionner une ville pour voir le détail du Minyan.</p>';
+        return;
+      }
+
+      const centerLat = selectedLocationSearch.lat;
+      const centerLon = selectedLocationSearch.lon;
+
+      let sejoursFiltres = sejours.filter(s => {
+        const dist = calculerDistanceKm(centerLat, centerLon, s.lat, s.lon);
+        return dist <= rayonKm;
+      });
 
       if (circleRayon) {
         map.removeLayer(circleRayon);
         circleRayon = null;
       }
 
-      if (selectedLocationSearch && rayonKm > 0) {
-        const centerLat = selectedLocationSearch.lat;
-        const centerLon = selectedLocationSearch.lon;
+      circleRayon = L.circle([centerLat, centerLon], {
+        color: '#007bff',
+        fillColor: '#3085d6',
+        fillOpacity: 0.15,
+        radius: rayonKm * 1000
+      }).addTo(map);
 
-        sejoursFiltres = sejours.filter(s => {
-          const dist = calculerDistanceKm(centerLat, centerLon, s.lat, s.lon);
-          return dist <= rayonKm;
-        });
-
-        circleRayon = L.circle([centerLat, centerLon], {
-          color: '#007bff',
-          fillColor: '#3085d6',
-          fillOpacity: 0.15,
-          radius: rayonKm * 1000
-        }).addTo(map);
-
-        map.setView([centerLat, centerLon], rayonKm <= 2 ? 14 : rayonKm <= 5 ? 12 : 10);
-      }
+      map.setView([centerLat, centerLon], rayonKm <= 2 ? 14 : rayonKm <= 5 ? 12 : 10);
 
       markers.forEach(m => map.removeLayer(m));
       markers = [];
-      const boundsGroup = [];
 
       sejoursFiltres.forEach(s => {
         const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
-
         const marker = L.marker([s.lat, s.lon]).addTo(map);
         marker.bindPopup(`
           ${nomAffiche}
@@ -648,23 +692,13 @@
           📅 Du ${s.dateDebut} au ${s.dateFin}
         `);
         markers.push(marker);
-        boundsGroup.push([s.lat, s.lon]);
       });
 
-      if (!selectedLocationSearch && boundsGroup.length > 0) {
-        if (boundsGroup.length === 1) {
-          map.setView(boundsGroup[0], 12);
-        } else {
-          map.fitBounds(boundsGroup, { padding: [30, 30] });
-        }
-      }
-
-      // Mise à jour du tableau
-      const listeTbody = document.getElementById('listeInscrits');
+      // Mise à jour du tableau pour cette ville spécifique
       listeTbody.innerHTML = '';
 
       if (sejoursFiltres.length === 0) {
-        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#777;">Aucun membre dans ce secteur.</td></tr>';
+        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#777;">Aucun séjour trouvé dans ce secteur précis.</td></tr>';
       } else {
         const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
 
@@ -687,19 +721,16 @@
         });
       }
 
-      // État du Minyan
-      const totauxContainer = document.getElementById('totauxContainer');
+      // État du Minyan pour la zone
       totauxContainer.innerHTML = '';
-
       if (sejoursFiltres.length === 0) {
         totauxContainer.innerHTML = '<p style="color:#777;">Aucun séjour dans cette zone.</p>';
       } else {
         const totalHommesZone = sejoursFiltres.reduce((sum, s) => sum + s.nbHommes, 0);
-        
         const statusDiv = document.createElement('div');
         if (totalHommesZone >= 10) {
           statusDiv.className = 'minyan-status-card minyan-ok';
-          statusDiv.innerHTML = `🎉 <strong>MINYAN ASSURÉ !</strong><br>Il y a <strong>${totalHommesZone} hommes (+13 ans)</strong> recensés dans cette zone.`;
+          statusDiv.innerHTML = `🎉 <strong>MINYAN ASSURÉ !</strong><br>Il y a <strong>${totalHommesZone} hommes (+13 ans)</strong> recensés dans ce secteur.`;
         } else {
           const manquants = 10 - totalHommesZone;
           statusDiv.className = 'minyan-status-card minyan-missing';
@@ -710,7 +741,7 @@
     }
   </script>
 
-  <!-- Script de déconnexion automatique avec avertissement 1 minute avant -->
+  <!-- Script de déconnexion automatique (30 min avec avertissement à la 29e minute) -->
   <script>
     let warningTimeout;
     let logoutTimeout;
@@ -719,16 +750,14 @@
       clearTimeout(warningTimeout);
       clearTimeout(logoutTimeout);
 
-      // 29 minutes en millisecondes (avertissement 1 min avant)
       warningTimeout = setTimeout(() => {
         showAlert("⚠️ Inactivité détectée : votre session expirera dans 1 minute.", true);
-      }, 1740000); // 29 * 60 * 1000
+      }, 1740000); // 29 minutes
 
-      // 30 minutes en millisecondes (déconnexion/rechargement effectif)
       logoutTimeout = setTimeout(() => {
         alert("Session expirée pour cause d'inactivité.");
         window.location.reload(); 
-      }, 1800000); // 30 * 60 * 1000
+      }, 1800000); // 30 minutes
     }
 
     window.onload = resetTimer;
