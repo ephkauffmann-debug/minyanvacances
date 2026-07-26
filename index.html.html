@@ -276,7 +276,7 @@
       </div>
     </div>
 
-    <!-- Étape 1 : Connexion simple (Sans mot de passe visible au début si on veut juste se connecter) -->
+    <!-- Étape 1 : Connexion simple -->
     <div id="loginSection">
       <div class="row">
         <div class="col">
@@ -291,7 +291,7 @@
       <button id="btnShowSignup" type="button" class="btn-secondary" style="background-color: #28a745;">Faire un nouveau compte</button>
     </div>
 
-    <!-- Étape 2 : Formulaire de création de compte (affiché seulement après avoir cliqué sur "Faire un nouveau compte") -->
+    <!-- Étape 2 : Formulaire de création de compte -->
     <div id="signupSection" class="hidden" style="margin-top: 15px; border-top: 2px dashed #ccc; padding-top: 15px;">
       <h3 style="color: #28a745; font-size: 1.1em;">📝 Inscription d'un nouveau compte</h3>
       <div class="row">
@@ -317,12 +317,16 @@
       <button id="btnToggleProfile" class="profile-btn">⚙️ Mon Profil Sécurisé</button>
     </div>
 
-    <!-- VOLET PROFIL SÉCURITAIRE (Masqué par défaut, s'ouvre via le bouton de droite) -->
+    <!-- VOLET PROFIL SÉCURITAIRE (Modification email & mot de passe) -->
     <div id="profileCard" class="card hidden" style="border-left: 4px solid #007bff; background-color: #f8fafc;">
       <h3>🔒 Mon Profil & Sécurité</h3>
-      <p style="font-size: 0.9em; color: #555;">Modifiez votre mot de passe ou déconnectez-vous de votre compte.</p>
+      <p style="font-size: 0.9em; color: #555;">Modifiez vos informations de connexion ou déconnectez-vous.</p>
       
-      <label for="new_password">Nouveau mot de passe :</label>
+      <label for="new_email">Modifier mon adresse e-mail :</label>
+      <input type="email" id="new_email" placeholder="Nouvelle adresse e-mail">
+      <button id="btnUpdateEmail" class="btn-warning" type="button" style="background-color: #17a2b8; color: white;">Mettre à jour mon e-mail</button>
+
+      <label for="new_password" style="margin-top: 15px;">Modifier mon mot de passe :</label>
       <div class="password-wrapper">
         <input type="password" id="new_password" placeholder="Nouveau mot de passe sécurisé">
         <button type="button" class="toggle-password" onclick="togglePasswordVisibility('new_password', this)">👁️</button>
@@ -384,45 +388,50 @@
       </form>
     </div>
 
-    <!-- 2. CARTE INTERACTIVE (AFFICHE TOUS LES LOGEMENTS) -->
-    <div class="card">
-      <h3>Carte de tous les Séjours en France 🗺️</h3>
-      <p style="font-size: 0.85em; color: #555;">Tous les endroits inscrits apparaissent sur la carte ci-dessous :</p>
-      <div id="map"></div>
-    </div>
-
-    <!-- RECHERCHE PAR RAYON DE PROXIMITÉ ( FILTRE SECONDAIRE ) -->
+    <!-- RECHERCHE PAR VILLE OU BOUTON POUR TOUT AFFICHER -->
     <div class="card" style="background-color: #eef6ff; border: 1px solid #bee3f8;">
-      <h3>🔍 Filtrer par Ville / Secteur spécifique</h3>
+      <h3>🔍 Recherche ou Affichage des Séjours</h3>
       <div class="autocomplete-wrapper">
         <label for="recherche_adresse">Entrez une ville pour cibler :</label>
         <input type="text" id="recherche_adresse" placeholder="Ex: Annecy, Cannes, Strasbourg..." autocomplete="off">
         <div id="suggestions_recherche" class="suggestions-list" style="display: none;"></div>
       </div>
+      
       <div class="row">
         <div class="col">
-          <label for="rayon_select">Rayon autour de cette ville :</label>
+          <label for="rayon_select">Rayon autour de la ville :</label>
           <select id="rayon_select">
             <option value="5" selected>5 km autour</option>
             <option value="10">10 km autour</option>
             <option value="20">20 km autour</option>
-            <option value="0">Toute la France (Réinitialiser le filtre)</option>
           </select>
         </div>
       </div>
+
+      <!-- Bouton flèche pour tout afficher d'un coup sans chercher de ville spécifique -->
+      <button type="button" id="btnAfficherTout" class="btn-secondary" style="background-color: #007bff; margin-top: 15px;">
+        ⬇️ Afficher tous les séjours et logements en France
+      </button>
+    </div>
+
+    <!-- 2. CARTE INTERACTIVE -->
+    <div class="card">
+      <h3>Carte des Séjours 🗺️</h3>
+      <p style="font-size: 0.85em; color: #555;">Rien ne s'affiche tant qu'une ville n'est pas recherchée ou que le bouton d'affichage n'est pas activé.</p>
+      <div id="map"></div>
     </div>
 
     <!-- COMPTEUR MINYAN & DÉCOMPTE -->
     <div class="card">
       <h3>📊 État du Minyan</h3>
       <div id="totauxContainer">
-        <p style="color:#777;">Chargement des données...</p>
+        <p style="color:#777;">Veuillez effectuer une recherche ou afficher les séjours pour voir l'état du Minyan.</p>
       </div>
     </div>
 
     <!-- LISTE DES SÉJOURS -->
     <div class="card">
-      <h3>Liste de tous les foyers & participants</h3>
+      <h3>Liste des foyers & participants</h3>
       <table>
         <thead>
           <tr>
@@ -436,7 +445,7 @@
         </thead>
         <tbody id="listeInscrits">
           <tr>
-            <td colspan="6" style="text-align:center; color:#777;">Chargement...</td>
+            <td colspan="6" style="text-align:center; color:#777;">Aucun affichage en cours. Utilisez la recherche ou le bouton ci-dessus.</td>
           </tr>
         </tbody>
       </table>
@@ -467,6 +476,7 @@
     let circleRayon = null;
     let selectedLocationForm = null;
     let selectedLocationSearch = null;
+    let afficherToutMode = false; // Indique si l'utilisateur a cliqué sur "Afficher tout"
 
     const franceBounds = L.latLngBounds(
       L.latLng(41.2, -5.5),
@@ -486,7 +496,6 @@
       setTimeout(() => statusAlert.classList.add('hidden'), 4000);
     }
 
-    // Fonction globale pour l'icône œil des mots de passe
     window.togglePasswordVisibility = function(fieldId, btn) {
       const input = document.getElementById(fieldId);
       if (input.type === 'password') {
@@ -498,7 +507,7 @@
       }
     };
 
-    // --- 2. AUTHENTIFICATION & NAVIGATION BOUTONS ---
+    // --- 2. AUTHENTIFICATION & PROFIL ---
     document.getElementById('btnLogin').addEventListener('click', () => {
       const email = document.getElementById('auth_email').value;
       const pass = document.getElementById('auth_password').value;
@@ -509,7 +518,6 @@
         .catch(err => showAlert("Erreur connexion : " + err.message, true));
     });
 
-    // Basculer vers l'écran de création de compte
     document.getElementById('btnShowSignup').addEventListener('click', () => {
       document.getElementById('loginSection').classList.add('hidden');
       document.getElementById('signupSection').classList.remove('hidden');
@@ -530,16 +538,36 @@
         .catch(err => showAlert("Erreur création : " + err.message, true));
     });
 
-    // Ouvrir/Fermer le profil sécurisé depuis le bouton à droite
     document.getElementById('btnToggleProfile').addEventListener('click', () => {
       profileCard.classList.toggle('hidden');
+      if (!profileCard.classList.contains('hidden') && auth.currentUser) {
+        document.getElementById('new_email').value = auth.currentUser.email;
+      }
     });
 
     document.getElementById('btnLogout').addEventListener('click', () => {
       auth.signOut();
     });
 
-    // Modification du mot de passe (Profil sécuritaire)
+    // Modifier l'e-mail
+    document.getElementById('btnUpdateEmail').addEventListener('click', () => {
+      const newEmail = document.getElementById('new_email').value.trim();
+      if (!newEmail || !newEmail.includes('@')) {
+        return showAlert("Veuillez entrer une adresse e-mail valide.", true);
+      }
+      const user = auth.currentUser;
+      if (user) {
+        user.updateEmail(newEmail).then(() => {
+          showAlert("Adresse e-mail mise à jour avec succès !");
+          userEmailDisplay.textContent = user.email;
+          profileCard.classList.add('hidden');
+        }).catch(err => {
+          showAlert("Erreur : " + err.message + " (Reconnectez-vous pour confirmer).", true);
+        });
+      }
+    });
+
+    // Modifier le mot de passe
     document.getElementById('btnUpdatePassword').addEventListener('click', () => {
       const newPassword = document.getElementById('new_password').value;
       if (!newPassword || newPassword.length < 6) {
@@ -584,7 +612,6 @@
       }).addTo(map);
     }
 
-    // --- 4. CALCUL DISTANCE ---
     function calculerDistanceKm(lat1, lon1, lat2, lon2) {
       const R = 6371;
       const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -596,22 +623,26 @@
       return R * c;
     }
 
-    // --- 5. AUTOCOMPLÉTION ---
+    // --- 4. AUTOCOMPLÉTION & ACTIONS ---
     setupAutocomplete('adresse_input', 'suggestions', (location) => {
       selectedLocationForm = location;
     });
 
     setupAutocomplete('recherche_adresse', 'suggestions_recherche', (location) => {
       selectedLocationSearch = location;
+      afficherToutMode = false; // On passe en mode recherche ciblée par ville
       filtrerEtAfficher();
     });
 
     document.getElementById('rayon_select').addEventListener('change', () => {
-      const val = document.getElementById('rayon_select').value;
-      if (val === "0") {
-        selectedLocationSearch = null;
-        document.getElementById('recherche_adresse').value = "";
-      }
+      if (selectedLocationSearch) filtrerEtAfficher();
+    });
+
+    // Bouton pour tout afficher d'un coup
+    document.getElementById('btnAfficherTout').addEventListener('click', () => {
+      afficherToutMode = true;
+      selectedLocationSearch = null;
+      document.getElementById('recherche_adresse').value = "";
       filtrerEtAfficher();
     });
 
@@ -666,7 +697,7 @@
       });
     }
 
-    // --- 6. SOUMISSION ENREGISTREMENT ---
+    // --- 5. SOUMISSION ENREGISTREMENT ---
     document.getElementById('minyanForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
@@ -718,7 +749,6 @@
       });
     });
 
-    // --- 7. ÉCOUTE BASE DE DONNÉES ---
     function écouterBaseDeDonnees() {
       rtdb.ref('sejours').on('value', snapshot => {
         const val = snapshot.val();
@@ -743,16 +773,26 @@
       }
     };
 
-    // --- 8. FILTRAGE ET AFFICHAGE GLOBAL SUR CARTE ---
+    // --- 6. AFFICHAGE CONDITIONNEL (Rien par défaut, sauf si recherche ou bouton cliqué) ---
     function filtrerEtAfficher() {
       if (!map) return;
 
       const listeTbody = document.getElementById('listeInscrits');
       const totauxContainer = document.getElementById('totauxContainer');
 
+      // Si ni recherche de ville active, ni mode "afficher tout", on vide tout
+      if (!selectedLocationSearch && !afficherToutMode) {
+        markers.forEach(m => map.removeLayer(m));
+        markers = [];
+        if (circleRayon) { map.removeLayer(circleRayon); circleRayon = null; }
+        
+        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#777;">Aucun affichage en cours. Utilisez la recherche ou le bouton ci-dessus.</td></tr>';
+        totauxContainer.innerHTML = '<p style="color:#777;">Veuillez effectuer une recherche ou afficher les séjours pour voir l\'état du Minyan.</p>';
+        return;
+      }
+
       let sejoursAffiches = sejours;
 
-      // Si une ville de recherche est sélectionnée, on filtre par rayon
       if (selectedLocationSearch) {
         const rayonKm = parseFloat(document.getElementById('rayon_select').value);
         const centerLat = selectedLocationSearch.lat;
@@ -772,21 +812,16 @@
         }).addTo(map);
 
         map.setView([centerLat, centerLon], rayonKm <= 2 ? 14 : rayonKm <= 5 ? 12 : 10);
-      } else {
-        if (circleRayon) {
-          map.removeLayer(circleRayon);
-          circleRayon = null;
-        }
+      } else if (afficherToutMode) {
+        if (circleRayon) { map.removeLayer(circleRayon); circleRayon = null; }
         if (sejours.length > 0) {
           map.setView([46.603354, 1.888334], 6);
         }
       }
 
-      // Nettoyage des anciens marqueurs
       markers.forEach(m => map.removeLayer(m));
       markers = [];
 
-      // Ajout de TOUS les marqueurs concernés sur la carte
       sejoursAffiches.forEach(s => {
         const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
         const marker = L.marker([s.lat, s.lon]).addTo(map);
@@ -800,7 +835,6 @@
         markers.push(marker);
       });
 
-      // Remplissage du tableau
       listeTbody.innerHTML = '';
       if (sejoursAffiches.length === 0) {
         listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#777;">Aucun séjour trouvé.</td></tr>';
@@ -826,7 +860,6 @@
         });
       }
 
-      // Calcul global du Minyan
       totauxContainer.innerHTML = '';
       if (sejoursAffiches.length === 0) {
         totauxContainer.innerHTML = '<p style="color:#777;">Aucun séjour enregistré.</p>';
