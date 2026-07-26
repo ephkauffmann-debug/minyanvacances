@@ -12,16 +12,21 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       max-width: 680px;
-      margin: 20px auto;
+      margin: 0 auto;
       padding: 15px;
-      background-color: #f4f6f9;
+      /* Image de fond des Alpes avec un voile sombre par-dessus pour la lisibilité */
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                  url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
       color: #333;
     }
     .card {
       background: #ffffff;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
       margin-bottom: 20px;
     }
     h2, h3 { color: #1a365d; margin-top: 0; }
@@ -212,6 +217,14 @@
       border-radius: 12px;
       font-weight: bold;
       font-size: 0.85em;
+    }
+
+    .selected-preview-card {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
     }
 
     .status-alert {
@@ -415,6 +428,15 @@
 
     <!-- CONTENEUR DES RÉSULTATS DU BAS (Masqué par défaut) -->
     <div id="resultatsBasContainer" class="hidden">
+      
+      <!-- PANNEAU DÉTAILS DU SÉJOUR SÉLECTIONNÉ (EN HAUT DES RÉSULTATS) -->
+      <div class="card" style="border-top: 4px solid #17a2b8;">
+        <h3>📌 Détails du séjour sélectionné</h3>
+        <div id="detailSelectionContainer">
+          <p style="color: #666; font-style: italic;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici.</p>
+        </div>
+      </div>
+
       <!-- COMPTEUR MINYAN & DÉCOMPTE -->
       <div class="card">
         <h3>📊 État du Minyan pour cette zone</h3>
@@ -464,6 +486,7 @@
     let circleRayon = null;
     let selectedLocationForm = null;
     let selectedLocationSearch = null;
+    let selectedSejourId = null;
 
     const franceBounds = L.latLngBounds(
       L.latLng(41.2, -5.5),
@@ -774,7 +797,10 @@
     window.supprimerSejour = function(id) {
       if (confirm("Voulez-vous vraiment supprimer ce séjour ?")) {
         rtdb.ref('sejours/' + id).remove()
-          .then(() => showAlert("Séjour supprimé."))
+          .then(() => {
+            if (selectedSejourId === id) selectedSejourId = null;
+            showAlert("Séjour supprimé.");
+          })
           .catch(err => showAlert("Erreur : " + err.message, true));
       }
     };
@@ -796,8 +822,9 @@
         `);
         
         marker.on('click', () => {
+          selectedSejourId = s.id;
           selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
-          // Ne cache pas le bloc du bas si un utilisateur clique sur une épingle
+          resultatsBasControllerAffichage();
         });
 
         markers.push(marker);
@@ -807,7 +834,6 @@
     function mettreAJourAffichageGlobal() {
       if (!map) return;
 
-      // 1. Afficher TOUS les marqueurs sur la carte
       markers.forEach(m => map.removeLayer(m));
       markers = [];
 
@@ -823,6 +849,7 @@
         `);
         
         marker.on('click', () => {
+          selectedSejourId = s.id;
           selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
           resultatsBasControllerAffichage();
         });
@@ -830,7 +857,6 @@
         markers.push(marker);
       });
 
-      // 2. Si aucune recherche n'est active, on s'arrête là
       if (!selectedLocationSearch) {
         resultatsBasContainer.classList.add('hidden');
         if (circleRayon) { map.removeLayer(circleRayon); circleRayon = null; }
@@ -860,6 +886,24 @@
         radius: rayonKm * 1000
       }).addTo(map);
 
+      const detailContainer = document.getElementById('detailSelectionContainer');
+      const selectedObj = sejoursAffiches.find(s => s.id === selectedSejourId) || sejours.find(s => s.id === selectedSejourId);
+
+      if (selectedObj) {
+        const nomAff = selectedObj.nom ? `👤 <strong>Nom :</strong> ${selectedObj.nom}<br>` : '';
+        detailContainer.innerHTML = `
+          <div class="selected-preview-card" style="margin:0;">
+            ${nomAff}
+            📞 <strong>Téléphone :</strong> <a href="tel:${selectedObj.telephone}">${selectedObj.telephone}</a><br>
+            👥 <strong>Hommes (+13 ans) :</strong> ${selectedObj.nbHommes}<br>
+            📍 <strong>Secteur :</strong> ${selectedObj.lieu}<br>
+            📅 <strong>Dates :</strong> Du ${selectedObj.dateDebut} au ${selectedObj.dateFin}
+          </div>
+        `;
+      } else {
+        detailContainer.innerHTML = `<p style="color: #666; font-style: italic; margin:0;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici en haut.</p>`;
+      }
+
       const listeTbody = document.getElementById('listeInscrits');
       const totauxContainer = document.getElementById('totauxContainer');
 
@@ -874,16 +918,26 @@
           const nomAffichage = s.nom ? `<strong>${s.nom}</strong>` : '<i style="color:#888;">-</i>';
 
           const tr = document.createElement('tr');
+          tr.style.cursor = 'pointer';
+          tr.title = "Cliquez pour voir les détails en haut";
           tr.innerHTML = `
             <td>${nomAffichage}</td>
-            <td><a href="tel:${s.telephone}"><strong>${s.telephone}</strong></a></td>
+            <td><a href="tel:${s.telephone}" onclick="event.stopPropagation();"><strong>${s.telephone}</strong></a></td>
             <td><span class="badge-minyan">${s.nbHommes} homme(s)</span></td>
             <td><strong>${s.lieu}</strong></td>
             <td>Du ${s.dateDebut} au ${s.dateFin}</td>
             <td>
-              ${isOwner ? `<button class="btn-danger" onclick="supprimerSejour('${s.id}')">Supprimer</button>` : '-'}
+              ${isOwner ? `<button class="btn-danger" onclick="event.stopPropagation(); supprimerSejour('${s.id}')">Supprimer</button>` : '-'}
             </td>
           `;
+
+          tr.addEventListener('click', () => {
+            selectedSejourId = s.id;
+            selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
+            map.setView([s.lat, s.lon], 13);
+            resultatsBasControllerAffichage();
+          });
+
           listeTbody.appendChild(tr);
         });
       }
