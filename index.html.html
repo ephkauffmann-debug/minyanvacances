@@ -14,25 +14,25 @@
       max-width: 100%;
       margin: 0;
       padding: 15px;
-      /* Nouveau fond : Mont Blanc / Alpes enneigées majestueuses et nettes */
+      /* Fond : Mont Blanc majestueux */
       background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      color: #222;
+      color: #111;
       box-sizing: border-box;
     }
     
-    /* Fond des cartes et barres plus opaque (plus fort / couvrant) */
+    /* Fond des cartes et barres totalement opaque (blanc pur 100% visible) */
     .card, .top-bar, table, .autocomplete-wrapper input, input, select {
-      background: rgba(255, 255, 255, 0.96) !important;
+      background: rgb(255, 255, 255) !important;
     }
 
     .card {
-      border: 1px solid rgba(255, 255, 255, 0.9);
+      border: 1px solid #cbd5e0;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
       margin-bottom: 20px;
     }
 
@@ -45,7 +45,7 @@
       padding: 10px;
       margin-top: 4px;
       box-sizing: border-box;
-      border: 1px solid rgba(180, 180, 180, 0.9);
+      border: 1px solid #a0aec0;
       border-radius: 6px;
     }
 
@@ -72,8 +72,8 @@
     }
 
     .checkbox-container {
-      background-color: rgba(255, 249, 219, 0.95);
-      border: 1px solid rgba(255, 224, 102, 0.95);
+      background-color: #fff9db;
+      border: 1px solid #ffe066;
       border-radius: 8px;
       padding: 12px;
       margin-top: 12px;
@@ -106,10 +106,10 @@
     .privacy-notice {
       font-size: 0.85em;
       color: #1a365d;
-      background: rgba(235, 248, 255, 0.95);
+      background: #ebf8ff;
       padding: 10px;
       border-radius: 6px;
-      border: 1px solid rgba(190, 227, 248, 0.95);
+      border: 1px solid #bee3f8;
       margin-top: 12px;
     }
     
@@ -119,7 +119,7 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: rgba(255, 255, 255, 0.98) !important;
+      background: rgb(255, 255, 255) !important;
       border: 1px solid #cbd5e0;
       border-top: none;
       border-radius: 0 0 6px 6px;
@@ -135,7 +135,7 @@
       border-bottom: 1px solid #edf2f7;
     }
     .suggestion-item:hover {
-      background-color: rgba(235, 248, 255, 0.95);
+      background-color: #ebf8ff;
       color: #2b6cb0;
       font-weight: bold;
     }
@@ -194,12 +194,12 @@
       margin-top: 10px;
     }
     th, td {
-      border: 1px solid rgba(200, 200, 200, 0.9);
+      border: 1px solid #cbd5e0;
       padding: 10px;
       text-align: left;
       font-size: 0.9em;
     }
-    th { background-color: rgba(230, 238, 246, 0.95); color: #1a365d; }
+    th { background-color: #edf2f7; color: #1a365d; }
     
     .minyan-status-card {
       padding: 15px;
@@ -209,14 +209,14 @@
       font-weight: bold;
     }
     .minyan-ok {
-      background-color: rgba(212, 237, 218, 0.95) !important;
+      background-color: #d4edda !important;
       color: #155724;
-      border: 1px solid rgba(195, 230, 203, 0.95);
+      border: 1px solid #c3e6cb;
     }
     .minyan-missing {
-      background-color: rgba(255, 243, 205, 0.95) !important;
+      background-color: #fff3cd !important;
       color: #856404;
-      border: 1px solid rgba(255, 238, 186, 0.95);
+      border: 1px solid #ffeeba;
     }
     .badge-minyan {
       background-color: #17a2b8;
@@ -228,8 +228,8 @@
     }
 
     .selected-preview-card {
-      background-color: rgba(240, 253, 244, 0.95) !important;
-      border: 1px solid rgba(187, 247, 208, 0.95);
+      background-color: #f0fdf4 !important;
+      border: 1px solid #bbf7d0;
       padding: 15px;
       border-radius: 8px;
       margin-bottom: 15px;
@@ -243,8 +243,8 @@
       text-align: center;
       font-weight: bold;
     }
-    .status-alert.error { background-color: rgba(248, 215, 218, 0.95); color: #721c24; }
-    .status-alert.success { background-color: rgba(212, 237, 218, 0.95); color: #155724; }
+    .status-alert.error { background-color: #f8d7da; color: #721c24; }
+    .status-alert.success { background-color: #d4edda; color: #155724; }
 
     .top-bar {
       display: flex;
@@ -310,7 +310,7 @@
       <button id="btnShowSignup" type="button" class="btn-secondary" style="background-color: #28a745;">Faire un nouveau compte</button>
     </div>
 
-    <div id="signupSection" class="hidden" style="margin-top: 15px; border-top: 2px dashed rgba(180,180,180,0.9); padding-top: 15px;">
+    <div id="signupSection" class="hidden" style="margin-top: 15px; border-top: 2px dashed #cbd5e0; padding-top: 15px;">
       <h3 style="color: #28a745; font-size: 1.1em;">📝 Inscription d'un nouveau compte</h3>
       <div class="row">
         <div class="col">
@@ -350,7 +350,7 @@
       </div>
       <button id="btnUpdatePassword" class="btn-warning" type="button">Mettre à jour mon mot de passe</button>
       
-      <hr style="margin: 15px 0; border:0; border-top:1px solid rgba(200,200,200,0.9);">
+      <hr style="margin: 15px 0; border:0; border-top:1px solid #cbd5e0;">
       <button id="btnLogout" class="btn-danger" style="width:100%;">Se déconnecter</button>
     </div>
 
@@ -406,7 +406,7 @@
     </div>
 
     <!-- RECHERCHE CIBLÉE -->
-    <div class="card" style="border: 1px solid rgba(190, 227, 248, 0.95);">
+    <div class="card" style="border: 1px solid #bee3f8;">
       <h3>🔍 Recherche de Séjours</h3>
       <div class="autocomplete-wrapper">
         <label for="recherche_adresse">Entrez une ville pour cibler :</label>
