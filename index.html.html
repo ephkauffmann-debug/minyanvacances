@@ -23,21 +23,39 @@
       box-sizing: border-box;
     }
     
-    /* Fond des cartes et barres totalement opaque (blanc pur 100% visible) */
+    /* Suppression des fonds blancs sur les cartes/barres pour fusionner directement sur l'arrière-plan */
     .card, .top-bar, table, .autocomplete-wrapper input, input, select {
-      background: rgb(255, 255, 255) !important;
+      background: transparent !important;
     }
 
     .card {
-      border: 1px solid #cbd5e0;
+      background: rgba(255, 255, 255, 0.45) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
       margin-bottom: 20px;
     }
 
-    h2, h3 { color: #1a365d; margin-top: 0; }
-    label { display: block; margin-top: 10px; font-weight: bold; font-size: 0.9em; }
+    .top-bar {
+      background: rgba(255, 255, 255, 0.45) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    table {
+      background: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    input, select {
+      background: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    h2, h3 { color: #1a365d; margin-top: 0; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
+    label { display: block; margin-top: 10px; font-weight: bold; font-size: 0.9em; color: #1a365d; text-shadow: 0 1px 1px rgba(255,255,255,0.8); }
     
     input, select {
       display: block;
@@ -45,8 +63,14 @@
       padding: 10px;
       margin-top: 4px;
       box-sizing: border-box;
-      border: 1px solid #a0aec0;
+      border: 1px solid #718096;
       border-radius: 6px;
+      color: #111;
+      font-weight: 500;
+    }
+
+    input::placeholder, select {
+      color: #333;
     }
 
     /* Champ mot de passe avec œil */
@@ -68,11 +92,11 @@
       padding: 0;
       margin: 0;
       width: auto;
-      color: #555;
+      color: #333;
     }
 
     .checkbox-container {
-      background-color: #fff9db;
+      background-color: rgba(255, 249, 219, 0.7) !important;
       border: 1px solid #ffe066;
       border-radius: 8px;
       padding: 12px;
@@ -97,7 +121,7 @@
 
     .checkbox-help {
       font-size: 0.85em;
-      color: #333;
+      color: #222;
       font-weight: normal;
       margin-top: 6px;
       line-height: 1.4;
@@ -106,7 +130,7 @@
     .privacy-notice {
       font-size: 0.85em;
       color: #1a365d;
-      background: #ebf8ff;
+      background: rgba(235, 248, 255, 0.7) !important;
       padding: 10px;
       border-radius: 6px;
       border: 1px solid #bee3f8;
@@ -119,7 +143,7 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: rgb(255, 255, 255) !important;
+      background: rgba(255, 255, 255, 0.95) !important;
       border: 1px solid #cbd5e0;
       border-top: none;
       border-radius: 0 0 6px 6px;
@@ -133,6 +157,7 @@
       cursor: pointer;
       font-size: 0.9em;
       border-bottom: 1px solid #edf2f7;
+      color: #111;
     }
     .suggestion-item:hover {
       background-color: #ebf8ff;
@@ -155,6 +180,7 @@
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     button:hover { background-color: #0056b3; }
     
@@ -194,12 +220,15 @@
       margin-top: 10px;
     }
     th, td {
-      border: 1px solid #cbd5e0;
+      border: 1px solid rgba(255, 255, 255, 0.6);
       padding: 10px;
       text-align: left;
       font-size: 0.9em;
+      color: #111;
+      text-shadow: 0 1px 1px rgba(255,255,255,0.6);
     }
-    th { background-color: #edf2f7; color: #1a365d; }
+    th { background-color: rgba(255, 255, 255, 0.5) !important; color: #1a365d; }
+    td { background-color: rgba(255, 255, 255, 0.35) !important; }
     
     .minyan-status-card {
       padding: 15px;
@@ -209,12 +238,12 @@
       font-weight: bold;
     }
     .minyan-ok {
-      background-color: #d4edda !important;
+      background-color: rgba(212, 237, 218, 0.8) !important;
       color: #155724;
       border: 1px solid #c3e6cb;
     }
     .minyan-missing {
-      background-color: #fff3cd !important;
+      background-color: rgba(255, 243, 205, 0.8) !important;
       color: #856404;
       border: 1px solid #ffeeba;
     }
@@ -228,11 +257,12 @@
     }
 
     .selected-preview-card {
-      background-color: #f0fdf4 !important;
+      background-color: rgba(240, 253, 244, 0.8) !important;
       border: 1px solid #bbf7d0;
       padding: 15px;
       border-radius: 8px;
       margin-bottom: 15px;
+      color: #111;
     }
 
     .status-alert {
@@ -243,8 +273,8 @@
       text-align: center;
       font-weight: bold;
     }
-    .status-alert.error { background-color: #f8d7da; color: #721c24; }
-    .status-alert.success { background-color: #d4edda; color: #155724; }
+    .status-alert.error { background-color: rgba(248, 215, 218, 0.9); color: #721c24; }
+    .status-alert.success { background-color: rgba(212, 237, 218, 0.9); color: #155724; }
 
     .top-bar {
       display: flex;
@@ -254,6 +284,11 @@
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
       margin-bottom: 20px;
+      color: #111;
+    }
+    .top-bar span {
+      text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+      font-weight: 500;
     }
     .profile-btn {
       background-color: #1a365d;
@@ -287,7 +322,7 @@
   <!-- ÉCRAN CONNEXION / INSCRIPTION -->
   <div id="authCard" class="card">
     <h2>MinyanVacances ✡️</h2>
-    <p>Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
+    <p style="text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
     
     <div class="row">
       <div class="col">
@@ -310,7 +345,7 @@
       <button id="btnShowSignup" type="button" class="btn-secondary" style="background-color: #28a745;">Faire un nouveau compte</button>
     </div>
 
-    <div id="signupSection" class="hidden" style="margin-top: 15px; border-top: 2px dashed #cbd5e0; padding-top: 15px;">
+    <div id="signupSection" class="hidden" style="margin-top: 15px; border-top: 2px dashed rgba(255,255,255,0.8); padding-top: 15px;">
       <h3 style="color: #28a745; font-size: 1.1em;">📝 Inscription d'un nouveau compte</h3>
       <div class="row">
         <div class="col">
@@ -337,7 +372,7 @@
     <!-- VOLET PROFIL -->
     <div id="profileCard" class="card hidden" style="border-left: 4px solid #007bff;">
       <h3>⚙️ Mon Profil</h3>
-      <p style="font-size: 0.9em; color: #333;">Modifiez vos informations de connexion ou déconnectez-vous.</p>
+      <p style="font-size: 0.9em; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Modifiez vos informations de connexion ou déconnectez-vous.</p>
       
       <label for="new_email">Modifier mon adresse e-mail :</label>
       <input type="email" id="new_email" placeholder="Nouvelle adresse e-mail">
@@ -350,14 +385,14 @@
       </div>
       <button id="btnUpdatePassword" class="btn-warning" type="button">Mettre à jour mon mot de passe</button>
       
-      <hr style="margin: 15px 0; border:0; border-top:1px solid #cbd5e0;">
+      <hr style="margin: 15px 0; border:0; border-top:1px solid rgba(255,255,255,0.6);">
       <button id="btnLogout" class="btn-danger" style="width:100%;">Se déconnecter</button>
     </div>
 
     <!-- FORMULAIRE DE LOGEMENT -->
     <div class="card" style="border-top: 4px solid #28a745;">
       <h2>Publier ou Modifier mon Séjour ✡️</h2>
-      <p>Inscrivez votre logement et vos participants :</p>
+      <p style="text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Inscrivez votre logement et vos participants :</p>
       
       <form id="minyanForm">
         <label for="nom">Nom :</label>
@@ -441,7 +476,7 @@
       <div class="card" style="border-top: 4px solid #17a2b8;">
         <h3>📌 Détails du séjour sélectionné</h3>
         <div id="detailSelectionContainer">
-          <p style="color: #333; font-style: italic;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici.</p>
+          <p style="text-shadow: 0 1px 1px rgba(255,255,255,0.8); font-style: italic;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici.</p>
         </div>
       </div>
 
@@ -909,7 +944,7 @@
           </div>
         `;
       } else {
-        detailContainer.innerHTML = `<p style="color: #333; font-style: italic; margin:0;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici en haut.</p>`;
+        detailContainer.innerHTML = `<p style="text-shadow: 0 1px 1px rgba(255,255,255,0.8); font-style: italic; margin:0;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici en haut.</p>`;
       }
 
       const listeTbody = document.getElementById('listeInscrits');
@@ -917,7 +952,7 @@
 
       listeTbody.innerHTML = '';
       if (sejoursAffiches.length === 0) {
-        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#333;">Aucun séjour trouvé dans cette zone.</td></tr>';
+        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#111;">Aucun séjour trouvé dans cette zone.</td></tr>';
       } else {
         const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
 
@@ -952,7 +987,7 @@
 
       totauxContainer.innerHTML = '';
       if (sejoursAffiches.length === 0) {
-        totauxContainer.innerHTML = '<p style="color:#333;">Aucun séjour enregistré.</p>';
+        totauxContainer.innerHTML = '<p style="text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Aucun séjour enregistré.</p>';
       } else {
         const totalHommesZone = sejoursAffiches.reduce((sum, s) => sum + s.nbHommes, 0);
         const statusDiv = document.createElement('div');
