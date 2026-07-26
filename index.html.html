@@ -19,43 +19,42 @@
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      color: #111;
+      color: #fff;
       box-sizing: border-box;
     }
     
-    /* Suppression des fonds blancs sur les cartes/barres pour fusionner directement sur l'arrière-plan */
+    /* Suppression complète des fonds blancs, gris et flous */
     .card, .top-bar, table, .autocomplete-wrapper input, input, select {
       background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.45) !important;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: rgba(0, 0, 0, 0.55) !important;
+      border: 1px solid rgba(255, 255, 255, 0.4);
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
       margin-bottom: 20px;
     }
 
     .top-bar {
-      background: rgba(255, 255, 255, 0.45) !important;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: rgba(0, 0, 0, 0.55) !important;
+      border: 1px solid rgba(255, 255, 255, 0.4);
     }
 
     table {
-      background: rgba(255, 255, 255, 0.3) !important;
+      background: rgba(0, 0, 0, 0.3) !important;
     }
 
     input, select {
-      background: rgba(255, 255, 255, 0.7) !important;
+      background: rgba(0, 0, 0, 0.6) !important;
+      color: #fff !important;
     }
 
-    h2, h3 { color: #1a365d; margin-top: 0; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
-    label { display: block; margin-top: 10px; font-weight: bold; font-size: 0.9em; color: #1a365d; text-shadow: 0 1px 1px rgba(255,255,255,0.8); }
+    h2, h3 { color: #fff; margin-top: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.9); }
+    label { display: block; margin-top: 10px; font-weight: bold; font-size: 0.9em; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.9); }
     
     input, select {
       display: block;
@@ -63,14 +62,13 @@
       padding: 10px;
       margin-top: 4px;
       box-sizing: border-box;
-      border: 1px solid #718096;
+      border: 1px solid rgba(255, 255, 255, 0.6);
       border-radius: 6px;
-      color: #111;
       font-weight: 500;
     }
 
     input::placeholder, select {
-      color: #333;
+      color: #ccc;
     }
 
     /* Champ mot de passe avec œil */
@@ -92,11 +90,11 @@
       padding: 0;
       margin: 0;
       width: auto;
-      color: #333;
+      color: #fff;
     }
 
     .checkbox-container {
-      background-color: rgba(255, 249, 219, 0.7) !important;
+      background-color: rgba(50, 40, 0, 0.7) !important;
       border: 1px solid #ffe066;
       border-radius: 8px;
       padding: 12px;
@@ -110,18 +108,19 @@
       font-weight: bold;
       font-size: 0.9em;
       cursor: pointer;
-      color: #1a365d;
+      color: #fff;
     }
 
     .checkbox-label input {
       width: auto;
       margin-top: 3px;
       cursor: pointer;
+      background: transparent !important;
     }
 
     .checkbox-help {
       font-size: 0.85em;
-      color: #222;
+      color: #ddd;
       font-weight: normal;
       margin-top: 6px;
       line-height: 1.4;
@@ -129,8 +128,8 @@
 
     .privacy-notice {
       font-size: 0.85em;
-      color: #1a365d;
-      background: rgba(235, 248, 255, 0.7) !important;
+      color: #fff;
+      background: rgba(0, 50, 80, 0.7) !important;
       padding: 10px;
       border-radius: 6px;
       border: 1px solid #bee3f8;
@@ -143,25 +142,25 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: rgba(255, 255, 255, 0.95) !important;
+      background: rgba(20, 20, 20, 0.95) !important;
       border: 1px solid #cbd5e0;
       border-top: none;
       border-radius: 0 0 6px 6px;
       max-height: 200px;
       overflow-y: auto;
       z-index: 1000;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.5);
     }
     .suggestion-item {
       padding: 10px 12px;
       cursor: pointer;
       font-size: 0.9em;
-      border-bottom: 1px solid #edf2f7;
-      color: #111;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
     }
     .suggestion-item:hover {
-      background-color: #ebf8ff;
-      color: #2b6cb0;
+      background-color: rgba(0, 123, 255, 0.5);
+      color: #fff;
       font-weight: bold;
     }
 
@@ -180,7 +179,7 @@
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
     button:hover { background-color: #0056b3; }
     
@@ -220,15 +219,15 @@
       margin-top: 10px;
     }
     th, td {
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       padding: 10px;
       text-align: left;
       font-size: 0.9em;
-      color: #111;
-      text-shadow: 0 1px 1px rgba(255,255,255,0.6);
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
     }
-    th { background-color: rgba(255, 255, 255, 0.5) !important; color: #1a365d; }
-    td { background-color: rgba(255, 255, 255, 0.35) !important; }
+    th { background-color: rgba(0, 0, 0, 0.5) !important; color: #fff; }
+    td { background-color: rgba(0, 0, 0, 0.3) !important; }
     
     .minyan-status-card {
       padding: 15px;
@@ -238,13 +237,13 @@
       font-weight: bold;
     }
     .minyan-ok {
-      background-color: rgba(212, 237, 218, 0.8) !important;
-      color: #155724;
+      background-color: rgba(20, 80, 40, 0.8) !important;
+      color: #fff;
       border: 1px solid #c3e6cb;
     }
     .minyan-missing {
-      background-color: rgba(255, 243, 205, 0.8) !important;
-      color: #856404;
+      background-color: rgba(80, 60, 0, 0.8) !important;
+      color: #fff;
       border: 1px solid #ffeeba;
     }
     .badge-minyan {
@@ -257,12 +256,12 @@
     }
 
     .selected-preview-card {
-      background-color: rgba(240, 253, 244, 0.8) !important;
+      background-color: rgba(20, 60, 30, 0.8) !important;
       border: 1px solid #bbf7d0;
       padding: 15px;
       border-radius: 8px;
       margin-bottom: 15px;
-      color: #111;
+      color: #fff;
     }
 
     .status-alert {
@@ -273,8 +272,8 @@
       text-align: center;
       font-weight: bold;
     }
-    .status-alert.error { background-color: rgba(248, 215, 218, 0.9); color: #721c24; }
-    .status-alert.success { background-color: rgba(212, 237, 218, 0.9); color: #155724; }
+    .status-alert.error { background-color: rgba(120, 20, 20, 0.9); color: #fff; }
+    .status-alert.success { background-color: rgba(20, 80, 40, 0.9); color: #fff; }
 
     .top-bar {
       display: flex;
@@ -282,12 +281,12 @@
       align-items: center;
       padding: 12px 15px;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       margin-bottom: 20px;
-      color: #111;
+      color: #fff;
     }
     .top-bar span {
-      text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
       font-weight: 500;
     }
     .profile-btn {
@@ -322,7 +321,7 @@
   <!-- ÉCRAN CONNEXION / INSCRIPTION -->
   <div id="authCard" class="card">
     <h2>MinyanVacances ✡️</h2>
-    <p style="text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
+    <p style="text-shadow: 0 1px 2px rgba(0,0,0,0.9);">Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
     
     <div class="row">
       <div class="col">
@@ -345,7 +344,7 @@
       <button id="btnShowSignup" type="button" class="btn-secondary" style="background-color: #28a745;">Faire un nouveau compte</button>
     </div>
 
-    <div id="signupSection" class="hidden" style="margin-top: 15px; border-top: 2px dashed rgba(255,255,255,0.8); padding-top: 15px;">
+    <div id="signupSection" class="hidden" style="margin-top: 15px; border-top: 2px dashed rgba(255,255,255,0.4); padding-top: 15px;">
       <h3 style="color: #28a745; font-size: 1.1em;">📝 Inscription d'un nouveau compte</h3>
       <div class="row">
         <div class="col">
@@ -372,7 +371,7 @@
     <!-- VOLET PROFIL -->
     <div id="profileCard" class="card hidden" style="border-left: 4px solid #007bff;">
       <h3>⚙️ Mon Profil</h3>
-      <p style="font-size: 0.9em; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Modifiez vos informations de connexion ou déconnectez-vous.</p>
+      <p style="font-size: 0.9em; text-shadow: 0 1px 2px rgba(0,0,0,0.9);">Modifiez vos informations de connexion ou déconnectez-vous.</p>
       
       <label for="new_email">Modifier mon adresse e-mail :</label>
       <input type="email" id="new_email" placeholder="Nouvelle adresse e-mail">
@@ -385,14 +384,14 @@
       </div>
       <button id="btnUpdatePassword" class="btn-warning" type="button">Mettre à jour mon mot de passe</button>
       
-      <hr style="margin: 15px 0; border:0; border-top:1px solid rgba(255,255,255,0.6);">
+      <hr style="margin: 15px 0; border:0; border-top:1px solid rgba(255,255,255,0.4);">
       <button id="btnLogout" class="btn-danger" style="width:100%;">Se déconnecter</button>
     </div>
 
     <!-- FORMULAIRE DE LOGEMENT -->
     <div class="card" style="border-top: 4px solid #28a745;">
       <h2>Publier ou Modifier mon Séjour ✡️</h2>
-      <p style="text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Inscrivez votre logement et vos participants :</p>
+      <p style="text-shadow: 0 1px 2px rgba(0,0,0,0.9);">Inscrivez votre logement et vos participants :</p>
       
       <form id="minyanForm">
         <label for="nom">Nom :</label>
@@ -476,7 +475,7 @@
       <div class="card" style="border-top: 4px solid #17a2b8;">
         <h3>📌 Détails du séjour sélectionné</h3>
         <div id="detailSelectionContainer">
-          <p style="text-shadow: 0 1px 1px rgba(255,255,255,0.8); font-style: italic;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici.</p>
+          <p style="text-shadow: 0 1px 2px rgba(0,0,0,0.9); font-style: italic;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici.</p>
         </div>
       </div>
 
@@ -944,7 +943,7 @@
           </div>
         `;
       } else {
-        detailContainer.innerHTML = `<p style="text-shadow: 0 1px 1px rgba(255,255,255,0.8); font-style: italic; margin:0;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici en haut.</p>`;
+        detailContainer.innerHTML = `<p style="text-shadow: 0 1px 2px rgba(0,0,0,0.9); font-style: italic; margin:0;">Cliquez sur un séjour dans la liste ou sur une goutte de la carte pour afficher ses informations ici en haut.</p>`;
       }
 
       const listeTbody = document.getElementById('listeInscrits');
@@ -952,20 +951,20 @@
 
       listeTbody.innerHTML = '';
       if (sejoursAffiches.length === 0) {
-        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#111;">Aucun séjour trouvé dans cette zone.</td></tr>';
+        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#fff;">Aucun séjour trouvé dans cette zone.</td></tr>';
       } else {
         const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
 
         sejoursAffiches.forEach(s => {
           const isOwner = s.userId === currentUserId;
-          const nomAffichage = s.nom ? `<strong>${s.nom}</strong>` : '<i style="color:#555;">-</i>';
+          const nomAffichage = s.nom ? `<strong>${s.nom}</strong>` : '<i style="color:#aaa;">-</i>';
 
           const tr = document.createElement('tr');
           tr.style.cursor = 'pointer';
           tr.title = "Cliquez pour voir les détails en haut";
           tr.innerHTML = `
             <td>${nomAffichage}</td>
-            <td><a href="tel:${s.telephone}" onclick="event.stopPropagation();"><strong>${s.telephone}</strong></a></td>
+            <td><a href="tel:${s.telephone}" onclick="event.stopPropagation();" style="color: #63b3ed;"><strong>${s.telephone}</strong></a></td>
             <td><span class="badge-minyan">${s.nbHommes} homme(s)</span></td>
             <td><strong>${s.lieu}</strong></td>
             <td>Du ${s.dateDebut} au ${s.dateFin}</td>
@@ -987,7 +986,7 @@
 
       totauxContainer.innerHTML = '';
       if (sejoursAffiches.length === 0) {
-        totauxContainer.innerHTML = '<p style="text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Aucun séjour enregistré.</p>';
+        totauxContainer.innerHTML = '<p style="text-shadow: 0 1px 2px rgba(0,0,0,0.9);">Aucun séjour enregistré.</p>';
       } else {
         const totalHommesZone = sejoursAffiches.reduce((sum, s) => sum + s.nbHommes, 0);
         const statusDiv = document.createElement('div');
