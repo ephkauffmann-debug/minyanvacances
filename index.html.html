@@ -807,9 +807,6 @@
     function mettreAJourAffichageGlobal() {
       if (!map) return;
 
-      const listeTbody = document.getElementById('listeInscrits');
-      const totauxContainer = document.getElementById('totauxContainer');
-
       // 1. Afficher TOUS les marqueurs sur la carte sans en supprimer aucun
       markers.forEach(m => map.removeLayer(m));
       markers = [];
@@ -840,7 +837,7 @@
         return;
       }
 
-      // 3. Afficher les résultats du bas correspondants au rayon choisi autour du point sélectionné
+      // 3. Afficher les résultats du bas et dessiner la zone de recherche sur la carte
       resultatsBasContainer.classList.remove('hidden');
 
       const rayonKm = parseFloat(document.getElementById('rayon_select').value);
@@ -860,7 +857,8 @@
         radius: rayonKm * 1000
       }).addTo(map);
 
-      // (Note : on ne modifie plus le zoom/setView de la carte pour éviter tout déplacement brusque)
+      const listeTbody = document.getElementById('listeInscrits');
+      const totauxContainer = document.getElementById('totauxContainer');
 
       listeTbody.innerHTML = '';
       if (sejoursAffiches.length === 0) {
