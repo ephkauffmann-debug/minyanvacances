@@ -11,8 +11,9 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      max-width: 680px;
-      margin: 0 auto;
+      /* Suppression de la limite de largeur pour occuper toute la page */
+      max-width: 100%;
+      margin: 0;
       padding: 15px;
       /* Image de fond des Alpes avec un voile sombre par-dessus pour la lisibilité */
       background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
@@ -21,6 +22,7 @@
       background-position: center;
       background-attachment: fixed;
       color: #333;
+      box-sizing: border-box;
     }
     .card {
       background: #ffffff;
@@ -173,7 +175,7 @@
     .btn-warning:hover { background-color: #e0a800; }
 
     #map {
-      height: 400px;
+      height: 450px;
       width: 100%;
       border-radius: 8px;
       margin-top: 10px;
