@@ -331,7 +331,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
-  <!-- Google Maps API chargée avec callback d'initialisation sécurisé -->
+  <!-- Google Maps API avec gestion d'erreur globale -->
   <script>
     function initMap() {
       window.googleMapsLoaded = true;
@@ -339,6 +339,14 @@
         window.appInitMap();
       }
     }
+    // Fonction native appelée par Google Maps en cas d'erreur d'authentification/facturation
+    window.gm_authFailure = function() {
+      console.error("Erreur d'authentification Google Maps (Clé invalide, non activée ou problème de facturation).");
+      const mapEl = document.getElementById('map');
+      if (mapEl) {
+        mapEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #dc3545; font-weight: bold; background: rgba(255,255,255,0.8); border-radius: 10px;">⚠️ Erreur Google Maps : Vérifiez que l\'API "Maps JavaScript API" est activée et que la facturation est configurée sur votre compte Google Cloud.</div>';
+      }
+    };
   </script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCp4ekhaoc3avzF1O_GXZUbRLWIF-rGLTo&language=fr&region=FR&callback=initMap" async defer></script>
 </head>
@@ -678,7 +686,6 @@
         userEmailDisplay.textContent = user.email;
         initialiserChampsDates();
 
-        // Correction du bug de la carte : Forcer l'initialisation et le recalcul de la taille une fois affiché
         setTimeout(() => {
           if (!map && window.googleMapsLoaded) {
             appInitMap();
@@ -697,6 +704,8 @@
 
     window.appInitMap = function() {
       if (map) return;
+      if (typeof google === 'undefined' || !google.maps) return;
+      
       map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 46.603354, lng: 1.888334 },
         zoom: 6,
