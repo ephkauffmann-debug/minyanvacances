@@ -590,6 +590,7 @@
     let selectedLocationForm = null;
     let selectedLocationSearch = null;
     let selectedSejourId = null;
+    let markersMap = {}; // Stocke les repères carte par ID pour optimisation des performances
 
     const authCard = document.getElementById('authCard');
     const appContent = document.getElementById('appContent');
@@ -789,7 +790,6 @@
         selectedLocationSearch = null;
         resultatsBasContainer.classList.add('hidden');
         if (circleLayer) { map.removeLayer(circleLayer); circleLayer = null; }
-        mettreAJourMarqueursCarteSeuls();
       }
     });
 
@@ -800,45 +800,51 @@
     function setupAutocomplete(inputId, boxId, onSelect) {
       const input = document.getElementById(inputId);
       const box = document.getElementById(boxId);
+      let timeoutId = null;
 
-      input.addEventListener('input', async function() {
+      input.addEventListener('input', function() {
         const query = this.value.trim();
+        clearTimeout(timeoutId);
+
         if (query.length < 3) {
           box.style.display = 'none';
           return;
         }
 
-        try {
-          const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`);
-          const data = await response.json();
+        // Ajout d'un debounce pour limiter les requêtes API en rafale (gain de performance réseau)
+        timeoutId = setTimeout(async () => {
+          try {
+            const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`);
+            const data = await response.json();
 
-          box.innerHTML = '';
-          if (data.features && data.features.length > 0) {
-            box.style.display = 'block';
-            data.features.forEach(f => {
-              const label = f.properties.label;
-              const city = f.properties.city || f.properties.name;
-              const postcode = f.properties.postcode || '';
-              const lat = f.geometry.coordinates[1];
-              const lon = f.geometry.coordinates[0];
+            box.innerHTML = '';
+            if (data.features && data.features.length > 0) {
+              box.style.display = 'block';
+              data.features.forEach(f => {
+                const label = f.properties.label;
+                const city = f.properties.city || f.properties.name;
+                const postcode = f.properties.postcode || '';
+                const lat = f.geometry.coordinates[1];
+                const lon = f.geometry.coordinates[0];
 
-              const item = document.createElement('div');
-              item.className = 'suggestion-item';
-              item.textContent = label;
+                const item = document.createElement('div');
+                item.className = 'suggestion-item';
+                item.textContent = label;
 
-              item.addEventListener('click', function() {
-                input.value = label;
-                onSelect({ label, city, postcode, lat, lon });
-                box.style.display = 'none';
+                item.addEventListener('click', function() {
+                  input.value = label;
+                  onSelect({ label, city, postcode, lat, lon });
+                  box.style.display = 'none';
+                });
+                box.appendChild(item);
               });
-              box.appendChild(item);
-            });
-          } else {
-            box.style.display = 'none';
+            } else {
+              box.style.display = 'none';
+            }
+          } catch (err) {
+            console.error("Erreur autocomplétion :", err);
           }
-        } catch (err) {
-          console.error("Erreur autocomplétion :", err);
-        }
+        }, 300);
       });
 
       document.addEventListener('click', function(e) {
@@ -940,41 +946,21 @@
       }
     };
 
-    function viderMarqueursCarte() {
-      if (markersLayer) markersLayer.clearLayers();
-    }
-
-    function mettreAJourMarqueursCarteSeuls() {
-      if (!map) return;
-      viderMarqueursCarte();
-
-      sejours.forEach(s => {
-        const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
-        const popupContent = `
-          <div style="color:#000;">
-            ${nomAffiche}
-            👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
-            📍 Ville : <strong>${s.lieu}</strong><br>
-            📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
-            📅 Du ${s.dateDebut} au ${s.dateFin}
-          </div>
-        `;
-
-        const marker = L.marker([s.lat, s.lon]).bindPopup(popupContent);
-        marker.on('click', () => {
-          selectedSejourId = s.id;
-          selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
-          resultatsBasControllerAffichage();
-        });
-
-        markersLayer.addLayer(marker);
-      });
-    }
-
     function mettreAJourAffichageGlobal() {
       if (!map) return;
-      viderMarqueursCarte();
+      
+      // OPTIMISATION DES PERFORMANCES CARTE : Gestion des marqueurs existants
+      const activeIds = new Set(sejours.map(s => s.id));
 
+      // Supprimer uniquement les marqueurs obsolètes
+      Object.keys(markersMap).forEach(id => {
+        if (!activeIds.has(id)) {
+          markersLayer.removeLayer(markersMap[id]);
+          delete markersMap[id];
+        }
+      });
+
+      // Mettre à jour ou ajouter les marqueurs actifs
       sejours.forEach(s => {
         const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
         const popupContent = `
@@ -987,14 +973,21 @@
           </div>
         `;
 
-        const marker = L.marker([s.lat, s.lon]).bindPopup(popupContent);
-        marker.on('click', () => {
-          selectedSejourId = s.id;
-          selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
-          resultatsBasControllerAffichage();
-        });
-
-        markersLayer.addLayer(marker);
+        if (markersMap[s.id]) {
+          // Mettre à jour la position ou le contenu si existant
+          markersMap[s.id].setLatLng([s.lat, s.lon]);
+          markersMap[s.id].setPopupContent(popupContent);
+        } else {
+          // Créer un nouveau marqueur si non existant
+          const marker = L.marker([s.lat, s.lon]).bindPopup(popupContent);
+          marker.on('click', () => {
+            selectedSejourId = s.id;
+            selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
+            resultatsBasControllerAffichage();
+          });
+          markersLayer.addLayer(marker);
+          markersMap[s.id] = marker;
+        }
       });
 
       if (!selectedLocationSearch) {
