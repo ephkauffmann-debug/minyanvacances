@@ -29,7 +29,7 @@
       max-width: 850px;
       margin: 0 auto;
       padding: 20px 15px;
-      background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=compress&w=1200&q=75');
+      background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=compress&w=800&q=60');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -38,14 +38,14 @@
     }
     
     .card, .top-bar, table, .autocomplete-wrapper input, input, select {
-      background: rgba(255, 255, 255, 0.45) !important;
+      background: rgba(255, 255, 255, 0.85) !important;
       backdrop-filter: blur(10px) !important;
       -webkit-backdrop-filter: blur(10px) !important;
       color: #000 !important;
     }
 
     .card {
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.9);
       padding: 24px;
       border-radius: 16px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -53,7 +53,7 @@
     }
 
     .top-bar {
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.9);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -70,7 +70,7 @@
       margin-top: 12px;
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(0, 0, 0, 0.2);
     }
 
     input, select {
@@ -79,15 +79,15 @@
       padding: 11px 14px;
       margin-top: 6px;
       box-sizing: border-box;
-      border: 1px solid rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 0, 0, 0.4);
       border-radius: 10px;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 0.95em;
       color: #000 !important;
     }
 
     input::placeholder {
-      color: rgba(0, 0, 0, 0.6);
+      color: rgba(0, 0, 0, 0.7);
     }
 
     h1, h2, h3 { 
@@ -99,7 +99,7 @@
     label { 
       display: block; 
       margin-top: 14px; 
-      font-weight: 600; 
+      font-weight: 700; 
       font-size: 0.9em; 
       color: #000; 
     }
@@ -126,8 +126,8 @@
     }
 
     .checkbox-container {
-      background-color: rgba(255, 255, 255, 0.3) !important;
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      background-color: rgba(255, 255, 255, 0.7) !important;
+      border: 1px solid rgba(0, 0, 0, 0.2);
       border-radius: 10px;
       padding: 14px;
       margin-top: 16px;
@@ -153,7 +153,7 @@
 
     .checkbox-help {
       font-size: 0.85em;
-      color: #222;
+      color: #111;
       font-weight: normal;
       margin-top: 8px;
       line-height: 1.4;
@@ -162,10 +162,10 @@
     .privacy-notice {
       font-size: 0.85em;
       color: #000;
-      background: rgba(255, 255, 255, 0.3) !important;
+      background: rgba(255, 255, 255, 0.7) !important;
       padding: 12px;
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(0, 0, 0, 0.2);
       margin-top: 16px;
       line-height: 1.4;
     }
@@ -176,9 +176,9 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: rgba(245, 247, 250, 0.95) !important;
+      background: rgba(255, 255, 255, 0.98) !important;
       backdrop-filter: blur(10px) !important;
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.3);
       border-top: none;
       border-radius: 0 0 10px 10px;
       max-height: 200px;
@@ -192,6 +192,7 @@
       font-size: 0.9em;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       color: #000;
+      font-weight: 500;
     }
     .suggestion-item:hover {
       background-color: rgba(0, 123, 255, 0.2);
@@ -207,7 +208,7 @@
       width: 100%;
       margin-top: 18px;
       padding: 13px;
-      background-color: #007bff;
+      background-color: #0056b3;
       color: white;
       border: none;
       border-radius: 10px;
@@ -217,13 +218,13 @@
       box-shadow: 0 3px 8px rgba(0,0,0,0.15);
       transition: background-color 0.2s;
     }
-    button:hover { background-color: #0056b3; }
+    button:hover { background-color: #004085; }
     
-    .btn-secondary { background-color: #6c757d; }
-    .btn-secondary:hover { background-color: #5a6268; }
+    .btn-secondary { background-color: #5a6268; }
+    .btn-secondary:hover { background-color: #4e555b; }
 
     .btn-danger {
-      background-color: #dc3545;
+      background-color: #bd2130;
       color: white;
       padding: 6px 12px;
       font-size: 0.85em;
@@ -231,10 +232,10 @@
       width: auto;
       border-radius: 6px;
     }
-    .btn-danger:hover { background-color: #bd2130; }
+    .btn-danger:hover { background-color: #a71d2a; }
 
     .btn-warning {
-      background-color: #17a2b8;
+      background-color: #117a8b;
       color: white;
       padding: 10px 14px;
       font-size: 0.9em;
@@ -242,7 +243,7 @@
       width: auto;
       border-radius: 8px;
     }
-    .btn-warning:hover { background-color: #138496; }
+    .btn-warning:hover { background-color: #0c5460; }
 
     #map {
       height: 420px;
@@ -250,18 +251,18 @@
       border-radius: 10px;
       margin-top: 12px;
       z-index: 1;
-      border: 1px solid rgba(255,255,255,0.6);
+      border: 1px solid rgba(0,0,0,0.3);
     }
 
     th, td {
-      border: 1px solid rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(0, 0, 0, 0.2);
       padding: 12px;
       text-align: left;
       font-size: 0.9em;
       color: #000;
     }
-    th { background-color: rgba(255, 255, 255, 0.5) !important; color: #000; font-weight: 700; }
-    td { background-color: rgba(255, 255, 255, 0.25) !important; }
+    th { background-color: rgba(230, 235, 240, 0.9) !important; color: #000; font-weight: 700; }
+    td { background-color: rgba(255, 255, 255, 0.6) !important; font-weight: 500; }
     
     .minyan-status-card {
       padding: 16px;
@@ -272,16 +273,16 @@
       line-height: 1.5;
     }
     .minyan-ok {
-      background-color: rgba(40, 167, 69, 0.35) !important;
+      background-color: rgba(40, 167, 69, 0.4) !important;
       backdrop-filter: blur(8px);
       color: #000;
-      border: 1px solid rgba(40, 167, 69, 0.6);
+      border: 1px solid rgba(40, 167, 69, 0.8);
     }
     .minyan-missing {
-      background-color: rgba(255, 193, 7, 0.4) !important;
+      background-color: rgba(255, 193, 7, 0.5) !important;
       backdrop-filter: blur(8px);
       color: #000;
-      border: 1px solid rgba(255, 193, 7, 0.6);
+      border: 1px solid rgba(255, 193, 7, 0.8);
     }
     
     .badge-minyan {
@@ -294,9 +295,9 @@
     }
 
     .selected-preview-card {
-      background-color: rgba(255, 255, 255, 0.35) !important;
+      background-color: rgba(255, 255, 255, 0.8) !important;
       backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(0, 0, 0, 0.2);
       padding: 16px;
       border-radius: 10px;
       margin-bottom: 0;
@@ -313,15 +314,15 @@
       font-weight: bold;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
-    .status-alert.error { background-color: rgba(220, 53, 69, 0.9); color: #fff; border: 1px solid rgba(255,100,100,0.4); }
-    .status-alert.success { background-color: rgba(40, 167, 69, 0.9); color: #fff; border: 1px solid rgba(100,255,150,0.4); }
+    .status-alert.error { background-color: rgba(220, 53, 69, 0.95); color: #fff; border: 1px solid rgba(255,100,100,0.4); }
+    .status-alert.success { background-color: rgba(40, 167, 69, 0.95); color: #fff; border: 1px solid rgba(100,255,150,0.4); }
 
     .top-bar span {
-      font-weight: 500;
+      font-weight: 600;
       color: #000;
     }
     .profile-btn {
-      background-color: #2b6cb0;
+      background-color: #1d4ed8;
       color: white;
       border: none;
       padding: 8px 16px;
@@ -333,209 +334,211 @@
       width: auto;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
-    .profile-btn:hover { background-color: #3182ce; }
+    .profile-btn:hover { background-color: #1e40af; }
 
     .hidden { display: none !important; }
   </style>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+  <!-- Firebase SDKs chargés en defer pour de meilleures performances -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js" defer></script>
 </head>
 <body>
 
-  <div id="statusAlert" class="status-alert hidden"></div>
+  <main>
+    <div id="statusAlert" class="status-alert hidden"></div>
 
-  <!-- ÉCRAN CONNEXION / INSCRIPTION -->
-  <div id="authCard" class="card">
-    <h1>minyan en vacance - Trouver un minyan en vacance en France</h1>
-    <p>Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacance vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation pour vous assurer un minyan complet et un comptage communautaire partout en France.</p>
-    <p>Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
-    
-    <div class="row">
-      <div class="col">
-        <label for="auth_email">Adresse Email :</label>
-        <input type="email" id="auth_email" placeholder="votre.email@exemple.fr">
-      </div>
-    </div>
-
-    <div id="loginSection">
+    <!-- ÉCRAN CONNEXION / INSCRIPTION -->
+    <div id="authCard" class="card">
+      <h1>minyan en vacance - Trouver un minyan en vacance en France</h1>
+      <p>Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacance vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation pour vous assurer un minyan complet et un comptage communautaire partout en France.</p>
+      <p>Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
+      
       <div class="row">
         <div class="col">
-          <label for="auth_password">Mot de passe :</label>
-          <div class="password-wrapper">
-            <input type="password" id="auth_password" placeholder="••••••••">
-            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('auth_password', this)">👁️</button>
-          </div>
+          <label for="auth_email">Adresse Email :</label>
+          <input type="email" id="auth_email" placeholder="votre.email@exemple.fr">
         </div>
       </div>
-      <button id="btnLogin" type="button">Se connecter</button>
-      <button id="btnShowSignup" type="button" class="btn-secondary" style="background-color: #28a745;">Créer un nouveau compte</button>
-    </div>
 
-    <div id="signupSection" class="hidden" style="margin-top: 20px; border-top: 2px dashed rgba(0,0,0,0.2); padding-top: 20px;">
-      <h3 style="color: #1a5c32; font-size: 1.1em;">📝 Inscription d'un nouveau compte</h3>
-      <div class="row">
-        <div class="col">
-          <label for="signup_password">Choisissez un mot de passe :</label>
-          <div class="password-wrapper">
-            <input type="password" id="signup_password" placeholder="Minimum 6 caractères">
-            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signup_password', this)">👁️</button>
-          </div>
-        </div>
-      </div>
-      <button id="btnSignup" type="button" style="background-color: #28a745;">Valider la création du compte</button>
-      <button id="btnCancelSignup" type="button" class="btn-secondary">Annuler</button>
-    </div>
-  </div>
-
-  <!-- APPLICATION PRINCIPALE -->
-  <div id="appContent" class="hidden">
-    
-    <div class="top-bar">
-      <span>Connecté : <strong id="userEmailDisplay"></strong></span>
-      <button id="btnToggleProfile" class="profile-btn">⚙️ Mon Profil</button>
-    </div>
-
-    <!-- VOLET PROFIL -->
-    <div id="profileCard" class="card hidden" style="border-left: 4px solid #3182ce;">
-      <h3>⚙️ Mon Profil</h3>
-      <p style="font-size: 0.9em;">Modifiez vos informations de connexion ou déconnectez-vous.</p>
-      
-      <label for="new_email">Modifier mon adresse e-mail :</label>
-      <input type="email" id="new_email" placeholder="Nouvelle adresse e-mail">
-      <button id="btnUpdateEmail" class="btn-warning" type="button">Mettre à jour mon e-mail</button>
-
-      <label for="new_password" style="margin-top: 18px;">Nouveau mot de passe :</label>
-      <div class="password-wrapper">
-        <input type="password" id="new_password" placeholder="Nouveau mot de passe sécurisé (6 caractères min.)">
-        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('new_password', this)">👁️</button>
-      </div>
-      <button id="btnUpdatePassword" class="btn-warning" type="button">Mettre à jour mon mot de passe</button>
-      
-      <hr style="margin: 20px 0; border:0; border-top:1px solid rgba(0,0,0,0.2);">
-      <button id="btnLogout" class="btn-danger" style="width:100%; padding: 11px;">Se déconnecter</button>
-    </div>
-
-    <!-- FORMULAIRE DE LOGEMENT -->
-    <div class="card" style="border-top: 4px solid #28a745;">
-      <h2>Publier ou Modifier mon Séjour ✡️</h2>
-      <p>Inscrivez votre logement et vos participants :</p>
-      
-      <form id="minyanForm">
-        <label for="nom">Nom :</label>
-        <input type="text" id="nom" placeholder="Ex: Cohen (optionnel)">
-
-        <label for="telephone">Numéro de téléphone :</label>
-        <input type="tel" id="telephone" placeholder="06 00 00 00 00" required>
-
-        <div class="checkbox-container">
-          <label class="checkbox-label">
-            <input type="checkbox" id="autoriser_tel" required>
-            <span>J'accepte d'afficher mon numéro de téléphone public *</span>
-          </label>
-          <div class="checkbox-help">
-            ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>
-            Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.
-          </div>
-        </div>
-
-        <label for="nb_hommes">Nombre d'hommes / garçons (+13 ans) :</label>
-        <input type="number" id="nb_hommes" min="1" value="1" required>
-
-        <label for="adresse_input">Adresse ou Ville (France) :</label>
-        <div class="autocomplete-wrapper">
-          <input type="text" id="adresse_input" placeholder="Ex: Chamonix-Mont-Blanc, Nice..." autocomplete="off" required>
-          <div id="suggestions" class="suggestions-list" style="display: none;"></div>
-        </div>
-
-        <div class="privacy-notice">
-          🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.
-        </div>
-
+      <div id="loginSection">
         <div class="row">
           <div class="col">
-            <label for="date_debut">Date d'arrivée :</label>
-            <input type="date" id="date_debut" required>
+            <label for="auth_password">Mot de passe :</label>
+            <div class="password-wrapper">
+              <input type="password" id="auth_password" placeholder="••••••••">
+              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('auth_password', this)">👁️</button>
+            </div>
           </div>
+        </div>
+        <button id="btnLogin" type="button">Se connecter</button>
+        <button id="btnShowSignup" type="button" class="btn-secondary" style="background-color: #218838;">Créer un nouveau compte</button>
+      </div>
+
+      <div id="signupSection" class="hidden" style="margin-top: 20px; border-top: 2px dashed rgba(0,0,0,0.3); padding-top: 20px;">
+        <h3 style="color: #155724; font-size: 1.1em;">📝 Inscription d'un nouveau compte</h3>
+        <div class="row">
           <div class="col">
-            <label for="date_fin">Date de départ :</label>
-            <input type="date" id="date_fin" required>
+            <label for="signup_password">Choisissez un mot de passe :</label>
+            <div class="password-wrapper">
+              <input type="password" id="signup_password" placeholder="Minimum 6 caractères">
+              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signup_password', this)">👁️</button>
+            </div>
+          </div>
+        </div>
+        <button id="btnSignup" type="button" style="background-color: #218838;">Valider la création du compte</button>
+        <button id="btnCancelSignup" type="button" class="btn-secondary">Annuler</button>
+      </div>
+    </div>
+
+    <!-- APPLICATION PRINCIPALE -->
+    <div id="appContent" class="hidden">
+      
+      <div class="top-bar">
+        <span>Connecté : <strong id="userEmailDisplay"></strong></span>
+        <button id="btnToggleProfile" class="profile-btn">⚙️ Mon Profil</button>
+      </div>
+
+      <!-- VOLET PROFIL -->
+      <div id="profileCard" class="card hidden" style="border-left: 4px solid #1d4ed8;">
+        <h3>⚙️ Mon Profil</h3>
+        <p style="font-size: 0.9em;">Modifiez vos informations de connexion ou déconnectez-vous.</p>
+        
+        <label for="new_email">Modifier mon adresse e-mail :</label>
+        <input type="email" id="new_email" placeholder="Nouvelle adresse e-mail">
+        <button id="btnUpdateEmail" class="btn-warning" type="button">Mettre à jour mon e-mail</button>
+
+        <label for="new_password" style="margin-top: 18px;">Nouveau mot de passe :</label>
+        <div class="password-wrapper">
+          <input type="password" id="new_password" placeholder="Nouveau mot de passe sécurisé (6 caractères min.)">
+          <button type="button" class="toggle-password" onclick="togglePasswordVisibility('new_password', this)">👁️</button>
+        </div>
+        <button id="btnUpdatePassword" class="btn-warning" type="button">Mettre à jour mon mot de passe</button>
+        
+        <hr style="margin: 20px 0; border:0; border-top:1px solid rgba(0,0,0,0.2);">
+        <button id="btnLogout" class="btn-danger" style="width:100%; padding: 11px;">Se déconnecter</button>
+      </div>
+
+      <!-- FORMULAIRE DE LOGEMENT -->
+      <div class="card" style="border-top: 4px solid #218838;">
+        <h2>Publier ou Modifier mon Séjour ✡️</h2>
+        <p>Inscrivez votre logement et vos participants :</p>
+        
+        <form id="minyanForm">
+          <label for="nom">Nom :</label>
+          <input type="text" id="nom" placeholder="Ex: Cohen (optionnel)">
+
+          <label for="telephone">Numéro de téléphone :</label>
+          <input type="tel" id="telephone" placeholder="06 00 00 00 00" required>
+
+          <div class="checkbox-container">
+            <label class="checkbox-label">
+              <input type="checkbox" id="autoriser_tel" required>
+              <span>J'accepte d'afficher mon numéro de téléphone public *</span>
+            </label>
+            <div class="checkbox-help">
+              ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>
+              Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.
+            </div>
+          </div>
+
+          <label for="nb_hommes">Nombre d'hommes / garçons (+13 ans) :</label>
+          <input type="number" id="nb_hommes" min="1" value="1" required>
+
+          <label for="adresse_input">Adresse ou Ville (France) :</label>
+          <div class="autocomplete-wrapper">
+            <input type="text" id="adresse_input" placeholder="Ex: Chamonix-Mont-Blanc, Nice..." autocomplete="off" required>
+            <div id="suggestions" class="suggestions-list" style="display: none;"></div>
+          </div>
+
+          <div class="privacy-notice">
+            🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label for="date_debut">Date d'arrivée :</label>
+              <input type="date" id="date_debut" required>
+            </div>
+            <div class="col">
+              <label for="date_fin">Date de départ :</label>
+              <input type="date" id="date_fin" required>
+            </div>
+          </div>
+
+          <button type="submit" style="background-color: #218838; margin-top: 20px;">Valider et enregistrer mon séjour</button>
+        </form>
+      </div>
+
+      <!-- RECHERCHE CIBLÉE -->
+      <div class="card" style="border-top: 4px solid #1d4ed8;">
+        <h2>🔍 Recherche de Séjours</h2>
+        <div class="autocomplete-wrapper">
+          <label for="recherche_adresse">Entrez une ville pour cibler :</label>
+          <input type="text" id="recherche_adresse" placeholder="Ex: Chamonix, Paris, Nice..." autocomplete="off">
+          <div id="suggestions_recherche" class="suggestions-list" style="display: none;"></div>
+        </div>
+        
+        <div class="row">
+          <div class="col">
+            <label for="rayon_select">Rayon autour de la ville :</label>
+            <select id="rayon_select">
+              <option value="5" selected>5 km autour</option>
+              <option value="10">10 km autour</option>
+              <option value="20">20 km autour</option>
+            </select>
           </div>
         </div>
 
-        <button type="submit" style="background-color: #28a745; margin-top: 20px;">Valider et enregistrer mon séjour</button>
-      </form>
-    </div>
-
-    <!-- RECHERCHE CIBLÉE -->
-    <div class="card" style="border-top: 4px solid #3182ce;">
-      <h2>🔍 Recherche de Séjours</h2>
-      <div class="autocomplete-wrapper">
-        <label for="recherche_adresse">Entrez une ville pour cibler :</label>
-        <input type="text" id="recherche_adresse" placeholder="Ex: Chamonix, Paris, Nice..." autocomplete="off">
-        <div id="suggestions_recherche" class="suggestions-list" style="display: none;"></div>
+        <button id="btnRechercher" type="button" style="background-color: #1d4ed8; margin-top: 18px;">Chercher</button>
       </div>
-      
-      <div class="row">
-        <div class="col">
-          <label for="rayon_select">Rayon autour de la ville :</label>
-          <select id="rayon_select">
-            <option value="5" selected>5 km autour</option>
-            <option value="10">10 km autour</option>
-            <option value="20">20 km autour</option>
-          </select>
+
+      <!-- CARTE INTERACTIVE -->
+      <div class="card">
+        <h2>Carte des Séjours 🗺️</h2>
+        <p style="font-size: 0.85em; opacity: 0.9; margin-top: -4px;">Cliquez sur un marqueur pour afficher ses détails.</p>
+        <div id="map"></div>
+      </div>
+
+      <!-- CONTENEUR DES RÉSULTATS DU BAS -->
+      <div id="resultatsBasContainer" class="hidden">
+        
+        <!-- PANNEAU DÉTAILS DU SÉJOUR SÉLECTIONNÉ -->
+        <div class="card" style="border-top: 4px solid #117a8b;">
+          <h2>📌 Détails du séjour sélectionné</h2>
+          <div id="detailSelectionContainer">
+            <p style="font-style: italic; margin:0; opacity: 0.8;">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>
+          </div>
+        </div>
+
+        <!-- COMPTEUR MINYAN & DÉCOMPTE -->
+        <div class="card">
+          <h2>📊 État du Minyan pour cette zone</h2>
+          <div id="totauxContainer"></div>
+        </div>
+
+        <!-- LISTE DES SÉJOURS -->
+        <div class="card">
+          <h2>Liste des foyers & participants trouvés</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Téléphone</th>
+                <th>+13 ans</th>
+                <th>Ville / Secteur</th>
+                <th>Dates</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="listeInscrits"></tbody>
+          </table>
         </div>
       </div>
 
-      <button id="btnRechercher" type="button" style="background-color: #3182ce; margin-top: 18px;">Chercher</button>
     </div>
-
-    <!-- CARTE INTERACTIVE -->
-    <div class="card">
-      <h2>Carte des Séjours 🗺️</h2>
-      <p style="font-size: 0.85em; opacity: 0.9; margin-top: -4px;">Cliquez sur un marqueur pour afficher ses détails.</p>
-      <div id="map"></div>
-    </div>
-
-    <!-- CONTENEUR DES RÉSULTATS DU BAS -->
-    <div id="resultatsBasContainer" class="hidden">
-      
-      <!-- PANNEAU DÉTAILS DU SÉJOUR SÉLECTIONNÉ -->
-      <div class="card" style="border-top: 4px solid #17a2b8;">
-        <h2>📌 Détails du séjour sélectionné</h2>
-        <div id="detailSelectionContainer">
-          <p style="font-style: italic; margin:0; opacity: 0.8;">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>
-        </div>
-      </div>
-
-      <!-- COMPTEUR MINYAN & DÉCOMPTE -->
-      <div class="card">
-        <h2>📊 État du Minyan pour cette zone</h2>
-        <div id="totauxContainer"></div>
-      </div>
-
-      <!-- LISTE DES SÉJOURS -->
-      <div class="card">
-        <h2>Liste des foyers & participants trouvés</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Téléphone</th>
-              <th>+13 ans</th>
-              <th>Ville / Secteur</th>
-              <th>Dates</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="listeInscrits"></tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
+  </main>
 
   <script>
     // Déclaration globale indispensable pour les boutons œil du mot de passe
@@ -562,9 +565,15 @@
       measurementId: "G-2VNCDKQBP4"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const rtdb = firebase.database();
+    // Attente du chargement complet pour initialiser Firebase avec les scripts defer
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        window.auth = firebase.auth();
+        window.rtdb = firebase.database();
+        initialiserApplicationFirebase();
+      }
+    });
 
     let sejours = [];
     let map = null;
@@ -598,104 +607,106 @@
       dateFinInput.min = aujourdHui;
     }
 
-    document.getElementById('btnLogin').addEventListener('click', () => {
-      const email = document.getElementById('auth_email').value;
-      const pass = document.getElementById('auth_password').value;
-      if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
+    function initialiserApplicationFirebase() {
+      document.getElementById('btnLogin').addEventListener('click', () => {
+        const email = document.getElementById('auth_email').value;
+        const pass = document.getElementById('auth_password').value;
+        if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
 
-      auth.signInWithEmailAndPassword(email, pass)
-        .then(() => showAlert("Connexion réussie !"))
-        .catch(err => showAlert("Erreur connexion : " + err.message, true));
-    });
+        auth.signInWithEmailAndPassword(email, pass)
+          .then(() => showAlert("Connexion réussie !"))
+          .catch(err => showAlert("Erreur connexion : " + err.message, true));
+      });
 
-    document.getElementById('btnShowSignup').addEventListener('click', () => {
-      document.getElementById('loginSection').classList.add('hidden');
-      document.getElementById('signupSection').classList.remove('hidden');
-    });
+      document.getElementById('btnShowSignup').addEventListener('click', () => {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('signupSection').classList.remove('hidden');
+      });
 
-    document.getElementById('btnCancelSignup').addEventListener('click', () => {
-      document.getElementById('signupSection').classList.add('hidden');
-      document.getElementById('loginSection').classList.remove('hidden');
-    });
+      document.getElementById('btnCancelSignup').addEventListener('click', () => {
+        document.getElementById('signupSection').classList.add('hidden');
+        document.getElementById('loginSection').classList.remove('hidden');
+      });
 
-    document.getElementById('btnSignup').addEventListener('click', () => {
-      const email = document.getElementById('auth_email').value;
-      const pass = document.getElementById('signup_password').value;
-      if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
+      document.getElementById('btnSignup').addEventListener('click', () => {
+        const email = document.getElementById('auth_email').value;
+        const pass = document.getElementById('signup_password').value;
+        if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
 
-      auth.createUserWithEmailAndPassword(email, pass)
-        .then(() => showAlert("Nouveau compte créé avec succès !"))
-        .catch(err => showAlert("Erreur création : " + err.message, true));
-    });
+        auth.createUserWithEmailAndPassword(email, pass)
+          .then(() => showAlert("Nouveau compte créé avec succès !"))
+          .catch(err => showAlert("Erreur création : " + err.message, true));
+      });
 
-    document.getElementById('btnToggleProfile').addEventListener('click', () => {
-      profileCard.classList.toggle('hidden');
-      if (!profileCard.classList.contains('hidden') && auth.currentUser) {
-        document.getElementById('new_email').value = auth.currentUser.email;
-      }
-    });
+      document.getElementById('btnToggleProfile').addEventListener('click', () => {
+        profileCard.classList.toggle('hidden');
+        if (!profileCard.classList.contains('hidden') && auth.currentUser) {
+          document.getElementById('new_email').value = auth.currentUser.email;
+        }
+      });
 
-    document.getElementById('btnLogout').addEventListener('click', () => {
-      auth.signOut();
-    });
+      document.getElementById('btnLogout').addEventListener('click', () => {
+        auth.signOut();
+      });
 
-    document.getElementById('btnUpdateEmail').addEventListener('click', () => {
-      const newEmail = document.getElementById('new_email').value.trim();
-      if (!newEmail || !newEmail.includes('@')) {
-        return showAlert("Veuillez entrer une adresse e-mail valide.", true);
-      }
-      const user = auth.currentUser;
-      if (user) {
-        user.updateEmail(newEmail).then(() => {
-          showAlert("Adresse e-mail mise à jour avec succès !");
+      document.getElementById('btnUpdateEmail').addEventListener('click', () => {
+        const newEmail = document.getElementById('new_email').value.trim();
+        if (!newEmail || !newEmail.includes('@')) {
+          return showAlert("Veuillez entrer une adresse e-mail valide.", true);
+        }
+        const user = auth.currentUser;
+        if (user) {
+          user.updateEmail(newEmail).then(() => {
+            showAlert("Adresse e-mail mise à jour avec succès !");
+            userEmailDisplay.textContent = user.email;
+            profileCard.classList.add('hidden');
+          }).catch(err => {
+            showAlert("Erreur : " + err.message + " (Reconnectez-vous pour confirmer).", true);
+          });
+        }
+      });
+
+      document.getElementById('btnUpdatePassword').addEventListener('click', () => {
+        const newPassword = document.getElementById('new_password').value;
+
+        if (!newPassword || newPassword.length < 6) {
+          return showAlert("Le nouveau mot de passe doit faire au moins 6 caractères.", true);
+        }
+
+        const user = auth.currentUser;
+        if (user) {
+          user.updatePassword(newPassword).then(() => {
+            showAlert("Mot de passe mis à jour avec succès !");
+            document.getElementById('new_password').value = '';
+            profileCard.classList.add('hidden');
+          }).catch(err => {
+            showAlert("Erreur mise à jour : " + err.message + " (Veuillez vous reconnecter récemment pour effectuer cette action).", true);
+          });
+        }
+      });
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          authCard.classList.add('hidden');
+          appContent.classList.remove('hidden');
           userEmailDisplay.textContent = user.email;
-          profileCard.classList.add('hidden');
-        }).catch(err => {
-          showAlert("Erreur : " + err.message + " (Reconnectez-vous pour confirmer).", true);
-        });
-      }
-    });
+          initialiserChampsDates();
 
-    document.getElementById('btnUpdatePassword').addEventListener('click', () => {
-      const newPassword = document.getElementById('new_password').value;
+          setTimeout(() => {
+            if (!map) {
+              initMap();
+            } else {
+              map.invalidateSize();
+            }
+          }, 200);
 
-      if (!newPassword || newPassword.length < 6) {
-        return showAlert("Le nouveau mot de passe doit faire au moins 6 caractères.", true);
-      }
-
-      const user = auth.currentUser;
-      if (user) {
-        user.updatePassword(newPassword).then(() => {
-          showAlert("Mot de passe mis à jour avec succès !");
-          document.getElementById('new_password').value = '';
-          profileCard.classList.add('hidden');
-        }).catch(err => {
-          showAlert("Erreur mise à jour : " + err.message + " (Veuillez vous reconnecter récemment pour effectuer cette action).", true);
-        });
-      }
-    });
-
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        authCard.classList.add('hidden');
-        appContent.classList.remove('hidden');
-        userEmailDisplay.textContent = user.email;
-        initialiserChampsDates();
-
-        setTimeout(() => {
-          if (!map) {
-            initMap();
-          } else {
-            map.invalidateSize();
-          }
-        }, 200);
-
-        écouterBaseDeDonnees();
-      } else {
-        authCard.classList.remove('hidden');
-        appContent.classList.add('hidden');
-      }
-    });
+          écouterBaseDeDonnees();
+        } else {
+          authCard.classList.remove('hidden');
+          appContent.classList.add('hidden');
+        }
+      });
+    }
 
     function initMap() {
       if (map) return;
@@ -979,8 +990,8 @@
 
       if (circleLayer) map.removeLayer(circleLayer);
       circleLayer = L.circle([centerLat, centerLon], {
-        color: '#3182ce',
-        fillColor: '#3182ce',
+        color: '#1d4ed8',
+        fillColor: '#1d4ed8',
         fillOpacity: 0.2,
         radius: rayonKm * 1000
       }).addTo(map);
@@ -993,7 +1004,7 @@
         detailContainer.innerHTML = `
           <div class="selected-preview-card" style="margin:0;">
             ${nomAff}
-            📞 <strong>Téléphone :</strong> <a href="tel:${selectedObj.telephone}" style="color: #0056b3;">${selectedObj.telephone}</a><br>
+            📞 <strong>Téléphone :</strong> <a href="tel:${selectedObj.telephone}" style="color: #004085;">${selectedObj.telephone}</a><br>
             👥 <strong>Hommes (+13 ans) :</strong> ${selectedObj.nbHommes}<br>
             📍 <strong>Secteur :</strong> ${selectedObj.lieu}<br>
             📅 <strong>Dates :</strong> Du ${selectedObj.dateDebut} au ${selectedObj.dateFin}
@@ -1021,7 +1032,7 @@
           tr.title = "Cliquez pour voir les détails en haut";
           tr.innerHTML = `
             <td>${nomAffichage}</td>
-            <td><a href="tel:${s.telephone}" onclick="event.stopPropagation();" style="color: #0056b3;"><strong>${s.telephone}</strong></a></td>
+            <td><a href="tel:${s.telephone}" onclick="event.stopPropagation();" style="color: #004085;"><strong>${s.telephone}</strong></a></td>
             <td><span class="badge-minyan">${s.nbHommes} homme(s)</span></td>
             <td><strong>${s.lieu}</strong></td>
             <td>Du ${s.dateDebut} au ${s.dateFin}</td>
