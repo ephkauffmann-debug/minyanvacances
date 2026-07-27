@@ -368,7 +368,7 @@
             <label for="auth_password">Mot de passe :</label>
             <div class="password-wrapper">
               <input type="password" id="auth_password" placeholder="••••••••">
-              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('auth_password', this)">👁️</button>
+              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('auth_password', this)" aria-label="Afficher ou masquer le mot de passe">👁️</button>
             </div>
           </div>
         </div>
@@ -383,7 +383,7 @@
             <label for="signup_password">Choisissez un mot de passe :</label>
             <div class="password-wrapper">
               <input type="password" id="signup_password" placeholder="Minimum 6 caractères">
-              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signup_password', this)">👁️</button>
+              <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signup_password', this)" aria-label="Afficher ou masquer le mot de passe">👁️</button>
             </div>
           </div>
         </div>
@@ -412,7 +412,7 @@
         <label for="new_password" style="margin-top: 18px;">Nouveau mot de passe :</label>
         <div class="password-wrapper">
           <input type="password" id="new_password" placeholder="Nouveau mot de passe sécurisé (6 caractères min.)">
-          <button type="button" class="toggle-password" onclick="togglePasswordVisibility('new_password', this)">👁️</button>
+          <button type="button" class="toggle-password" onclick="togglePasswordVisibility('new_password', this)" aria-label="Afficher ou masquer le mot de passe">👁️</button>
         </div>
         <button id="btnUpdatePassword" class="btn-warning" type="button">Mettre à jour mon mot de passe</button>
         
