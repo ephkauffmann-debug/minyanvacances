@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MinyanVacances - Séjours & Carte Proximité</title>
   
-  <!-- CSS Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -22,7 +19,6 @@
       box-sizing: border-box;
     }
     
-    /* Application du style blanc translucide avec écriture en noir */
     .card, .top-bar, table, .autocomplete-wrapper input, input, select {
       background: rgba(255, 255, 255, 0.45) !important;
       backdrop-filter: blur(10px) !important;
@@ -270,7 +266,6 @@
       border: 1px solid rgba(255, 193, 7, 0.6);
     }
     
-    /* Style pour le nombre d'hommes sans fond bleu (badge supprimé) */
     .badge-minyan {
       background: none !important;
       color: #000 !important;
@@ -330,8 +325,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
-  <!-- JS Leaflet -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Google Maps API (chargée en français avec region=FR) -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCp4ekhaoc3avzF1O_GXZUbRLWIF-rGLTo&language=fr&region=FR" async defer></script>
 </head>
 <body>
 
@@ -550,11 +545,6 @@
     let selectedLocationSearch = null;
     let selectedSejourId = null;
 
-    const franceBounds = L.latLngBounds(
-      L.latLng(41.2, -5.5),
-      L.latLng(51.2, 9.6)
-    );
-
     const authCard = document.getElementById('authCard');
     const appContent = document.getElementById('appContent');
     const userEmailDisplay = document.getElementById('userEmailDisplay');
@@ -567,6 +557,16 @@
       statusAlert.className = `status-alert ${isError ? 'error' : 'success'}`;
       statusAlert.classList.remove('hidden');
       setTimeout(() => statusAlert.classList.add('hidden'), 4000);
+    }
+
+    // Définition de la date minimale à aujourd'hui pour bloquer les dates passées
+    function initialiserChampsDates() {
+      const aujourdHui = new Date().toISOString().split('T')[0];
+      const dateDebutInput = document.getElementById('date_debut');
+      const dateFinInput = document.getElementById('date_fin');
+      
+      dateDebutInput.min = aujourdHui;
+      dateFinInput.min = aujourdHui;
     }
 
     window.togglePasswordVisibility = function(fieldId, btn) {
@@ -662,6 +662,7 @@
         authCard.classList.add('hidden');
         appContent.classList.remove('hidden');
         userEmailDisplay.textContent = user.email;
+        initialiserChampsDates();
 
         if (!map) initMap();
         écouterBaseDeDonnees();
@@ -672,22 +673,19 @@
     });
 
     function initMap() {
-      // Utilisation d'OpenStreetMap avec les libellés en français
-      map = L.map('map', {
-        maxBounds: franceBounds,
-        maxBoundsViscosity: 0.8,
-        minZoom: 5
-      }).setView([46.603354, 1.888334], 6);
+      // Initialisation de Google Maps centré sur la France
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 46.603354, lng: 1.888334 },
+        zoom: 6,
+        language: 'fr',
+        region: 'FR'
+      });
 
-      L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-        maxZoom: 20,
-        attribution: '© OpenStreetMap contributors | Tiles style by OpenStreetMap France'
-      }).addTo(map);
-
-      map.on('click', function(e) {
+      map.addListener('click', (mapsMouseEvent) => {
+        const clickedPos = mapsMouseEvent.latLng;
         selectedLocationSearch = {
-          lat: e.latlng.lat,
-          lon: e.latlng.lng,
+          lat: clickedPos.lat(),
+          lon: clickedPos.lng(),
           label: "Point cliqué"
         };
         mettreAJourAffichageGlobal();
@@ -709,11 +707,11 @@
       selectedLocationForm = location;
     });
 
-    // Autocomplétion de recherche avec recentrage automatique de la carte
     setupAutocomplete('recherche_adresse', 'suggestions_recherche', (location) => {
       selectedLocationSearch = location;
       if (map && location) {
-        map.setView([location.lat, location.lon], 12);
+        map.setCenter({ lat: location.lat, lng: location.lon });
+        map.setZoom(12);
       }
     });
 
@@ -734,7 +732,7 @@
       if (this.value.trim() === '') {
         selectedLocationSearch = null;
         resultatsBasContainer.classList.add('hidden');
-        if (circleRayon) { map.removeLayer(circleRayon); circleRayon = null; }
+        if (circleRayon) { circleRayon.setMap(null); circleRayon = null; }
         mettreAJourMarqueursCarteSeuls();
       }
     });
@@ -810,8 +808,15 @@
 
       const dateDebut = document.getElementById('date_debut').value;
       const dateFin = document.getElementById('date_fin').value;
+      const aujourdHui = new Date().toISOString().split('T')[0];
 
-      // Vérification de la cohérence des dates
+      // Vérification : pas de date antérieure à aujourd'hui
+      if (dateDebut < aujourdHui || dateFin < aujourdHui) {
+        showAlert("Les dates ne peuvent pas être antérieures à aujourd'hui.", true);
+        return;
+      }
+
+      // Vérification : cohérence des dates
       if (dateDebut > dateFin) {
         showAlert("La date de départ ne peut pas être antérieure à la date d'arrivée.", true);
         return;
@@ -847,6 +852,7 @@
         this.reset();
         document.getElementById('nb_hommes').value = "1";
         selectedLocationForm = null;
+        initialiserChampsDates();
       }).catch(err => {
         showAlert("Erreur enregistrement : " + err.message, true);
       });
@@ -880,23 +886,36 @@
       }
     };
 
+    function viderMarqueursCarte() {
+      markers.forEach(m => m.setMap(null));
+      markers = [];
+    }
+
     function mettreAJourMarqueursCarteSeuls() {
       if (!map) return;
-      markers.forEach(m => map.removeLayer(m));
-      markers = [];
+      viderMarqueursCarte();
 
       sejours.forEach(s => {
         const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
-        const marker = L.marker([s.lat, s.lon]).addTo(map);
-        marker.bindPopup(`
-          ${nomAffiche}
-          👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
-          📍 Ville : <strong>${s.lieu}</strong><br>
-          📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
-          📅 Du ${s.dateDebut} au ${s.dateFin}
-        `);
-        
-        marker.on('click', () => {
+        const marker = new google.maps.Marker({
+          position: { lat: s.lat, lng: s.lon },
+          map: map
+        });
+
+        const infowindow = new google.maps.InfoWindow({
+          content: `
+            <div style="color:#000;">
+              ${nomAffiche}
+              👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
+              📍 Ville : <strong>${s.lieu}</strong><br>
+              📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
+              📅 Du ${s.dateDebut} au ${s.dateFin}
+            </div>
+          `
+        });
+
+        marker.addListener('click', () => {
+          infowindow.open(map, marker);
           selectedSejourId = s.id;
           selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
           resultatsBasControllerAffichage();
@@ -908,24 +927,31 @@
 
     function mettreAJourAffichageGlobal() {
       if (!map) return;
-
-      markers.forEach(m => map.removeLayer(m));
-      markers = [];
+      viderMarqueursCarte();
 
       sejours.forEach(s => {
         const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
-        const marker = L.marker([s.lat, s.lon]).addTo(map);
-        marker.bindPopup(`
-          ${nomAffiche}
-          👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
-          📍 Ville : <strong>${s.lieu}</strong><br>
-          📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
-          📅 Du ${s.dateDebut} au ${s.dateFin}
-        `);
-        
-        marker.on('click', () => {
+        const marker = new google.maps.Marker({
+          position: { lat: s.lat, lng: s.lon },
+          map: map
+        });
+
+        const infowindow = new google.maps.InfoWindow({
+          content: `
+            <div style="color:#000;">
+              ${nomAffiche}
+              👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
+              📍 Ville : <strong>${s.lieu}</strong><br>
+              📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
+              📅 Du ${s.dateDebut} au ${s.dateFin}
+            </div>
+          `
+        });
+
+        marker.addListener('click', () => {
+          infowindow.open(map, marker);
           selectedSejourId = s.id;
-          selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
+          selectedLocationSearch = { lat: s.lat, lng: s.lon, label: s.lieu };
           resultatsBasControllerAffichage();
         });
 
@@ -934,7 +960,7 @@
 
       if (!selectedLocationSearch) {
         resultatsBasContainer.classList.add('hidden');
-        if (circleRayon) { map.removeLayer(circleRayon); circleRayon = null; }
+        if (circleRayon) { circleRayon.setMap(null); circleRayon = null; }
         return;
       }
 
@@ -953,13 +979,17 @@
         return dist <= rayonKm;
       });
 
-      if (circleRayon) map.removeLayer(circleRayon);
-      circleRayon = L.circle([centerLat, centerLon], {
-        color: '#3182ce',
+      if (circleRayon) circleRayon.setMap(null);
+      circleRayon = new google.maps.Circle({
+        strokeColor: '#3182ce',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
         fillColor: '#3182ce',
         fillOpacity: 0.2,
+        map: map,
+        center: { lat: centerLat, lng: centerLon },
         radius: rayonKm * 1000
-      }).addTo(map);
+      });
 
       const detailContainer = document.getElementById('detailSelectionContainer');
       const selectedObj = sejoursAffiches.find(s => s.id === selectedSejourId) || sejours.find(s => s.id === selectedSejourId);
@@ -1009,7 +1039,8 @@
           tr.addEventListener('click', () => {
             selectedSejourId = s.id;
             selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
-            map.setView([s.lat, s.lon], 13);
+            map.setCenter({ lat: s.lat, lng: s.lon });
+            map.setZoom(13);
             resultatsBasControllerAffichage();
           });
 
