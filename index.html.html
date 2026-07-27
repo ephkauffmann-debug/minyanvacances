@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MinyanVacances - Séjours & Carte Proximité</title>
   
+  <!-- Balises SEO et Open Graph -->
+  <title>MinyanVacances - Trouver un Minyan et Séjours Kasher en Vacances</title>
+  <meta name="description" content="Trouvez facilement un minyan, organisez vos séjours et connectez-vous avec d'autres vacanciers dans votre secteur. Géolocalisation et entraide communautaire.">
+  <meta property="og:title" content="MinyanVacances - Séjours & Minyan de Proximité">
+  <meta property="og:description" content="Trouvez des participants et assurez le minyan pour vos vacances partout en France.">
+  <meta property="og:type" content="website">
+
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -72,7 +78,7 @@
       color: rgba(0, 0, 0, 0.6);
     }
 
-    h2, h3 { 
+    h1, h2, h3 { 
       color: #000; 
       margin-top: 0; 
       letter-spacing: 0.3px;
@@ -342,7 +348,8 @@
 
   <!-- ÉCRAN CONNEXION / INSCRIPTION -->
   <div id="authCard" class="card">
-    <h2>MinyanVacances ✡️</h2>
+    <h1>MinyanVacances ✡️</h1>
+    <p>Organisez vos vacances en toute sérénité. MinyanVacances vous permet de localiser les vacanciers et les foyers autour de vous pour vous assurer un minyan complet partout en France.</p>
     <p>Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
     
     <div class="row">
@@ -671,9 +678,16 @@
         userEmailDisplay.textContent = user.email;
         initialiserChampsDates();
 
-        if (!map && window.googleMapsLoaded) {
-          appInitMap();
-        }
+        // Correction du bug de la carte : Forcer l'initialisation et le recalcul de la taille une fois affiché
+        setTimeout(() => {
+          if (!map && window.googleMapsLoaded) {
+            appInitMap();
+          } else if (map) {
+            google.maps.event.trigger(map, 'resize');
+            map.setCenter({ lat: 46.603354, lng: 1.888334 });
+          }
+        }, 200);
+
         écouterBaseDeDonnees();
       } else {
         authCard.classList.remove('hidden');
@@ -1049,7 +1063,7 @@
 
           tr.addEventListener('click', () => {
             selectedSejourId = s.id;
-            selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
+            selectedLocationSearch = { lat: s.lat, lng: s.lon, label: s.lieu };
             map.setCenter({ lat: s.lat, lng: s.lon });
             map.setZoom(13);
             resultatsBasControllerAffichage();
