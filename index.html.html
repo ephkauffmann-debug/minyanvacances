@@ -269,13 +269,15 @@
       color: #000;
       border: 1px solid rgba(255, 193, 7, 0.6);
     }
+    
+    /* Style pour le nombre d'hommes sans fond bleu (badge supprimé) */
     .badge-minyan {
-      background-color: #17a2b8;
-      color: white;
-      padding: 4px 10px;
-      border-radius: 12px;
+      background: none !important;
+      color: #000 !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
       font-weight: bold;
-      font-size: 0.85em;
+      font-size: 1em;
     }
 
     .selected-preview-card {
@@ -670,15 +672,16 @@
     });
 
     function initMap() {
-      // Utilisation d'OpenStreetMap (en français par défaut pour les noms de lieux en France)
+      // Utilisation d'OpenStreetMap avec les libellés en français
       map = L.map('map', {
         maxBounds: franceBounds,
         maxBoundsViscosity: 0.8,
         minZoom: 5
       }).setView([46.603354, 1.888334], 6);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
+      L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+        maxZoom: 20,
+        attribution: '© OpenStreetMap contributors | Tiles style by OpenStreetMap France'
       }).addTo(map);
 
       map.on('click', function(e) {
@@ -808,7 +811,7 @@
       const dateDebut = document.getElementById('date_debut').value;
       const dateFin = document.getElementById('date_fin').value;
 
-      // Amélioration 3 : Vérification de la cohérence des dates
+      // Vérification de la cohérence des dates
       if (dateDebut > dateFin) {
         showAlert("La date de départ ne peut pas être antérieure à la date d'arrivée.", true);
         return;
