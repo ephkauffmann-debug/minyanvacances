@@ -49,17 +49,26 @@
   }
   </script>
 
-  <!-- Leaflet CSS & JS (Alternative gratuite et robuste style Google Maps sans clé API ni facturation) -->
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- Leaflet JS chargé en defer pour ne pas bloquer le rendu -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
 
   <style>
+    /* Application globale de font-display pour éviter le blocage d'affichage de texte */
+    @font-face {
+      font-family: 'Segoe UI';
+      font-display: swap;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       max-width: 850px;
       margin: 0 auto;
       padding: 20px 15px;
-      background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80');
+      /* Image optimisée et compressée via les paramètres Unsplash */
+      background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=compress&w=1200&q=75');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -368,10 +377,10 @@
     .hidden { display: none !important; }
   </style>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+  <!-- Firebase SDKs chargés en defer pour éviter de bloquer le rendu du DOM -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js" defer></script>
 </head>
 <body>
 
@@ -590,7 +599,7 @@
     let selectedLocationForm = null;
     let selectedLocationSearch = null;
     let selectedSejourId = null;
-    let markersMap = {}; // Stocke les repères carte par ID pour optimisation des performances
+    let markersMap = {};
 
     const authCard = document.getElementById('authCard');
     const appContent = document.getElementById('appContent');
@@ -811,7 +820,6 @@
           return;
         }
 
-        // Ajout d'un debounce pour limiter les requêtes API en rafale (gain de performance réseau)
         timeoutId = setTimeout(async () => {
           try {
             const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`);
@@ -949,10 +957,8 @@
     function mettreAJourAffichageGlobal() {
       if (!map) return;
       
-      // OPTIMISATION DES PERFORMANCES CARTE : Gestion des marqueurs existants
       const activeIds = new Set(sejours.map(s => s.id));
 
-      // Supprimer uniquement les marqueurs obsolètes
       Object.keys(markersMap).forEach(id => {
         if (!activeIds.has(id)) {
           markersLayer.removeLayer(markersMap[id]);
@@ -960,7 +966,6 @@
         }
       });
 
-      // Mettre à jour ou ajouter les marqueurs actifs
       sejours.forEach(s => {
         const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
         const popupContent = `
@@ -974,11 +979,9 @@
         `;
 
         if (markersMap[s.id]) {
-          // Mettre à jour la position ou le contenu si existant
           markersMap[s.id].setLatLng([s.lat, s.lon]);
           markersMap[s.id].setPopupContent(popupContent);
         } else {
-          // Créer un nouveau marqueur si non existant
           const marker = L.marker([s.lat, s.lon]).bindPopup(popupContent);
           marker.on('click', () => {
             selectedSejourId = s.id;
