@@ -11,6 +11,10 @@
   <meta property="og:description" content="Trouvez des participants et assurez le minyan pour vos vacances partout en France.">
   <meta property="og:type" content="website">
 
+  <!-- Leaflet CSS & JS (Alternative gratuite et robuste style Google Maps sans clé API ni facturation) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -330,25 +334,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-
-  <!-- Google Maps API avec gestion d'erreur globale -->
-  <script>
-    function initMap() {
-      window.googleMapsLoaded = true;
-      if (typeof window.appInitMap === 'function') {
-        window.appInitMap();
-      }
-    }
-    // Fonction native appelée par Google Maps en cas d'erreur d'authentification/facturation
-    window.gm_authFailure = function() {
-      console.error("Erreur d'authentification Google Maps (Clé invalide, non activée ou problème de facturation).");
-      const mapEl = document.getElementById('map');
-      if (mapEl) {
-        mapEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #dc3545; font-weight: bold; background: rgba(255,255,255,0.8); border-radius: 10px;">⚠️ Erreur Google Maps : Vérifiez que l\'API "Maps JavaScript API" est activée et que la facturation est configurée sur votre compte Google Cloud.</div>';
-      }
-    };
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCp4ekhaoc3avzF1O_GXZUbRLWIF-rGLTo&language=fr&region=FR&callback=initMap" async defer></script>
 </head>
 <body>
 
@@ -562,8 +547,8 @@
 
     let sejours = [];
     let map = null;
-    let markers = [];
-    let circleRayon = null;
+    let markersLayer = null;
+    let circleLayer = null;
     let selectedLocationForm = null;
     let selectedLocationSearch = null;
     let selectedSejourId = null;
@@ -687,11 +672,10 @@
         initialiserChampsDates();
 
         setTimeout(() => {
-          if (!map && window.googleMapsLoaded) {
-            appInitMap();
-          } else if (map) {
-            google.maps.event.trigger(map, 'resize');
-            map.setCenter({ lat: 46.603354, lng: 1.888334 });
+          if (!map) {
+            initMap();
+          } else {
+            map.invalidateSize();
           }
         }, 200);
 
@@ -702,22 +686,21 @@
       }
     });
 
-    window.appInitMap = function() {
+    function initMap() {
       if (map) return;
-      if (typeof google === 'undefined' || !google.maps) return;
-      
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 46.603354, lng: 1.888334 },
-        zoom: 6,
-        language: 'fr',
-        region: 'FR'
-      });
+      map = L.map('map').setView([46.603354, 1.888334], 6);
 
-      map.addListener('click', (mapsMouseEvent) => {
-        const clickedPos = mapsMouseEvent.latLng;
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      markersLayer = L.layerGroup().addTo(map);
+
+      map.on('click', (e) => {
         selectedLocationSearch = {
-          lat: clickedPos.lat(),
-          lon: clickedPos.lng(),
+          lat: e.latlng.lat,
+          lon: e.latlng.lng,
           label: "Point cliqué"
         };
         mettreAJourAffichageGlobal();
@@ -726,7 +709,7 @@
       if (sejours.length > 0) {
         mettreAJourAffichageGlobal();
       }
-    };
+    }
 
     function calculerDistanceKm(lat1, lon1, lat2, lon2) {
       const R = 6371;
@@ -746,8 +729,7 @@
     setupAutocomplete('recherche_adresse', 'suggestions_recherche', (location) => {
       selectedLocationSearch = location;
       if (map && location) {
-        map.setCenter({ lat: location.lat, lng: location.lon });
-        map.setZoom(12);
+        map.setView([location.lat, location.lon], 12);
       }
     });
 
@@ -768,7 +750,7 @@
       if (this.value.trim() === '') {
         selectedLocationSearch = null;
         resultatsBasContainer.classList.add('hidden');
-        if (circleRayon) { circleRayon.setMap(null); circleRayon = null; }
+        if (circleLayer) { map.removeLayer(circleLayer); circleLayer = null; }
         mettreAJourMarqueursCarteSeuls();
       }
     });
@@ -921,8 +903,7 @@
     };
 
     function viderMarqueursCarte() {
-      markers.forEach(m => m.setMap(null));
-      markers = [];
+      if (markersLayer) markersLayer.clearLayers();
     }
 
     function mettreAJourMarqueursCarteSeuls() {
@@ -931,31 +912,24 @@
 
       sejours.forEach(s => {
         const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
-        const marker = new google.maps.Marker({
-          position: { lat: s.lat, lng: s.lon },
-          map: map
-        });
+        const popupContent = `
+          <div style="color:#000;">
+            ${nomAffiche}
+            👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
+            📍 Ville : <strong>${s.lieu}</strong><br>
+            📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
+            📅 Du ${s.dateDebut} au ${s.dateFin}
+          </div>
+        `;
 
-        const infowindow = new google.maps.InfoWindow({
-          content: `
-            <div style="color:#000;">
-              ${nomAffiche}
-              👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
-              📍 Ville : <strong>${s.lieu}</strong><br>
-              📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
-              📅 Du ${s.dateDebut} au ${s.dateFin}
-            </div>
-          `
-        });
-
-        marker.addListener('click', () => {
-          infowindow.open(map, marker);
+        const marker = L.marker([s.lat, s.lon]).bindPopup(popupContent);
+        marker.on('click', () => {
           selectedSejourId = s.id;
           selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
           resultatsBasControllerAffichage();
         });
 
-        markers.push(marker);
+        markersLayer.addLayer(marker);
       });
     }
 
@@ -965,36 +939,29 @@
 
       sejours.forEach(s => {
         const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
-        const marker = new google.maps.Marker({
-          position: { lat: s.lat, lng: s.lon },
-          map: map
-        });
+        const popupContent = `
+          <div style="color:#000;">
+            ${nomAffiche}
+            👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
+            📍 Ville : <strong>${s.lieu}</strong><br>
+            📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
+            📅 Du ${s.dateDebut} au ${s.dateFin}
+          </div>
+        `;
 
-        const infowindow = new google.maps.InfoWindow({
-          content: `
-            <div style="color:#000;">
-              ${nomAffiche}
-              👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
-              📍 Ville : <strong>${s.lieu}</strong><br>
-              📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
-              📅 Du ${s.dateDebut} au ${s.dateFin}
-            </div>
-          `
-        });
-
-        marker.addListener('click', () => {
-          infowindow.open(map, marker);
+        const marker = L.marker([s.lat, s.lon]).bindPopup(popupContent);
+        marker.on('click', () => {
           selectedSejourId = s.id;
           selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
           resultatsBasControllerAffichage();
         });
 
-        markers.push(marker);
+        markersLayer.addLayer(marker);
       });
 
       if (!selectedLocationSearch) {
         resultatsBasContainer.classList.add('hidden');
-        if (circleRayon) { circleRayon.setMap(null); circleRayon = null; }
+        if (circleLayer) { map.removeLayer(circleLayer); circleLayer = null; }
         return;
       }
 
@@ -1013,17 +980,13 @@
         return dist <= rayonKm;
       });
 
-      if (circleRayon) circleRayon.setMap(null);
-      circleRayon = new google.maps.Circle({
-        strokeColor: '#3182ce',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
+      if (circleLayer) map.removeLayer(circleLayer);
+      circleLayer = L.circle([centerLat, centerLon], {
+        color: '#3182ce',
         fillColor: '#3182ce',
         fillOpacity: 0.2,
-        map: map,
-        center: { lat: centerLat, lng: centerLon },
         radius: rayonKm * 1000
-      });
+      }).addTo(map);
 
       const detailContainer = document.getElementById('detailSelectionContainer');
       const selectedObj = sejoursAffiches.find(s => s.id === selectedSejourId) || sejours.find(s => s.id === selectedSejourId);
@@ -1072,9 +1035,8 @@
 
           tr.addEventListener('click', () => {
             selectedSejourId = s.id;
-            selectedLocationSearch = { lat: s.lat, lng: s.lon, label: s.lieu };
-            map.setCenter({ lat: s.lat, lng: s.lon });
-            map.setZoom(13);
+            selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
+            map.setView([s.lat, s.lon], 13);
             resultatsBasControllerAffichage();
           });
 
