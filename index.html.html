@@ -22,30 +22,30 @@
       box-sizing: border-box;
     }
     
-    /* Application du style blanc transparent et de l'effet de flou sur les éléments */
+    /* Application du style blanc un peu plus foncé et transparent avec effet de flou */
     .card, .top-bar, table, .autocomplete-wrapper input, input, select {
-      background: rgba(255, 255, 255, 0.18) !important;
+      background: rgba(255, 255, 255, 0.35) !important;
       backdrop-filter: blur(10px) !important;
       -webkit-backdrop-filter: blur(10px) !important;
       color: #fff !important;
     }
 
     .card {
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       padding: 24px;
       border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       margin-bottom: 24px;
     }
 
     .top-bar {
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 14px 20px;
       border-radius: 16px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       margin-bottom: 24px;
     }
 
@@ -55,7 +55,7 @@
       margin-top: 12px;
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
     }
 
     input, select {
@@ -64,20 +64,20 @@
       padding: 11px 14px;
       margin-top: 6px;
       box-sizing: border-box;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.6);
       border-radius: 10px;
       font-weight: 500;
       font-size: 0.95em;
     }
 
     input::placeholder {
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.8);
     }
 
     h2, h3 { 
       color: #fff; 
       margin-top: 0; 
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6); 
       letter-spacing: 0.3px;
     }
 
@@ -87,7 +87,7 @@
       font-weight: 600; 
       font-size: 0.9em; 
       color: #fff; 
-      text-shadow: 0 1px 2px rgba(0,0,0,0.5); 
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6); 
     }
 
     .password-wrapper {
@@ -112,8 +112,8 @@
     }
 
     .checkbox-container {
-      background-color: rgba(255, 255, 255, 0.12) !important;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background-color: rgba(255, 255, 255, 0.25) !important;
+      border: 1px solid rgba(255, 255, 255, 0.45);
       border-radius: 10px;
       padding: 14px;
       margin-top: 16px;
@@ -139,7 +139,7 @@
 
     .checkbox-help {
       font-size: 0.85em;
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.9);
       font-weight: normal;
       margin-top: 8px;
       line-height: 1.4;
@@ -148,10 +148,10 @@
     .privacy-notice {
       font-size: 0.85em;
       color: #fff;
-      background: rgba(255, 255, 255, 0.12) !important;
+      background: rgba(255, 255, 255, 0.25) !important;
       padding: 12px;
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.45);
       margin-top: 16px;
       line-height: 1.4;
     }
@@ -162,25 +162,25 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: rgba(30, 35, 45, 0.85) !important;
+      background: rgba(30, 35, 45, 0.9) !important;
       backdrop-filter: blur(10px) !important;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       border-top: none;
       border-radius: 0 0 10px 10px;
       max-height: 200px;
       overflow-y: auto;
       z-index: 1000;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.5);
     }
     .suggestion-item {
       padding: 11px 14px;
       cursor: pointer;
       font-size: 0.9em;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
       color: #fff;
     }
     .suggestion-item:hover {
-      background-color: rgba(0, 123, 255, 0.6);
+      background-color: rgba(0, 123, 255, 0.7);
       color: #fff;
       font-weight: bold;
     }
@@ -200,7 +200,7 @@
       font-weight: bold;
       font-size: 1em;
       cursor: pointer;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
       transition: background-color 0.2s;
     }
     button:hover { background-color: #0056b3; }
@@ -235,18 +235,18 @@
       border-radius: 10px;
       margin-top: 12px;
       z-index: 1;
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.4);
     }
 
     th, td {
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       padding: 12px;
       text-align: left;
       font-size: 0.9em;
       color: #fff;
     }
-    th { background-color: rgba(255, 255, 255, 0.15) !important; color: #fff; font-weight: 600; }
-    td { background-color: rgba(255, 255, 255, 0.08) !important; }
+    th { background-color: rgba(255, 255, 255, 0.3) !important; color: #fff; font-weight: 600; }
+    td { background-color: rgba(255, 255, 255, 0.18) !important; }
     
     .minyan-status-card {
       padding: 16px;
@@ -257,16 +257,16 @@
       line-height: 1.5;
     }
     .minyan-ok {
-      background-color: rgba(40, 167, 69, 0.3) !important;
+      background-color: rgba(40, 167, 69, 0.45) !important;
       backdrop-filter: blur(8px);
       color: #fff;
-      border: 1px solid rgba(40, 167, 69, 0.6);
+      border: 1px solid rgba(40, 167, 69, 0.7);
     }
     .minyan-missing {
-      background-color: rgba(255, 193, 7, 0.3) !important;
+      background-color: rgba(255, 193, 7, 0.45) !important;
       backdrop-filter: blur(8px);
       color: #fff;
-      border: 1px solid rgba(255, 193, 7, 0.6);
+      border: 1px solid rgba(255, 193, 7, 0.7);
     }
     .badge-minyan {
       background-color: #17a2b8;
@@ -278,9 +278,9 @@
     }
 
     .selected-preview-card {
-      background-color: rgba(255, 255, 255, 0.15) !important;
+      background-color: rgba(255, 255, 255, 0.3) !important;
       backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       padding: 16px;
       border-radius: 10px;
       margin-bottom: 0;
@@ -301,7 +301,7 @@
     .status-alert.success { background-color: rgba(40, 167, 69, 0.9); color: #fff; border: 1px solid rgba(100,255,150,0.4); }
 
     .top-bar span {
-      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
       font-weight: 500;
     }
     .profile-btn {
@@ -315,7 +315,7 @@
       font-size: 0.9em;
       margin-top: 0;
       width: auto;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
     .profile-btn:hover { background-color: #3182ce; }
 
@@ -360,7 +360,7 @@
       <button id="btnShowSignup" type="button" class="btn-secondary" style="background-color: #28a745;">Créer un nouveau compte</button>
     </div>
 
-    <div id="signupSection" class="hidden" style="margin-top: 20px; border-top: 2px dashed rgba(255,255,255,0.3); padding-top: 20px;">
+    <div id="signupSection" class="hidden" style="margin-top: 20px; border-top: 2px dashed rgba(255,255,255,0.4); padding-top: 20px;">
       <h3 style="color: #68d391; font-size: 1.1em;">📝 Inscription d'un nouveau compte</h3>
       <div class="row">
         <div class="col">
@@ -400,7 +400,7 @@
       </div>
       <button id="btnUpdatePassword" class="btn-warning" type="button">Mettre à jour mon mot de passe</button>
       
-      <hr style="margin: 20px 0; border:0; border-top:1px solid rgba(255,255,255,0.3);">
+      <hr style="margin: 20px 0; border:0; border-top:1px solid rgba(255,255,255,0.4);">
       <button id="btnLogout" class="btn-danger" style="width:100%; padding: 11px;">Se déconnecter</button>
     </div>
 
@@ -481,7 +481,7 @@
     <!-- CARTE INTERACTIVE -->
     <div class="card">
       <h3>Carte des Séjours 🗺️</h3>
-      <p style="font-size: 0.85em; opacity: 0.8; margin-top: -4px;">Cliquez sur un marqueur pour afficher ses détails.</p>
+      <p style="font-size: 0.85em; opacity: 0.9; margin-top: -4px;">Cliquez sur un marqueur pour afficher ses détails.</p>
       <div id="map"></div>
     </div>
 
@@ -492,7 +492,7 @@
       <div class="card" style="border-top: 4px solid #17a2b8;">
         <h3>📌 Détails du séjour sélectionné</h3>
         <div id="detailSelectionContainer">
-          <p style="font-style: italic; margin:0; opacity: 0.8;">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>
+          <p style="font-style: italic; margin:0; opacity: 0.9;">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>
         </div>
       </div>
 
@@ -960,7 +960,7 @@
           </div>
         `;
       } else {
-        detailContainer.innerHTML = `<p style="font-style: italic; margin:0; opacity: 0.8;">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>`;
+        detailContainer.innerHTML = `<p style="font-style: italic; margin:0; opacity: 0.9;">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>`;
       }
 
       const listeTbody = document.getElementById('listeInscrits');
