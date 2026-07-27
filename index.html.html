@@ -325,8 +325,16 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
-  <!-- Google Maps API (chargée en français avec region=FR) -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCp4ekhaoc3avzF1O_GXZUbRLWIF-rGLTo&language=fr&region=FR" async defer></script>
+  <!-- Google Maps API chargée avec callback d'initialisation sécurisé -->
+  <script>
+    function initMap() {
+      window.googleMapsLoaded = true;
+      if (typeof window.appInitMap === 'function') {
+        window.appInitMap();
+      }
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCp4ekhaoc3avzF1O_GXZUbRLWIF-rGLTo&language=fr&region=FR&callback=initMap" async defer></script>
 </head>
 <body>
 
@@ -559,7 +567,6 @@
       setTimeout(() => statusAlert.classList.add('hidden'), 4000);
     }
 
-    // Définition de la date minimale à aujourd'hui pour bloquer les dates passées
     function initialiserChampsDates() {
       const aujourdHui = new Date().toISOString().split('T')[0];
       const dateDebutInput = document.getElementById('date_debut');
@@ -664,7 +671,9 @@
         userEmailDisplay.textContent = user.email;
         initialiserChampsDates();
 
-        if (!map) initMap();
+        if (!map && window.googleMapsLoaded) {
+          appInitMap();
+        }
         écouterBaseDeDonnees();
       } else {
         authCard.classList.remove('hidden');
@@ -672,8 +681,8 @@
       }
     });
 
-    function initMap() {
-      // Initialisation de Google Maps centré sur la France
+    window.appInitMap = function() {
+      if (map) return;
       map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 46.603354, lng: 1.888334 },
         zoom: 6,
@@ -690,7 +699,11 @@
         };
         mettreAJourAffichageGlobal();
       });
-    }
+
+      if (sejours.length > 0) {
+        mettreAJourAffichageGlobal();
+      }
+    };
 
     function calculerDistanceKm(lat1, lon1, lat2, lon2) {
       const R = 6371;
@@ -810,13 +823,11 @@
       const dateFin = document.getElementById('date_fin').value;
       const aujourdHui = new Date().toISOString().split('T')[0];
 
-      // Vérification : pas de date antérieure à aujourd'hui
       if (dateDebut < aujourdHui || dateFin < aujourdHui) {
         showAlert("Les dates ne peuvent pas être antérieures à aujourd'hui.", true);
         return;
       }
 
-      // Vérification : cohérence des dates
       if (dateDebut > dateFin) {
         showAlert("La date de départ ne peut pas être antérieure à la date d'arrivée.", true);
         return;
@@ -951,7 +962,7 @@
         marker.addListener('click', () => {
           infowindow.open(map, marker);
           selectedSejourId = s.id;
-          selectedLocationSearch = { lat: s.lat, lng: s.lon, label: s.lieu };
+          selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
           resultatsBasControllerAffichage();
         });
 
