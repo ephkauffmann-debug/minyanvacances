@@ -13,7 +13,12 @@
   <link rel="preconnect" href="https://www.gstatic.com">
   <link rel="preconnect" href="https://api-adresse.data.gouv.fr">
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <!-- Leaflet CSS non bloquant -->
+  <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></noscript>
+  
+  <!-- Leaflet JS en defer -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
 
   <style>
     body {
@@ -193,6 +198,11 @@
     .profile-btn:hover { background-color: #1e40af; }
     .hidden { display: none !important; }
   </style>
+
+  <!-- Firebase SDKs en defer avec asynchronisme natif -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js" defer></script>
 </head>
 <body>
 
@@ -379,11 +389,6 @@
     </div>
   </main>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-
   <script>
     window.togglePasswordVisibility = function(fieldId, btn) {
       const input = document.getElementById(fieldId);
@@ -408,9 +413,21 @@
       measurementId: "G-2VNCDKQBP4"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const rtdb = firebase.database();
+    // Utilisation de requestIdleCallback pour éliminer le TBT au démarrage
+    const bootApp = () => {
+      if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+        window.auth = firebase.auth();
+        window.rtdb = firebase.database();
+        initialiserApplicationFirebase();
+      }
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(bootApp, { timeout: 1000 });
+    } else {
+      setTimeout(bootApp, 300);
+    }
 
     let sejours = [];
     let map = null;
@@ -443,103 +460,105 @@
       if (dateFinInput) dateFinInput.min = aujourdHui;
     }
 
-    document.getElementById('btnLogin').addEventListener('click', () => {
-      const email = document.getElementById('auth_email').value;
-      const pass = document.getElementById('auth_password').value;
-      if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
+    function initialiserApplicationFirebase() {
+      document.getElementById('btnLogin').addEventListener('click', () => {
+        const email = document.getElementById('auth_email').value;
+        const pass = document.getElementById('auth_password').value;
+        if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
 
-      auth.signInWithEmailAndPassword(email, pass)
-        .then(() => showAlert("Connexion réussie !"))
-        .catch(err => showAlert("Erreur connexion : " + err.message, true));
-    });
+        auth.signInWithEmailAndPassword(email, pass)
+          .then(() => showAlert("Connexion réussie !"))
+          .catch(err => showAlert("Erreur connexion : " + err.message, true));
+      });
 
-    document.getElementById('btnShowSignup').addEventListener('click', () => {
-      document.getElementById('loginSection').classList.add('hidden');
-      document.getElementById('signupSection').classList.remove('hidden');
-    });
+      document.getElementById('btnShowSignup').addEventListener('click', () => {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('signupSection').classList.remove('hidden');
+      });
 
-    document.getElementById('btnCancelSignup').addEventListener('click', () => {
-      document.getElementById('signupSection').classList.add('hidden');
-      document.getElementById('loginSection').classList.remove('hidden');
-    });
+      document.getElementById('btnCancelSignup').addEventListener('click', () => {
+        document.getElementById('signupSection').classList.add('hidden');
+        document.getElementById('loginSection').classList.remove('hidden');
+      });
 
-    document.getElementById('btnSignup').addEventListener('click', () => {
-      const email = document.getElementById('auth_email').value;
-      const pass = document.getElementById('signup_password').value;
-      if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
+      document.getElementById('btnSignup').addEventListener('click', () => {
+        const email = document.getElementById('auth_email').value;
+        const pass = document.getElementById('signup_password').value;
+        if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
 
-      auth.createUserWithEmailAndPassword(email, pass)
-        .then(() => showAlert("Nouveau compte créé avec succès !"))
-        .catch(err => showAlert("Erreur création : " + err.message, true));
-    });
+        auth.createUserWithEmailAndPassword(email, pass)
+          .then(() => showAlert("Nouveau compte créé avec succès !"))
+          .catch(err => showAlert("Erreur création : " + err.message, true));
+      });
 
-    document.getElementById('btnToggleProfile').addEventListener('click', () => {
-      profileCard.classList.toggle('hidden');
-      if (!profileCard.classList.contains('hidden') && auth.currentUser) {
-        document.getElementById('new_email').value = auth.currentUser.email;
-      }
-    });
+      document.getElementById('btnToggleProfile').addEventListener('click', () => {
+        profileCard.classList.toggle('hidden');
+        if (!profileCard.classList.contains('hidden') && auth.currentUser) {
+          document.getElementById('new_email').value = auth.currentUser.email;
+        }
+      });
 
-    document.getElementById('btnLogout').addEventListener('click', () => {
-      auth.signOut();
-    });
+      document.getElementById('btnLogout').addEventListener('click', () => {
+        auth.signOut();
+      });
 
-    document.getElementById('btnUpdateEmail').addEventListener('click', () => {
-      const newEmail = document.getElementById('new_email').value.trim();
-      if (!newEmail || !newEmail.includes('@')) {
-        return showAlert("Veuillez entrer une adresse e-mail valide.", true);
-      }
-      const user = auth.currentUser;
-      if (user) {
-        user.updateEmail(newEmail).then(() => {
-          showAlert("Adresse e-mail mise à jour avec succès !");
+      document.getElementById('btnUpdateEmail').addEventListener('click', () => {
+        const newEmail = document.getElementById('new_email').value.trim();
+        if (!newEmail || !newEmail.includes('@')) {
+          return showAlert("Veuillez entrer une adresse e-mail valide.", true);
+        }
+        const user = auth.currentUser;
+        if (user) {
+          user.updateEmail(newEmail).then(() => {
+            showAlert("Adresse e-mail mise à jour avec succès !");
+            userEmailDisplay.textContent = user.email;
+            profileCard.classList.add('hidden');
+          }).catch(err => {
+            showAlert("Erreur : " + err.message + " (Reconnectez-vous pour confirmer).", true);
+          });
+        }
+      });
+
+      document.getElementById('btnUpdatePassword').addEventListener('click', () => {
+        const newPassword = document.getElementById('new_password').value;
+        if (!newPassword || newPassword.length < 6) {
+          return showAlert("Le nouveau mot de passe doit faire au moins 6 caractères.", true);
+        }
+
+        const user = auth.currentUser;
+        if (user) {
+          user.updatePassword(newPassword).then(() => {
+            showAlert("Mot de passe mis à jour avec succès !");
+            document.getElementById('new_password').value = '';
+            profileCard.classList.add('hidden');
+          }).catch(err => {
+            showAlert("Erreur mise à jour : " + err.message + " (Veuillez vous reconnecter récemment).", true);
+          });
+        }
+      });
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          authCard.classList.add('hidden');
+          appContent.classList.remove('hidden');
           userEmailDisplay.textContent = user.email;
-          profileCard.classList.add('hidden');
-        }).catch(err => {
-          showAlert("Erreur : " + err.message + " (Reconnectez-vous pour confirmer).", true);
-        });
-      }
-    });
+          initialiserChampsDates();
 
-    document.getElementById('btnUpdatePassword').addEventListener('click', () => {
-      const newPassword = document.getElementById('new_password').value;
-      if (!newPassword || newPassword.length < 6) {
-        return showAlert("Le nouveau mot de passe doit faire au moins 6 caractères.", true);
-      }
+          setTimeout(() => {
+            if (!map) {
+              initMap();
+            } else {
+              map.invalidateSize();
+            }
+          }, 200);
 
-      const user = auth.currentUser;
-      if (user) {
-        user.updatePassword(newPassword).then(() => {
-          showAlert("Mot de passe mis à jour avec succès !");
-          document.getElementById('new_password').value = '';
-          profileCard.classList.add('hidden');
-        }).catch(err => {
-          showAlert("Erreur mise à jour : " + err.message + " (Veuillez vous reconnecter récemment).", true);
-        });
-      }
-    });
-
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        authCard.classList.add('hidden');
-        appContent.classList.remove('hidden');
-        userEmailDisplay.textContent = user.email;
-        initialiserChampsDates();
-
-        setTimeout(() => {
-          if (!map) {
-            initMap();
-          } else {
-            map.invalidateSize();
-          }
-        }, 200);
-
-        écouterBaseDeDonnees();
-      } else {
-        authCard.classList.remove('hidden');
-        appContent.classList.add('hidden');
-      }
-    });
+          écouterBaseDeDonnees();
+        } else {
+          authCard.classList.remove('hidden');
+          appContent.classList.add('hidden');
+        }
+      });
+    }
 
     function initMap() {
       if (map) return;
@@ -605,7 +624,7 @@
       if (this.value.trim() === '') {
         selectedLocationSearch = null;
         resultatsBasContainer.classList.add('hidden');
-        if (circleLayer && map) { map.removeLayer(circleLayer); circleLayer = null; }
+        if (circleLayer) { map.removeLayer(circleLayer); circleLayer = null; }
       }
     });
 
@@ -853,7 +872,7 @@
       if (sejoursAffiches.length === 0) {
         listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#000;">Aucun séjour trouvé dans cette zone.</td></tr>';
       } else {
-        const currentUserId = auth && auth.currentUser ? auth.currentUser.uid : null;
+        const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
 
         sejoursAffiches.forEach(s => {
           const isOwner = s.userId === currentUserId;
@@ -876,7 +895,7 @@
           tr.addEventListener('click', () => {
             selectedSejourId = s.id;
             selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
-            if (map) map.setView([s.lat, s.lon], 13);
+            map.setView([s.lat, s.lon], 13);
             resultatsBasControllerAffichage();
           });
 
