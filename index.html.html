@@ -13,13 +13,6 @@
   <link rel="preconnect" href="https://www.gstatic.com">
   <link rel="preconnect" href="https://api-adresse.data.gouv.fr">
 
-  <!-- Leaflet CSS non bloquant -->
-  <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></noscript>
-  
-  <!-- Leaflet JS chargé en différé -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
-
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -398,6 +391,7 @@
     };
 
     let firebaseInitialized = false;
+    let leafletLoaded = false;
     const firebaseConfig = {
       apiKey: "AIzaSyCp4ekhaoc3avzF1O_GXZUbRLWIF-rGLTo",
       authDomain: "minyanvacance.firebaseapp.com",
@@ -408,6 +402,28 @@
       appId: "1:660785177394:web:c21522036a30b4d0f12d2b",
       measurementId: "G-2VNCDKQBP4"
     };
+
+    function chargerLeaflet(callback) {
+      if (leafletLoaded) {
+        if (callback) callback();
+        return;
+      }
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(link);
+
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
+      script.crossOrigin = '';
+      script.async = true;
+      script.onload = () => {
+        leafletLoaded = true;
+        if (callback) callback();
+      };
+      document.head.appendChild(script);
+    }
 
     function chargerEtInitialiserFirebase(callback) {
       if (firebaseInitialized) {
@@ -472,7 +488,6 @@
       if (dateFinInput) dateFinInput.min = aujourdHui;
     }
 
-    // Déclencher le chargement de Firebase dès la première interaction utilisateur (Focus ou Click)
     const triggerLazyAuth = () => {
       chargerEtInitialiserFirebase();
       window.removeEventListener('click', triggerLazyAuth);
@@ -569,13 +584,15 @@
           userEmailDisplay.textContent = user.email;
           initialiserChampsDates();
 
-          setTimeout(() => {
-            if (!map) {
-              initMap();
-            } else {
-              map.invalidateSize();
-            }
-          }, 200);
+          chargerLeaflet(() => {
+            setTimeout(() => {
+              if (!map) {
+                initMap();
+              } else {
+                map.invalidateSize();
+              }
+            }, 200);
+          });
 
           écouterBaseDeDonnees();
         } else {
@@ -627,9 +644,11 @@
 
     setupAutocomplete('recherche_adresse', 'suggestions_recherche', (location) => {
       selectedLocationSearch = location;
-      if (map && location) {
-        map.setView([location.lat, location.lon], 12);
-      }
+      chargerLeaflet(() => {
+        if (map && location) {
+          map.setView([location.lat, location.lon], 12);
+        }
+      });
     });
 
     document.getElementById('btnRechercher').addEventListener('click', () => {
@@ -642,14 +661,16 @@
         showAlert("Veuillez choisir une ville dans la liste déroulante des suggestions.", true);
         return;
       }
-      mettreAJourAffichageGlobal();
+      chargerLeaflet(() => {
+        mettreAJourAffichageGlobal();
+      });
     });
 
     document.getElementById('recherche_adresse').addEventListener('input', function() {
       if (this.value.trim() === '') {
         selectedLocationSearch = null;
         resultatsBasContainer.classList.add('hidden');
-        if (circleLayer) { map.removeLayer(circleLayer); circleLayer = null; }
+        if (circleLayer && map) { map.removeLayer(circleLayer); circleLayer = null; }
       }
     });
 
@@ -920,7 +941,9 @@
           tr.addEventListener('click', () => {
             selectedSejourId = s.id;
             selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
-            map.setView([s.lat, s.lon], 13);
+            chargerLeaflet(() => {
+              if (map) map.setView([s.lat, s.lon], 13);
+            });
             resultatsBasControllerAffichage();
           });
 
