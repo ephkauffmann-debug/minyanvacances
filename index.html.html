@@ -4,24 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- ========================================== -->
-  <!-- BALISES SEO ET MÉTADONNÉES PRINCIPALES -->
-  <!-- ========================================== -->
   <title>minyan en vacances - Trouver un minyan en vacances en France</title>
   <meta name="description" content="Trouvez facilement un minyan, organisez vos vacances et connectez-vous avec d'autres vacanciers en France. Géolocalisation, entraide et comptage communautaire.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://minyanvacance.firebaseapp.com/">
 
-  <!-- Pré-connexion aux domaines externes pour accélérer les requêtes -->
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="preconnect" href="https://www.gstatic.com">
   <link rel="preconnect" href="https://api-adresse.data.gouv.fr">
 
-  <!-- Leaflet CSS chargé de manière non bloquante -->
+  <!-- Leaflet CSS non bloquant -->
   <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></noscript>
   
-  <!-- Leaflet JS chargé en defer -->
+  <!-- Leaflet JS en defer -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
 
   <style>
@@ -87,136 +83,57 @@
       color: #000 !important;
     }
 
-    input::placeholder {
-      color: rgba(0, 0, 0, 0.7);
-    }
+    input::placeholder { color: rgba(0, 0, 0, 0.7); }
 
-    h1, h2, h3 { 
-      color: #000; 
-      margin-top: 0; 
-      letter-spacing: 0.3px;
-    }
+    h1, h2, h3 { color: #000; margin-top: 0; letter-spacing: 0.3px; }
+    label { display: block; margin-top: 14px; font-weight: 700; font-size: 0.9em; color: #000; }
 
-    label { 
-      display: block; 
-      margin-top: 14px; 
-      font-weight: 700; 
-      font-size: 0.9em; 
-      color: #000; 
-    }
-
-    .password-wrapper {
-      position: relative;
-    }
-    .password-wrapper input {
-      padding-right: 45px;
-    }
+    .password-wrapper { position: relative; }
+    .password-wrapper input { padding-right: 45px; }
     .toggle-password {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.2em;
-      padding: 0;
-      margin: 0;
-      width: auto;
-      color: #000;
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; font-size: 1.2em;
+      padding: 0; margin: 0; width: auto; color: #000;
     }
 
     .checkbox-container {
       background-color: rgba(255, 255, 255, 0.7) !important;
       border: 1px solid rgba(0, 0, 0, 0.2);
-      border-radius: 10px;
-      padding: 14px;
-      margin-top: 16px;
+      border-radius: 10px; padding: 14px; margin-top: 16px;
     }
 
     .checkbox-label {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-weight: bold;
-      font-size: 0.9em;
-      cursor: pointer;
-      color: #000;
-      margin-top: 0;
+      display: flex; align-items: flex-start; gap: 12px;
+      font-weight: bold; font-size: 0.9em; cursor: pointer; color: #000; margin-top: 0;
     }
-
-    .checkbox-label input {
-      width: auto;
-      margin-top: 2px;
-      cursor: pointer;
-      background: transparent !important;
-    }
-
-    .checkbox-help {
-      font-size: 0.85em;
-      color: #111;
-      font-weight: normal;
-      margin-top: 8px;
-      line-height: 1.4;
-    }
+    .checkbox-label input { width: auto; margin-top: 2px; cursor: pointer; background: transparent !important; }
+    .checkbox-help { font-size: 0.85em; color: #111; font-weight: normal; margin-top: 8px; line-height: 1.4; }
 
     .privacy-notice {
-      font-size: 0.85em;
-      color: #000;
-      background: rgba(255, 255, 255, 0.7) !important;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      margin-top: 16px;
-      line-height: 1.4;
+      font-size: 0.85em; color: #000; background: rgba(255, 255, 255, 0.7) !important;
+      padding: 12px; border-radius: 10px; border: 1px solid rgba(0, 0, 0, 0.2); margin-top: 16px; line-height: 1.4;
     }
     
     .autocomplete-wrapper { position: relative; }
     .suggestions-list {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: rgba(255, 255, 255, 0.98) !important;
-      backdrop-filter: blur(10px) !important;
-      border: 1px solid rgba(0, 0, 0, 0.3);
-      border-top: none;
-      border-radius: 0 0 10px 10px;
-      max-height: 200px;
-      overflow-y: auto;
-      z-index: 1000;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: rgba(255, 255, 255, 0.98) !important; backdrop-filter: blur(10px) !important;
+      border: 1px solid rgba(0, 0, 0, 0.3); border-top: none; border-radius: 0 0 10px 10px;
+      max-height: 200px; overflow-y: auto; z-index: 1000; box-shadow: 0 6px 12px rgba(0,0,0,0.2);
     }
     .suggestion-item {
-      padding: 11px 14px;
-      cursor: pointer;
-      font-size: 0.9em;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      color: #000;
-      font-weight: 500;
+      padding: 11px 14px; cursor: pointer; font-size: 0.9em;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1); color: #000; font-weight: 500;
     }
-    .suggestion-item:hover {
-      background-color: rgba(0, 123, 255, 0.2);
-      color: #000;
-      font-weight: bold;
-    }
+    .suggestion-item:hover { background-color: rgba(0, 123, 255, 0.2); color: #000; font-weight: bold; }
 
     .row { display: flex; gap: 14px; }
     .col { flex: 1; }
     
     button {
-      display: block;
-      width: 100%;
-      margin-top: 18px;
-      padding: 13px;
-      background-color: #0056b3;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 1em;
-      cursor: pointer;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      display: block; width: 100%; margin-top: 18px; padding: 13px;
+      background-color: #0056b3; color: white; border: none; border-radius: 10px;
+      font-weight: bold; font-size: 1em; cursor: pointer; box-shadow: 0 3px 8px rgba(0,0,0,0.15);
       transition: background-color 0.2s;
     }
     button:hover { background-color: #004085; }
@@ -225,122 +142,64 @@
     .btn-secondary:hover { background-color: #4e555b; }
 
     .btn-danger {
-      background-color: #bd2130;
-      color: white;
-      padding: 6px 12px;
-      font-size: 0.85em;
-      margin-top: 0;
-      width: auto;
-      border-radius: 6px;
+      background-color: #bd2130; color: white; padding: 6px 12px;
+      font-size: 0.85em; margin-top: 0; width: auto; border-radius: 6px;
     }
     .btn-danger:hover { background-color: #a71d2a; }
 
     .btn-warning {
-      background-color: #117a8b;
-      color: white;
-      padding: 10px 14px;
-      font-size: 0.9em;
-      margin-top: 12px;
-      width: auto;
-      border-radius: 8px;
+      background-color: #117a8b; color: white; padding: 10px 14px;
+      font-size: 0.9em; margin-top: 12px; width: auto; border-radius: 8px;
     }
     .btn-warning:hover { background-color: #0c5460; }
 
     #map {
-      height: 420px;
-      width: 100%;
-      border-radius: 10px;
-      margin-top: 12px;
-      z-index: 1;
-      border: 1px solid rgba(0,0,0,0.3);
+      height: 420px; width: 100%; border-radius: 10px;
+      margin-top: 12px; z-index: 1; border: 1px solid rgba(0,0,0,0.3);
     }
 
     th, td {
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      padding: 12px;
-      text-align: left;
-      font-size: 0.9em;
-      color: #000;
+      border: 1px solid rgba(0, 0, 0, 0.2); padding: 12px; text-align: left; font-size: 0.9em; color: #000;
     }
     th { background-color: rgba(230, 235, 240, 0.9) !important; color: #000; font-weight: 700; }
     td { background-color: rgba(255, 255, 255, 0.6) !important; font-weight: 500; }
     
     .minyan-status-card {
-      padding: 16px;
-      border-radius: 10px;
-      text-align: center;
-      margin-top: 12px;
-      font-weight: bold;
-      line-height: 1.5;
+      padding: 16px; border-radius: 10px; text-align: center;
+      margin-top: 12px; font-weight: bold; line-height: 1.5;
     }
     .minyan-ok {
-      background-color: rgba(40, 167, 69, 0.4) !important;
-      backdrop-filter: blur(8px);
-      color: #000;
-      border: 1px solid rgba(40, 167, 69, 0.8);
+      background-color: rgba(40, 167, 69, 0.4) !important; backdrop-filter: blur(8px);
+      color: #000; border: 1px solid rgba(40, 167, 69, 0.8);
     }
     .minyan-missing {
-      background-color: rgba(255, 193, 7, 0.5) !important;
-      backdrop-filter: blur(8px);
-      color: #000;
-      border: 1px solid rgba(255, 193, 7, 0.8);
+      background-color: rgba(255, 193, 7, 0.5) !important; backdrop-filter: blur(8px);
+      color: #000; border: 1px solid rgba(255, 193, 7, 0.8);
     }
     
-    .badge-minyan {
-      background: none !important;
-      color: #000 !important;
-      padding: 0 !important;
-      border-radius: 0 !important;
-      font-weight: bold;
-      font-size: 1em;
-    }
-
+    .badge-minyan { background: none !important; color: #000 !important; padding: 0 !important; font-weight: bold; font-size: 1em; }
     .selected-preview-card {
-      background-color: rgba(255, 255, 255, 0.8) !important;
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      padding: 16px;
-      border-radius: 10px;
-      margin-bottom: 0;
-      color: #000;
-      line-height: 1.6;
+      background-color: rgba(255, 255, 255, 0.8) !important; backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 0, 0, 0.2); padding: 16px; border-radius: 10px; color: #000; line-height: 1.6;
     }
 
     .status-alert {
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 16px;
-      font-size: 0.95em;
-      text-align: center;
-      font-weight: bold;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      padding: 12px; border-radius: 10px; margin-bottom: 16px;
+      font-size: 0.95em; text-align: center; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
     .status-alert.error { background-color: rgba(220, 53, 69, 0.95); color: #fff; border: 1px solid rgba(255,100,100,0.4); }
     .status-alert.success { background-color: rgba(40, 167, 69, 0.95); color: #fff; border: 1px solid rgba(100,255,150,0.4); }
 
-    .top-bar span {
-      font-weight: 600;
-      color: #000;
-    }
+    .top-bar span { font-weight: 600; color: #000; }
     .profile-btn {
-      background-color: #1d4ed8;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 0.9em;
-      margin-top: 0;
-      width: auto;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      background-color: #1d4ed8; color: white; border: none; padding: 8px 16px;
+      border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9em; width: auto;
     }
     .profile-btn:hover { background-color: #1e40af; }
-
     .hidden { display: none !important; }
   </style>
 
-  <!-- Firebase SDKs chargés en defer -->
+  <!-- Firebase SDKs en defer avec asynchronisme natif -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js" defer></script>
@@ -350,10 +209,9 @@
   <main>
     <div id="statusAlert" class="status-alert hidden"></div>
 
-    <!-- ÉCRAN CONNEXION / INSCRIPTION -->
     <div id="authCard" class="card">
       <h1>minyan en vacances - Trouver un minyan en vacances en France</h1>
-      <p>Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation pour vous assurer un minyan complet et un comptage communautaire partout en France.</p>
+      <p>Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.</p>
       <p>Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
       
       <div class="row">
@@ -393,7 +251,6 @@
       </div>
     </div>
 
-    <!-- APPLICATION PRINCIPALE -->
     <div id="appContent" class="hidden">
       
       <div class="top-bar">
@@ -401,7 +258,6 @@
         <button id="btnToggleProfile" class="profile-btn">⚙️ Mon Profil</button>
       </div>
 
-      <!-- VOLET PROFIL -->
       <div id="profileCard" class="card hidden" style="border-left: 4px solid #1d4ed8;">
         <h3>⚙️ Mon Profil</h3>
         <p style="font-size: 0.9em;">Modifiez vos informations de connexion ou déconnectez-vous.</p>
@@ -421,7 +277,6 @@
         <button id="btnLogout" class="btn-danger" style="width:100%; padding: 11px;">Se déconnecter</button>
       </div>
 
-      <!-- FORMULAIRE DE LOGEMENT -->
       <div class="card" style="border-top: 4px solid #218838;">
         <h2>Publier ou Modifier mon Séjour ✡️</h2>
         <p>Inscrivez votre logement et vos participants :</p>
@@ -472,7 +327,6 @@
         </form>
       </div>
 
-      <!-- RECHERCHE CIBLÉE -->
       <div class="card" style="border-top: 4px solid #1d4ed8;">
         <h2>🔍 Recherche de Séjours</h2>
         <div class="autocomplete-wrapper">
@@ -495,17 +349,13 @@
         <button id="btnRechercher" type="button" style="background-color: #1d4ed8; margin-top: 18px;">Chercher</button>
       </div>
 
-      <!-- CARTE INTERACTIVE -->
       <div class="card">
         <h2>Carte des Séjours 🗺️</h2>
         <p style="font-size: 0.85em; opacity: 0.9; margin-top: -4px;">Cliquez sur un marqueur pour afficher ses détails.</p>
         <div id="map"></div>
       </div>
 
-      <!-- CONTENEUR DES RÉSULTATS DU BAS -->
       <div id="resultatsBasContainer" class="hidden">
-        
-        <!-- PANNEAU DÉTAILS DU SÉJOUR SÉLECTIONNÉ -->
         <div class="card" style="border-top: 4px solid #117a8b;">
           <h2>📌 Détails du séjour sélectionné</h2>
           <div id="detailSelectionContainer">
@@ -513,13 +363,11 @@
           </div>
         </div>
 
-        <!-- COMPTEUR MINYAN & DÉCOMPTE -->
         <div class="card">
           <h2>📊 État du Minyan pour cette zone</h2>
           <div id="totauxContainer"></div>
         </div>
 
-        <!-- LISTE DES SÉJOURS -->
         <div class="card">
           <h2>Liste des foyers & participants trouvés</h2>
           <table>
@@ -565,17 +413,21 @@
       measurementId: "G-2VNCDKQBP4"
     };
 
-    // Initialisation différée pour libérer le thread principal (réduit le TBT)
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        if (typeof firebase !== 'undefined') {
-          firebase.initializeApp(firebaseConfig);
-          window.auth = firebase.auth();
-          window.rtdb = firebase.database();
-          initialiserApplicationFirebase();
-        }
-      }, 100);
-    });
+    // Utilisation de requestIdleCallback pour éliminer le TBT au démarrage
+    const bootApp = () => {
+      if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+        window.auth = firebase.auth();
+        window.rtdb = firebase.database();
+        initialiserApplicationFirebase();
+      }
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(bootApp, { timeout: 1000 });
+    } else {
+      setTimeout(bootApp, 300);
+    }
 
     let sejours = [];
     let map = null;
@@ -604,9 +456,8 @@
       const aujourdHui = new Date().toISOString().split('T')[0];
       const dateDebutInput = document.getElementById('date_debut');
       const dateFinInput = document.getElementById('date_fin');
-      
-      dateDebutInput.min = aujourdHui;
-      dateFinInput.min = aujourdHui;
+      if (dateDebutInput) dateDebutInput.min = aujourdHui;
+      if (dateFinInput) dateFinInput.min = aujourdHui;
     }
 
     function initialiserApplicationFirebase() {
@@ -670,7 +521,6 @@
 
       document.getElementById('btnUpdatePassword').addEventListener('click', () => {
         const newPassword = document.getElementById('new_password').value;
-
         if (!newPassword || newPassword.length < 6) {
           return showAlert("Le nouveau mot de passe doit faire au moins 6 caractères.", true);
         }
@@ -682,7 +532,7 @@
             document.getElementById('new_password').value = '';
             profileCard.classList.add('hidden');
           }).catch(err => {
-            showAlert("Erreur mise à jour : " + err.message + " (Veuillez vous reconnecter récemment pour effectuer cette action).", true);
+            showAlert("Erreur mise à jour : " + err.message + " (Veuillez vous reconnecter récemment).", true);
           });
         }
       });
@@ -700,7 +550,7 @@
             } else {
               map.invalidateSize();
             }
-          }, 300);
+          }, 200);
 
           écouterBaseDeDonnees();
         } else {
@@ -914,7 +764,6 @@
             });
           });
         }
-        
         mettreAJourAffichageGlobal();
       });
     }
