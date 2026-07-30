@@ -7,7 +7,7 @@
   <!-- ========================================== -->
   <!-- BALISES SEO ET MÉTADONNÉES PRINCIPALES -->
   <!-- ========================================== -->
-  <title>minyan en vacance - Trouver un minyan en vacance en France</title>
+  <title>minyan en vacances - Trouver un minyan en vacances en France</title>
   <meta name="description" content="Trouvez facilement un minyan, organisez vos vacances et connectez-vous avec d'autres vacanciers en France. Géolocalisation, entraide et comptage communautaire.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://minyanvacance.firebaseapp.com/">
@@ -339,7 +339,7 @@
     .hidden { display: none !important; }
   </style>
 
-  <!-- Firebase SDKs chargés en defer pour de meilleures performances -->
+  <!-- Firebase SDKs chargés en defer -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js" defer></script>
@@ -351,8 +351,8 @@
 
     <!-- ÉCRAN CONNEXION / INSCRIPTION -->
     <div id="authCard" class="card">
-      <h1>minyan en vacance - Trouver un minyan en vacance en France</h1>
-      <p>Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacance vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation pour vous assurer un minyan complet et un comptage communautaire partout en France.</p>
+      <h1>minyan en vacances - Trouver un minyan en vacances en France</h1>
+      <p>Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation pour vous assurer un minyan complet et un comptage communautaire partout en France.</p>
       <p>Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
       
       <div class="row">
@@ -541,7 +541,6 @@
   </main>
 
   <script>
-    // Déclaration globale indispensable pour les boutons œil du mot de passe
     window.togglePasswordVisibility = function(fieldId, btn) {
       const input = document.getElementById(fieldId);
       if (!input) return;
@@ -565,7 +564,6 @@
       measurementId: "G-2VNCDKQBP4"
     };
 
-    // Attente du chargement complet pour initialiser Firebase avec les scripts defer
     window.addEventListener('DOMContentLoaded', () => {
       if (typeof firebase !== 'undefined') {
         firebase.initializeApp(firebaseConfig);
