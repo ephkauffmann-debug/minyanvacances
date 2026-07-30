@@ -565,13 +565,16 @@
       measurementId: "G-2VNCDKQBP4"
     };
 
+    // Initialisation différée pour libérer le thread principal (réduit le TBT)
     window.addEventListener('DOMContentLoaded', () => {
-      if (typeof firebase !== 'undefined') {
-        firebase.initializeApp(firebaseConfig);
-        window.auth = firebase.auth();
-        window.rtdb = firebase.database();
-        initialiserApplicationFirebase();
-      }
+      setTimeout(() => {
+        if (typeof firebase !== 'undefined') {
+          firebase.initializeApp(firebaseConfig);
+          window.auth = firebase.auth();
+          window.rtdb = firebase.database();
+          initialiserApplicationFirebase();
+        }
+      }, 100);
     });
 
     let sejours = [];
@@ -697,7 +700,7 @@
             } else {
               map.invalidateSize();
             }
-          }, 200);
+          }, 300);
 
           écouterBaseDeDonnees();
         } else {
@@ -713,7 +716,7 @@
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: '&copy; OpenStreetMap contributors'
       }).addTo(map);
 
       markersLayer = L.layerGroup().addTo(map);
