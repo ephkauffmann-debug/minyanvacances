@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://www.gstatic.com">
   <link rel="preconnect" href="https://api-adresse.data.gouv.fr">
 
-  <!-- Leaflet CSS chargé de manière non bloquante (Résout le problème de blocage du rendu) -->
+  <!-- Leaflet CSS chargé de manière non bloquante -->
   <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></noscript>
   
@@ -25,6 +25,13 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
 
   <style>
+    /* Correction de l'affichage de la police (évite le flou ou le délai de texte invisible - FSCW) */
+    @supports (font-display: swap) {
+      body {
+        font-display: swap;
+      }
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       max-width: 850px;
