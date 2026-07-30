@@ -17,7 +17,7 @@
   <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></noscript>
   
-  <!-- Leaflet JS en defer -->
+  <!-- Leaflet JS chargé en différé -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
 
   <style>
@@ -198,11 +198,6 @@
     .profile-btn:hover { background-color: #1e40af; }
     .hidden { display: none !important; }
   </style>
-
-  <!-- Firebase SDKs en defer avec asynchronisme natif -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js" defer></script>
 </head>
 <body>
 
@@ -402,6 +397,7 @@
       }
     };
 
+    let firebaseInitialized = false;
     const firebaseConfig = {
       apiKey: "AIzaSyCp4ekhaoc3avzF1O_GXZUbRLWIF-rGLTo",
       authDomain: "minyanvacance.firebaseapp.com",
@@ -413,20 +409,36 @@
       measurementId: "G-2VNCDKQBP4"
     };
 
-    // Utilisation de requestIdleCallback pour éliminer le TBT au démarrage
-    const bootApp = () => {
-      if (typeof firebase !== 'undefined' && !firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-        window.auth = firebase.auth();
-        window.rtdb = firebase.database();
-        initialiserApplicationFirebase();
+    function chargerEtInitialiserFirebase(callback) {
+      if (firebaseInitialized) {
+        if (callback) callback();
+        return;
       }
-    };
 
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(bootApp, { timeout: 1000 });
-    } else {
-      setTimeout(bootApp, 300);
+      const scripts = [
+        "https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js",
+        "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js",
+        "https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"
+      ];
+
+      let loadedCount = 0;
+      scripts.forEach(src => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.onload = () => {
+          loadedCount++;
+          if (loadedCount === scripts.length) {
+            firebase.initializeApp(firebaseConfig);
+            window.auth = firebase.auth();
+            window.rtdb = firebase.database();
+            firebaseInitialized = true;
+            initialiserApplicationFirebase();
+            if (callback) callback();
+          }
+        };
+        document.head.appendChild(script);
+      });
     }
 
     let sejours = [];
@@ -460,8 +472,17 @@
       if (dateFinInput) dateFinInput.min = aujourdHui;
     }
 
-    function initialiserApplicationFirebase() {
-      document.getElementById('btnLogin').addEventListener('click', () => {
+    // Déclencher le chargement de Firebase dès la première interaction utilisateur (Focus ou Click)
+    const triggerLazyAuth = () => {
+      chargerEtInitialiserFirebase();
+      window.removeEventListener('click', triggerLazyAuth);
+      window.removeEventListener('keydown', triggerLazyAuth);
+    };
+    window.addEventListener('click', triggerLazyAuth, { once: true });
+    window.addEventListener('keydown', triggerLazyAuth, { once: true });
+
+    document.getElementById('btnLogin').addEventListener('click', () => {
+      chargerEtInitialiserFirebase(() => {
         const email = document.getElementById('auth_email').value;
         const pass = document.getElementById('auth_password').value;
         if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
@@ -470,18 +491,20 @@
           .then(() => showAlert("Connexion réussie !"))
           .catch(err => showAlert("Erreur connexion : " + err.message, true));
       });
+    });
 
-      document.getElementById('btnShowSignup').addEventListener('click', () => {
-        document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('signupSection').classList.remove('hidden');
-      });
+    document.getElementById('btnShowSignup').addEventListener('click', () => {
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('signupSection').classList.remove('hidden');
+    });
 
-      document.getElementById('btnCancelSignup').addEventListener('click', () => {
-        document.getElementById('signupSection').classList.add('hidden');
-        document.getElementById('loginSection').classList.remove('hidden');
-      });
+    document.getElementById('btnCancelSignup').addEventListener('click', () => {
+      document.getElementById('signupSection').classList.add('hidden');
+      document.getElementById('loginSection').classList.remove('hidden');
+    });
 
-      document.getElementById('btnSignup').addEventListener('click', () => {
+    document.getElementById('btnSignup').addEventListener('click', () => {
+      chargerEtInitialiserFirebase(() => {
         const email = document.getElementById('auth_email').value;
         const pass = document.getElementById('signup_password').value;
         if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
@@ -490,7 +513,9 @@
           .then(() => showAlert("Nouveau compte créé avec succès !"))
           .catch(err => showAlert("Erreur création : " + err.message, true));
       });
+    });
 
+    function initialiserApplicationFirebase() {
       document.getElementById('btnToggleProfile').addEventListener('click', () => {
         profileCard.classList.toggle('hidden');
         if (!profileCard.classList.contains('hidden') && auth.currentUser) {
@@ -872,7 +897,7 @@
       if (sejoursAffiches.length === 0) {
         listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#000;">Aucun séjour trouvé dans cette zone.</td></tr>';
       } else {
-        const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
+        const currentUserId = auth && auth.currentUser ? auth.currentUser.uid : null;
 
         sejoursAffiches.forEach(s => {
           const isOwner = s.userId === currentUserId;
