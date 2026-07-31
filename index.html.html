@@ -208,71 +208,9 @@
 <body>
 
   <main>
-    <!-- LOGO VECTORIEL FIDÈLE INTÉGRÉ EN CODE SVG -->
+    <!-- INTÉGRATION PROPRE DE TON VRAI LOGO -->
     <div style="text-align: center; margin-bottom: 20px;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 300 300" style="max-width: 100%; height: auto; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));">
-        <defs>
-          <!-- Dégradés métalliques pour le cercle extérieur -->
-          <linearGradient id="metalOuter" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#e2e8f0"/>
-            <stop offset="50%" stop-color="#94a3b8"/>
-            <stop offset="100%" stop-color="#475569"/>
-          </linearGradient>
-          <linearGradient id="metalInner" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#cbd5e1"/>
-            <stop offset="100%" stop-color="#f8fafc"/>
-          </linearGradient>
-          <!-- Chemin circulaire pour courber le texte du haut -->
-          <path id="textPath" d="M 50,150 A 100,100 0 0,1 250,150" />
-        </defs>
-
-        <!-- Cercle extérieur métallique principal -->
-        <circle cx="150" cy="150" r="140" fill="url(#metalOuter)" stroke="#334155" stroke-width="4"/>
-        
-        <!-- Anneau intérieur -->
-        <circle cx="150" cy="150" r="115" fill="url(#metalInner)" stroke="#64748b" stroke-width="2"/>
-        <circle cx="150" cy="150" r="105" fill="#f1f5f9"/>
-
-        <!-- Texte courbé supérieur : Minyan Vacances -->
-        <text font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="28" fill="#1e3a8a" letter-spacing="2">
-          <textPath href="#textPath" startOffset="50%" text-anchor="middle">Minyan Vacances</textPath>
-        </text>
-
-        <!-- Forme centrale triangulaire/bouclier aux bords arrondis -->
-        <path d="M 150,85 L 225,175 C 225,210 185,235 150,245 C 115,235 75,210 75,175 Z" fill="#334155" stroke="#94a3b8" stroke-width="3"/>
-        <path d="M 150,92 L 217,172 C 217,203 181,225 150,234 C 119,225 83,203 83,172 Z" fill="#1e293b"/>
-
-        <!-- Intérieur du bouclier : Paysage de montagne enneigée -->
-        <g clip-path="url(#shieldClip)">
-          <defs>
-            <clipPath id="shieldClip">
-              <path d="M 150,95 L 213,170 C 213,198 179,220 150,228 C 121,220 87,198 87,170 Z"/>
-            </clipPath>
-          </defs>
-          <g clip-path="url(#shieldClip)">
-            <!-- Ciel / Arrière-plan -->
-            <rect x="80" y="90" width="140" height="140" fill="#475569"/>
-            <!-- Montagnes -->
-            <polygon points="90,190 130,140 160,170 190,130 230,190" fill="#334155"/>
-            <!-- Sommet enneigé principal -->
-            <polygon points="135,145 150,125 170,145 160,165 145,155" fill="#ffffff"/>
-            <polygon points="185,135 190,130 205,155 195,150" fill="#ffffff"/>
-            <!-- Silhouette du voyageur / juif priant en bas à gauche -->
-            <path d="M 115,215 Q 120,190 128,185 Q 133,182 135,188 Q 138,195 132,215 Z" fill="#111827"/>
-            <circle cx="123" cy="183" r="4" fill="#111827"/>
-            <path d="M 120,188 L 138,198 L 135,215 L 125,215 Z" fill="#e2e8f0" opacity="0.9"/> <!-- Châle de prière / Talit -->
-          </g>
-        </g>
-
-        <!-- Contour final du bouclier pour la netteté -->
-        <path d="M 150,95 L 213,170 C 213,198 179,220 150,228 C 121,220 87,198 87,170 Z" fill="none" stroke="#cbd5e1" stroke-width="2"/>
-
-        <!-- Petite Étoile de David en bas au centre, sous le bouclier -->
-        <g transform="translate(150, 260) scale(0.6)">
-          <polygon points="0,-12 10,6 -10,6" fill="none" stroke="#334155" stroke-width="3"/>
-          <polygon points="0,12 10,-6 -10,-6" fill="none" stroke="#334155" stroke-width="3"/>
-        </g>
-      </svg>
+      <img src="img.png.jpg" alt="Minyan Vacances Logo" style="width: 210px; height: 210px; border-radius: 50%; object-fit: cover; box-shadow: 0 8px 25px rgba(0,0,0,0.25); border: 3px solid rgba(255,255,255,0.8);">
     </div>
 
     <div id="statusAlert" class="status-alert hidden"></div>
