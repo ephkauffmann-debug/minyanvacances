@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="MXbLzV9KJPryAAM-U8z5WsLBk0DwShdZY6ee9-m39Wo" />
   
-  <title>Minyan Vacances - Trouver un minyan en vacances en France</title>
+  <title>minyan en vacances - Trouver un minyan en vacances en France</title>
   <meta name="description" content="Trouvez facilement un minyan, organisez vos vacances et connectez-vous avec d'autres vacanciers en France. Géolocalisation, entraide et comptage communautaire.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://minyanvacance.firebaseapp.com/">
@@ -40,6 +40,13 @@
       box-sizing: border-box;
     }
     
+    .logo-container {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto 15px auto;
+      display: block;
+    }
+
     .card, .top-bar, table, .autocomplete-wrapper input, input, select {
       background: rgba(255, 255, 255, 0.85) !important;
       backdrop-filter: blur(10px) !important;
@@ -208,16 +215,35 @@
 <body>
 
   <main>
-    <!-- INTÉGRATION PROPRE DE TON VRAI LOGO -->
-    <div style="text-align: center; margin-bottom: 20px;">
-      <img src="img.png.jpg" alt="Minyan Vacances Logo" style="width: 210px; height: 210px; border-radius: 50%; object-fit: cover; box-shadow: 0 8px 25px rgba(0,0,0,0.25); border: 3px solid rgba(255,255,255,0.8);">
+    <!-- Logo SVG inséré au début -->
+    <div class="logo-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 200" width="100%" height="100%">
+        <defs>
+          <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#4facfe" />
+            <stop offset="100%" stop-color="#00f2fe" />
+          </linearGradient>
+          <linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f6d365" />
+            <stop offset="100%" stop-color="#fda085" />
+          </linearGradient>
+        </defs>
+
+        <rect x="10" y="10" width="480" height="180" rx="20" fill="url(#skyGrad)" />
+        <circle cx="100" cy="70" r="30" fill="url(#sunGrad)" />
+        <path d="M 10 140 Q 75 120, 140 140 T 270 140 T 400 140 T 490 140 L 490 190 L 10 190 Z" fill="#00c6ff" opacity="0.4" />
+        <path d="M 10 155 Q 75 135, 140 155 T 270 155 T 400 155 T 490 155 L 490 190 L 10 190 Z" fill="#ffffff" opacity="0.3" />
+
+        <text x="250" y="85" font-family="Arial, sans-serif" font-weight="bold" font-size="32" fill="#ffffff" text-anchor="middle" filter="drop-shadow(2px 2px 4px rgba(0,0,0,0.3))">MINYAN</text>
+        <text x="250" y="125" font-family="Arial, sans-serif" font-weight="bold" font-size="22" fill="#fff3cd" text-anchor="middle" filter="drop-shadow(1px 1px 3px rgba(0,0,0,0.3))">en vacances</text>
+      </svg>
     </div>
 
     <div id="statusAlert" class="status-alert hidden"></div>
 
     <div id="authCard" class="card">
-      <h1>Minyan Vacances - Trouver un minyan en vacances en France</h1>
-      <p>Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. Minyan Vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.</p>
+      <h1>minyan en vacances - Trouver un minyan en vacances en France</h1>
+      <p>Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.</p>
       <p>Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
       
       <div class="row">
