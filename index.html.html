@@ -21,6 +21,11 @@
   <!-- Leaflet JS en defer -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
 
+  <!-- Firebase SDKs (chargement standard sans defer pour garantir la disponibilité globale immédiate) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -199,11 +204,6 @@
     .profile-btn:hover { background-color: #1e40af; }
     .hidden { display: none !important; }
   </style>
-
-  <!-- Firebase SDKs en defer avec asynchronisme natif -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js" defer></script>
 </head>
 <body>
 
@@ -414,7 +414,6 @@
       measurementId: "G-2VNCDKQBP4"
     };
 
-    // Utilisation de requestIdleCallback pour éliminer le TBT au démarrage
     const bootApp = () => {
       if (typeof firebase !== 'undefined' && !firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
@@ -424,10 +423,10 @@
       }
     };
 
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(bootApp, { timeout: 1000 });
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootApp);
     } else {
-      setTimeout(bootApp, 300);
+      bootApp();
     }
 
     let sejours = [];
@@ -615,8 +614,11 @@
         return;
       }
       if (!selectedLocationSearch) {
-        showAlert("Veuillez choisir une ville dans la liste déroulante des suggestions.", true);
+        showAlert("Veu choisir une ville dans la liste déroulante des suggestions.", true);
         return;
+      }
+      if (map && selectedLocationSearch) {
+        map.setView([selectedLocationSearch.lat, selectedLocationSearch.lon], 12);
       }
       mettreAJourAffichageGlobal();
     });
