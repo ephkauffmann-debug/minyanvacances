@@ -21,7 +21,7 @@
   <!-- Leaflet JS en defer -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
 
-  <!-- Firebase SDKs (chargement standard sans defer pour garantir la disponibilité globale immédiate) -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
@@ -604,6 +604,7 @@
       selectedLocationSearch = location;
       if (map && location) {
         map.setView([location.lat, location.lon], 12);
+        mettreAJourAffichageGlobal();
       }
     });
 
