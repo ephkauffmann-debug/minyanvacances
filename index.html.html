@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
   <link rel="icon" href="img.png.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="MXbLzV9KJPryAAM-U8z5WsLBk0DwShdZY6ee9-m39Wo" />
   
-  <title>minyan en vacances - Trouver un minyan en vacances en France</title>
+  <title data-i18n="meta_title">minyan en vacances - Trouver un minyan en vacances en France</title>
   <meta name="description" content="Trouvez facilement un minyan, organisez vos vacances et connectez-vous avec d'autres vacanciers en France. Géolocalisation, entraide et comptage communautaire.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://minyanvacance.firebaseapp.com/">
@@ -39,6 +39,30 @@
       background-attachment: fixed;
       color: #000;
       box-sizing: border-box;
+      transition: direction 0.3s ease;
+    }
+
+    /* Barre de choix de langue */
+    .lang-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+    .lang-bar button {
+      width: auto;
+      margin-top: 0;
+      padding: 6px 12px;
+      font-size: 0.85em;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #000;
+      border: 1px solid rgba(0,0,0,0.2);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .lang-bar button:hover {
+      background-color: #0056b3;
+      color: #fff;
     }
     
     .logo-container {
@@ -144,7 +168,9 @@
     .suggestion-item {
       padding: 11px 14px; cursor: pointer; font-size: 0.9em;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); color: #000; font-weight: 500;
+      text-align: left;
     }
+    html[dir="rtl"] .suggestion-item { text-align: right; }
     .suggestion-item:hover { background-color: rgba(0, 123, 255, 0.2); color: #000; font-weight: bold; }
 
     .row { display: flex; gap: 14px; }
@@ -181,6 +207,7 @@
     th, td {
       border: 1px solid rgba(0, 0, 0, 0.2); padding: 12px; text-align: left; font-size: 0.9em; color: #000;
     }
+    html[dir="rtl"] th, html[dir="rtl"] td { text-align: right; }
     th { background-color: rgba(230, 235, 240, 0.9) !important; color: #000; font-weight: 700; }
     td { background-color: rgba(255, 255, 255, 0.6) !important; font-weight: 500; }
     
@@ -217,25 +244,18 @@
     }
     .profile-btn:hover { background-color: #1e40af; }
     .hidden { display: none !important; }
-    
-    .forgot-link {
-      display: inline-block;
-      margin-top: 10px;
-      font-size: 0.85em;
-      color: #0056b3;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: underline;
-      background: none;
-      border: none;
-      padding: 0;
-    }
-    .forgot-link:hover { color: #004085; }
   </style>
 </head>
 <body>
 
   <main>
+    <!-- Barre de choix de langue -->
+    <div class="lang-bar">
+      <button type="button" onclick="switchLanguage('fr')">FR</button>
+      <button type="button" onclick="switchLanguage('en')">EN</button>
+      <button type="button" onclick="switchLanguage('he')">עב</button>
+    </div>
+
     <!-- Logo en grand affiché grâce au fichier img.png.png -->
     <div class="logo-container">
       <img src="img.png.png" alt="Logo Minyan en vacances">
@@ -244,13 +264,13 @@
     <div id="statusAlert" class="status-alert hidden"></div>
 
     <div id="authCard" class="card">
-      <h1>minyan en vacances - Trouver un minyan en vacances en France</h1>
-      <p>Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.</p>
-      <p>Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
+      <h1 data-i18n="auth_title">minyan en vacances - Trouver un minyan en vacances en France</h1>
+      <p data-i18n="auth_desc1">Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.</p>
+      <p data-i18n="auth_desc2">Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
       
       <div class="row">
         <div class="col">
-          <label for="auth_email">Adresse Email :</label>
+          <label for="auth_email" data-i18n="lbl_email">Adresse Email :</label>
           <input type="email" id="auth_email" placeholder="votre.email@exemple.fr">
         </div>
       </div>
@@ -258,169 +278,167 @@
       <div id="loginSection">
         <div class="row">
           <div class="col">
-            <label for="auth_password">Mot de passe :</label>
+            <label for="auth_password" data-i18n="lbl_password">Mot de passe :</label>
             <div class="password-wrapper">
               <input type="password" id="auth_password" placeholder="••••••••">
               <button type="button" class="toggle-password" onclick="togglePasswordVisibility('auth_password', this)" aria-label="Afficher ou masquer le mot de passe">👁️</button>
             </div>
           </div>
         </div>
-        <button id="btnLogin" type="button">Se connecter</button>
-        <button id="btnShowSignup" type="button" class="btn-secondary" style="background-color: #218838;">Créer un nouveau compte</button>
-        <button type="button" id="btnShowForgot" class="forgot-link">Mot de passe oublié ?</button>
+        <button id="btnLogin" type="button" data-i18n="btn_login">Se connecter</button>
+        
+        <!-- Option Mot de passe oublié -->
+        <p style="text-align:center; margin-top:15px;">
+          <a href="#" id="forgotPasswordLink" style="color: #0056b3; cursor: pointer; font-weight: 600;" data-i18n="link_forgot">Mot de passe oublié ?</a>
+        </p>
+
+        <button id="btnShowSignup" type="button" class="btn-secondary" style="background-color: #218838;" data-i18n="btn_show_signup">Créer un nouveau compte</button>
       </div>
 
       <div id="signupSection" class="hidden" style="margin-top: 20px; border-top: 2px dashed rgba(0,0,0,0.3); padding-top: 20px;">
-        <h3 style="color: #155724; font-size: 1.1em;">📝 Inscription d'un nouveau compte</h3>
+        <h3 style="color: #155724; font-size: 1.1em;" data-i18n="signup_header">📝 Inscription d'un nouveau compte</h3>
         <div class="row">
           <div class="col">
-            <label for="signup_password">Choisissez un mot de passe :</label>
+            <label for="signup_password" data-i18n="lbl_choose_pass">Choisissez un mot de passe :</label>
             <div class="password-wrapper">
               <input type="password" id="signup_password" placeholder="Minimum 6 caractères">
               <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signup_password', this)" aria-label="Afficher ou masquer le mot de passe">👁️</button>
             </div>
           </div>
         </div>
-        <button id="btnSignup" type="button" style="background-color: #218838;">Valider la création du compte</button>
-        <button id="btnCancelSignup" type="button" class="btn-secondary">Annuler</button>
-      </div>
-
-      <div id="forgotSection" class="hidden" style="margin-top: 20px; border-top: 2px dashed rgba(0,0,0,0.3); padding-top: 20px;">
-        <h3 style="color: #0056b3; font-size: 1.1em;">🔑 Récupération de mot de passe</h3>
-        <p style="font-size: 0.85em;">Entrez votre adresse email ci-dessus ou ci-dessous pour recevoir un lien de réinitialisation.</p>
-        <button id="btnResetPassword" type="button" style="background-color: #117a8b;">Envoyer l'e-mail de réinitialisation</button>
-        <button id="btnCancelForgot" type="button" class="btn-secondary">Retour à la connexion</button>
+        <button id="btnSignup" type="button" style="background-color: #218838;" data-i18n="btn_validate_signup">Valider la création du compte</button>
+        <button id="btnCancelSignup" type="button" class="btn-secondary" data-i18n="btn_cancel">Annuler</button>
       </div>
     </div>
 
     <div id="appContent" class="hidden">
       
       <div class="top-bar">
-        <span>Connecté : <strong id="userEmailDisplay"></strong></span>
-        <button id="btnToggleProfile" class="profile-btn">⚙️ Mon Profil</button>
+        <span><span data-i18n="connected_as">Connecté</span> : <strong id="userEmailDisplay"></strong></span>
+        <button id="btnToggleProfile" class="profile-btn" data-i18n="btn_profile">⚙️ Mon Profil</button>
       </div>
 
       <div id="profileCard" class="card hidden" style="border-left: 4px solid #1d4ed8;">
-        <h3>⚙️ Mon Profil</h3>
-        <p style="font-size: 0.9em;">Modifiez vos informations de connexion ou déconnectez-vous.</p>
+        <h3 data-i18n="profile_title">⚙️ Mon Profil</h3>
+        <p style="font-size: 0.9em;" data-i18n="profile_desc">Modifiez vos informations de connexion ou déconnectez-vous.</p>
         
-        <label for="new_email">Modifier mon adresse e-mail :</label>
+        <label for="new_email" data-i18n="lbl_new_email">Modifier mon adresse e-mail :</label>
         <input type="email" id="new_email" placeholder="Nouvelle adresse e-mail">
-        <button id="btnUpdateEmail" class="btn-warning" type="button">Mettre à jour mon e-mail</button>
+        <button id="btnUpdateEmail" class="btn-warning" type="button" data-i18n="btn_update_email">Mettre à jour mon e-mail</button>
 
-        <label for="new_password" style="margin-top: 18px;">Nouveau mot de passe :</label>
+        <label for="new_password" style="margin-top: 18px;" data-i18n="lbl_new_pass">Nouveau mot de passe :</label>
         <div class="password-wrapper">
           <input type="password" id="new_password" placeholder="Nouveau mot de passe sécurisé (6 caractères min.)">
           <button type="button" class="toggle-password" onclick="togglePasswordVisibility('new_password', this)" aria-label="Afficher ou masquer le mot de passe">👁️</button>
         </div>
-        <button id="btnUpdatePassword" class="btn-warning" type="button">Mettre à jour mon mot de passe</button>
+        <button id="btnUpdatePassword" class="btn-warning" type="button" data-i18n="btn_update_pass">Mettre à jour mon mot de passe</button>
         
         <hr style="margin: 20px 0; border:0; border-top:1px solid rgba(0,0,0,0.2);">
-        <button id="btnLogout" class="btn-danger" style="width:100%; padding: 11px;">Se déconnecter</button>
+        <button id="btnLogout" class="btn-danger" style="width:100%; padding: 11px;" data-i18n="btn_logout">Se déconnecter</button>
       </div>
 
       <div class="card" style="border-top: 4px solid #218838;">
-        <h2>Publier ou Modifier mon Séjour ✡️</h2>
-        <p>Inscrivez votre logement et vos participants :</p>
+        <h2 data-i18n="publish_title">Publier ou Modifier mon Séjour ✡️</h2>
+        <p data-i18n="publish_desc">Inscrivez votre logement et vos participants :</p>
         
         <form id="minyanForm">
-          <label for="nom">Nom :</label>
+          <label for="nom" data-i18n="lbl_name">Nom :</label>
           <input type="text" id="nom" placeholder="Ex: Cohen (optionnel)">
 
-          <label for="telephone">Numéro de téléphone :</label>
+          <label for="telephone" data-i18n="lbl_phone">Numéro de téléphone :</label>
           <input type="tel" id="telephone" placeholder="06 00 00 00 00" required>
 
           <div class="checkbox-container">
             <label class="checkbox-label">
               <input type="checkbox" id="autoriser_tel" required>
-              <span>J'accepte d'afficher mon numéro de téléphone public *</span>
+              <span data-i18n="chk_phone_auth">J'accepte d'afficher mon numéro de téléphone public *</span>
             </label>
-            <div class="checkbox-help">
+            <div class="checkbox-help" data-i18n="chk_phone_help">
               ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>
               Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.
             </div>
           </div>
 
-          <label for="nb_hommes">Nombre d'hommes / garçons (+13 ans) :</label>
+          <label for="nb_hommes" data-i18n="lbl_men_count">Nombre d'hommes / garçons (+13 ans) :</label>
           <input type="number" id="nb_hommes" min="1" value="1" required>
 
-          <label for="adresse_input">Adresse ou Ville (France) :</label>
+          <label for="adresse_input" data-i18n="lbl_address">Adresse ou Ville (France) :</label>
           <div class="autocomplete-wrapper">
             <input type="text" id="adresse_input" placeholder="Ex: Chamonix-Mont-Blanc, Nice..." autocomplete="off" required>
             <div id="suggestions" class="suggestions-list" style="display: none;"></div>
           </div>
 
-          <div class="privacy-notice">
+          <div class="privacy-notice" data-i18n="privacy_notice">
             🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.
           </div>
 
           <div class="row">
             <div class="col">
-              <label for="date_debut">Date d'arrivée :</label>
+              <label for="date_debut" data-i18n="lbl_start_date">Date d'arrivée :</label>
               <input type="date" id="date_debut" required>
             </div>
             <div class="col">
-              <label for="date_fin">Date de départ :</label>
+              <label for="date_fin" data-i18n="lbl_end_date">Date de départ :</label>
               <input type="date" id="date_fin" required>
             </div>
           </div>
 
-          <button type="submit" style="background-color: #218838; margin-top: 20px;">Valider et enregistrer mon séjour</button>
+          <button type="submit" style="background-color: #218838; margin-top: 20px;" data-i18n="btn_submit_stay">Valider et enregistrer mon séjour</button>
         </form>
       </div>
 
       <div class="card" style="border-top: 4px solid #1d4ed8;">
-        <h2>🔍 Recherche de Séjours</h2>
+        <h2 data-i18n="search_title">🔍 Recherche de Séjours</h2>
         <div class="autocomplete-wrapper">
-          <label for="recherche_adresse">Entrez une ville pour cibler :</label>
+          <label for="recherche_adresse" data-i18n="lbl_search_city">Entrez une ville pour cibler :</label>
           <input type="text" id="recherche_adresse" placeholder="Ex: Chamonix, Paris, Nice..." autocomplete="off">
           <div id="suggestions_recherche" class="suggestions-list" style="display: none;"></div>
         </div>
         
         <div class="row">
           <div class="col">
-            <label for="rayon_select">Rayon autour de la ville :</label>
+            <label for="rayon_select" data-i18n="lbl_radius">Rayon autour de la ville :</label>
             <select id="rayon_select">
-              <option value="5" selected>5 km autour</option>
-              <option value="10">10 km autour</option>
-              <option value="20">20 km autour</option>
+              <option value="5" selected data-i18n="opt_radius_5">5 km autour</option>
+              <option value="10" data-i18n="opt_radius_10">10 km autour</option>
+              <option value="20" data-i18n="opt_radius_20">20 km autour</option>
             </select>
           </div>
         </div>
 
-        <button id="btnRechercher" type="button" style="background-color: #1d4ed8; margin-top: 18px;">Chercher</button>
+        <button id="btnRechercher" type="button" style="background-color: #1d4ed8; margin-top: 18px;" data-i18n="btn_search">Chercher</button>
       </div>
 
       <div class="card">
-        <h2>Carte des Séjours 🗺️</h2>
-        <p style="font-size: 0.85em; opacity: 0.9; margin-top: -4px;">Cliquez sur un marqueur pour afficher ses détails.</p>
+        <h2 data-i18n="map_title">Carte des Séjours 🗺️</h2>
+        <p style="font-size: 0.85em; opacity: 0.9; margin-top: -4px;" data-i18n="map_subtitle">Cliquez sur un marqueur pour afficher ses détails.</p>
         <div id="map"></div>
       </div>
 
       <div id="resultatsBasContainer" class="hidden">
         <div class="card" style="border-top: 4px solid #117a8b;">
-          <h2>📌 Détails du séjour sélectionné</h2>
+          <h2 data-i18n="details_title">📌 Détails du séjour sélectionné</h2>
           <div id="detailSelectionContainer">
-            <p style="font-style: italic; margin:0; opacity: 0.8;">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>
+            <p style="font-style: italic; margin:0; opacity: 0.8;" data-i18n="details_placeholder">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>
           </div>
         </div>
 
         <div class="card">
-          <h2>📊 État du Minyan pour cette zone</h2>
+          <h2 data-i18n="minyan_state_title">📊 État du Minyan pour cette zone</h2>
           <div id="totauxContainer"></div>
         </div>
 
         <div class="card">
-          <h2>Liste des foyers & participants trouvés</h2>
+          <h2 data-i18n="list_title">Liste des foyers & participants trouvés</h2>
           <table>
             <thead>
               <tr>
-                <th>Nom</th>
-                <th>Téléphone</th>
-                <th>+13 ans</th>
-                <th>Ville / Secteur</th>
-                <th>Dates</th>
-                <th>Action</th>
+                <th data-i18n="th_name">Nom</th>
+                <th data-i18n="th_phone">Téléphone</th>
+                <th data-i18n="th_men">+13 ans</th>
+                <th data-i18n="th_city">Ville / Secteur</th>
+                <th data-i18n="th_dates">Dates</th>
+                <th data-i18n="th_action">Action</th>
               </tr>
             </thead>
             <tbody id="listeInscrits"></tbody>
@@ -432,6 +450,199 @@
   </main>
 
   <script>
+    // Dictionnaire des traductions
+    const translations = {
+      fr: {
+        meta_title: "minyan en vacances - Trouver un minyan en vacances en France",
+        auth_title: "minyan en vacances - Trouver un minyan en vacances en France",
+        auth_desc1: "Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.",
+        auth_desc2: "Veuillez vous connecter pour accéder aux séjours et publier votre annonce.",
+        lbl_email: "Adresse Email :",
+        lbl_password: "Mot de passe :",
+        btn_login: "Se connecter",
+        link_forgot: "Mot de passe oublié ?",
+        btn_show_signup: "Créer un nouveau compte",
+        signup_header: "📝 Inscription d'un nouveau compte",
+        lbl_choose_pass: "Choisissez un mot de passe :",
+        btn_validate_signup: "Valider la création du compte",
+        btn_cancel: "Annuler",
+        connected_as: "Connecté",
+        btn_profile: "⚙️ Mon Profil",
+        profile_title: "⚙️ Mon Profil",
+        profile_desc: "Modifiez vos informations de connexion ou déconnectez-vous.",
+        lbl_new_email: "Modifier mon adresse e-mail :",
+        btn_update_email: "Mettre à jour mon e-mail",
+        lbl_new_pass: "Nouveau mot de passe :",
+        btn_update_pass: "Mettre à jour mon mot de passe",
+        btn_logout: "Se déconnecter",
+        publish_title: "Publier ou Modifier mon Séjour ✡️",
+        publish_desc: "Inscrivez votre logement et vos participants :",
+        lbl_name: "Nom :",
+        lbl_phone: "Numéro de téléphone :",
+        chk_phone_auth: "J'accepte d'afficher mon numéro de téléphone public *",
+        chk_phone_help: "ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.",
+        lbl_men_count: "Nombre d'hommes / garçons (+13 ans) :",
+        lbl_address: "Adresse ou Ville (France) :",
+        privacy_notice: "🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.",
+        lbl_start_date: "Date d'arrivée :",
+        lbl_end_date: "Date de départ :",
+        btn_submit_stay: "Valider et enregistrer mon séjour",
+        search_title: "🔍 Recherche de Séjours",
+        lbl_search_city: "Entrez une ville pour cibler :",
+        lbl_rayon: "Rayon autour de la ville :",
+        opt_radius_5: "5 km autour",
+        opt_radius_10: "10 km autour",
+        opt_radius_20: "20 km autour",
+        btn_search: "Chercher",
+        map_title: "Carte des Séjours 🗺️",
+        map_subtitle: "Cliquez sur un marqueur pour afficher ses détails.",
+        details_title: "📌 Détails du séjour sélectionné",
+        details_placeholder: "Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.",
+        minyan_state_title: "📊 État du Minyan pour cette zone",
+        list_title: "Liste des foyers & participants trouvés",
+        th_name: "Nom",
+        th_phone: "Téléphone",
+        th_men: "+13 ans",
+        th_city: "Ville / Secteur",
+        th_dates: "Dates",
+        th_action: "Action"
+      },
+      en: {
+        meta_title: "minyan on vacation - Find a minyan on vacation in France",
+        auth_title: "minyan on vacation - Find a minyan on vacation in France",
+        auth_desc1: "Community mutual aid platform to organize your vacation with complete peace of mind. Minyan on vacation allows you to locate vacationers and households around you using geolocation.",
+        auth_desc2: "Please log in to access stays and publish your listing.",
+        lbl_email: "Email Address:",
+        lbl_password: "Password:",
+        btn_login: "Log in",
+        link_forgot: "Forgot password?",
+        btn_show_signup: "Create a new account",
+        signup_header: "📝 New Account Registration",
+        lbl_choose_pass: "Choose a password:",
+        btn_validate_signup: "Confirm account creation",
+        btn_cancel: "Cancel",
+        connected_as: "Connected as",
+        btn_profile: "⚙️ My Profile",
+        profile_title: "⚙️ My Profile",
+        profile_desc: "Update your login info or log out.",
+        lbl_new_email: "Change my email address:",
+        btn_update_email: "Update my email",
+        lbl_new_pass: "New password:",
+        btn_update_pass: "Update my password",
+        btn_logout: "Log out",
+        publish_title: "Publish or Modify my Stay ✡️",
+        publish_desc: "Register your accommodation and participants:",
+        lbl_name: "Name:",
+        lbl_phone: "Phone number:",
+        chk_phone_auth: "I agree to display my public phone number *",
+        chk_phone_help: "ℹ️ <strong>Why is this mandatory?</strong><br>The goal of the app is to allow people on vacation in the same area to contact each other directly.",
+        lbl_men_count: "Number of men / boys (13+ years):",
+        lbl_address: "Address or City (France):",
+        privacy_notice: "🔒 <strong>Automatic protection:</strong> Only your <strong>City (Postal Code)</strong> will be displayed publicly.",
+        lbl_start_date: "Arrival date:",
+        lbl_end_date: "Departure date:",
+        btn_submit_stay: "Validate and save my stay",
+        search_title: "🔍 Search Stays",
+        lbl_search_city: "Enter a city to target:",
+        lbl_rayon: "Radius around city:",
+        opt_radius_5: "5 km around",
+        opt_radius_10: "10 km around",
+        opt_radius_20: "20 km around",
+        btn_search: "Search",
+        map_title: "Stays Map 🗺️",
+        map_subtitle: "Click on a marker to show details.",
+        details_title: "📌 Selected Stay Details",
+        details_placeholder: "Click on a stay in the list or on a map marker to display its info here.",
+        minyan_state_title: "📊 Minyan Status for this Area",
+        list_title: "List of found households & participants",
+        th_name: "Name",
+        th_phone: "Phone",
+        th_men: "13+ yrs",
+        th_city: "City / Area",
+        th_dates: "Dates",
+        th_action: "Action"
+      },
+      he: {
+        meta_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
+        auth_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
+        auth_desc1: "פלטפורמת עזרה הדדית קהילתי לארגון החופשה בראש שקט. האפליקציה מאפשרת לך לאתר נופשים ובתים סביבך באמצעות מיקום גיאוגרפי.",
+        auth_desc2: "אנא התחבר כדי לגשת לשהויות ולפרסם את המודעה שלך.",
+        lbl_email: "כתובת אימייל:",
+        lbl_password: "סיסמה:",
+        btn_login: "התחבר",
+        link_forgot: "שכחת סיסמה?",
+        btn_show_signup: "יצירת חשבון חדש",
+        signup_header: "📝 רישום חשבון חדש",
+        lbl_choose_pass: "בחר סיסמה:",
+        btn_validate_signup: "אישור יצירת החשבון",
+        btn_cancel: "ביטול",
+        connected_as: "מחובר כ-",
+        btn_profile: "⚙️ הפרופיל שלי",
+        profile_title: "⚙️ הפרופיל שלי",
+        profile_desc: "עדכן את פרטי ההתחברות שלך או התנתק.",
+        lbl_new_email: "שינוי כתובת אימייל:",
+        btn_update_email: "עדכן אימייל",
+        lbl_new_pass: "סיסמה חדשה:",
+        btn_update_pass: "עדכן סיסמה",
+        btn_logout: "התנתק",
+        publish_title: "פרסם או ערוך את השהות שלי ✡️",
+        publish_desc: "רשום את מקום האירוח והמשתתפים שלך:",
+        lbl_name: "שם:",
+        lbl_phone: "מספר טלפון:",
+        chk_phone_auth: "אני מסכים להציג את מספר הטלפון הציבורי שלי *",
+        chk_phone_help: "ℹ️ <strong>למה זה חובה?</strong><br>המטרה של האפליקציה היא לאפשר לאנשים בחופשה באותו אזור ליצור קשר ישיר.",
+        lbl_men_count: "מספר גברים / נערים (גיל 13+):",
+        lbl_address: "כתובת או עיר (צרפת):",
+        privacy_notice: "🔒 <strong>הגנה אוטומטית:</strong> רק ה<strong>עיר (מיקוד)</strong> שלך תצורף ותוצג פומבית.",
+        lbl_start_date: "תאריך הגעה:",
+        lbl_end_date: "תאריך עזיבה:",
+        btn_submit_stay: "אשר ושמור את השהות שלי",
+        search_title: "🔍 חיפוש שהויות",
+        lbl_search_city: "הזן עיר לחיפוש:",
+        lbl_rayon: "רדיוס סביב העיר:",
+        opt_radius_5: "5 ק\"מ סביב",
+        opt_radius_10: "10 ק\"מ סביב",
+        opt_radius_20: "20 ק\"מ סביב",
+        btn_search: "חפש",
+        map_title: "מפת השהויות 🗺️",
+        map_subtitle: "לחץ על סמן במפה כדי להציג את הפרטים.",
+        details_title: "📌 פרטי השהות שנבחרה",
+        details_placeholder: "לחץ על שהות ברשימה או על סמן במפה כדי להציג את פרטיו כאן.",
+        minyan_state_title: "📊 מצב המיניין באזור זה",
+        list_title: "רשימת בתי האב והמשתתפים שנמצאו",
+        th_name: "שם",
+        th_phone: "טלפון",
+        th_men: "גילאי 13+",
+        th_city: "עיר / אזור",
+        th_dates: "תאריכים",
+        th_action: "פעולה"
+      }
+    };
+
+    function switchLanguage(lang) {
+      const t = translations[lang];
+      if (!t) return;
+
+      // Gestion du sens d'écriture (RTL pour l'hébreu, LTR sinon)
+      const dir = (lang === 'he') ? 'rtl' : 'ltr';
+      document.documentElement.setAttribute('dir', dir);
+      document.documentElement.setAttribute('lang', lang);
+
+      // Remplacement dynamique de tous les attributs data-i18n
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+          if (key === 'meta_title') {
+            document.title = t[key];
+          } else {
+            el.innerHTML = t[key];
+          }
+        }
+      });
+
+      localStorage.setItem('minyan_lang', lang);
+    }
+
     window.togglePasswordVisibility = function(fieldId, btn) {
       const input = document.getElementById(fieldId);
       if (!input) return;
@@ -465,9 +676,15 @@
     };
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', bootApp);
+      document.addEventListener('DOMContentLoaded', () => {
+        bootApp();
+        const savedLang = localStorage.getItem('minyan_lang') || 'fr';
+        switchLanguage(savedLang);
+      });
     } else {
       bootApp();
+      const savedLang = localStorage.getItem('minyan_lang') || 'fr';
+      switchLanguage(savedLang);
     }
 
     let sejours = [];
@@ -502,6 +719,18 @@
     }
 
     function initialiserApplicationFirebase() {
+      // Gestion du lien "Mot de passe oublié"
+      document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('auth_email').value.trim();
+        if (!email) {
+          return showAlert("Veuillez entrer votre adresse e-mail ci-dessus pour réinitialiser le mot de passe.", true);
+        }
+        auth.sendPasswordResetEmail(email)
+          .then(() => showAlert("E-mail de réinitialisation de mot de passe envoyé !"))
+          .catch(err => showAlert("Erreur : " + err.message, true));
+      });
+
       document.getElementById('btnLogin').addEventListener('click', () => {
         const email = document.getElementById('auth_email').value;
         const pass = document.getElementById('auth_password').value;
@@ -514,41 +743,12 @@
 
       document.getElementById('btnShowSignup').addEventListener('click', () => {
         document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('forgotSection').classList.add('hidden');
         document.getElementById('signupSection').classList.remove('hidden');
       });
 
       document.getElementById('btnCancelSignup').addEventListener('click', () => {
         document.getElementById('signupSection').classList.add('hidden');
         document.getElementById('loginSection').classList.remove('hidden');
-      });
-
-      document.getElementById('btnShowForgot').addEventListener('click', () => {
-        document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('signupSection').classList.add('hidden');
-        document.getElementById('forgotSection').classList.remove('hidden');
-      });
-
-      document.getElementById('btnCancelForgot').addEventListener('click', () => {
-        document.getElementById('forgotSection').classList.add('hidden');
-        document.getElementById('loginSection').classList.remove('hidden');
-      });
-
-      document.getElementById('btnResetPassword').addEventListener('click', () => {
-        const email = document.getElementById('auth_email').value.trim();
-        if (!email || !email.includes('@')) {
-          return showAlert("Veuillez entrer votre adresse e-mail dans le champ 'Adresse Email' ci-dessus.", true);
-        }
-
-        auth.sendPasswordResetEmail(email)
-          .then(() => {
-            showAlert("E-mail de réinitialisation envoyé ! Vérifiez votre boîte de réception.");
-            document.getElementById('forgotSection').classList.add('hidden');
-            document.getElementById('loginSection').classList.remove('hidden');
-          })
-          .catch(err => {
-            showAlert("Erreur : " + err.message, true);
-          });
       });
 
       document.getElementById('btnSignup').addEventListener('click', () => {
