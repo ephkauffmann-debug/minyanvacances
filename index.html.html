@@ -43,6 +43,48 @@
       color: #000;
       box-sizing: border-box;
       transition: direction 0.3s ease;
+      position: relative;
+    }
+
+    /* QR Code discret en haut à gauche */
+    .qr-badge-top-left {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      text-align: center;
+      z-index: 100;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .qr-badge-top-left canvas {
+      width: 55px !important;
+      height: 55px !important;
+      display: block;
+      margin: 0 auto;
+      border-radius: 4px;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+    .qr-badge-top-left canvas:hover {
+      opacity: 1;
+    }
+    .qr-badge-top-left span {
+      font-size: 0.65em;
+      font-weight: 600;
+      color: #444;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Adaptation pour l'hébreu (RTL) : basculer le QR code en haut à droite si nécessaire ou le laisser à gauche */
+    html[dir="rtl"] .qr-badge-top-left {
+      left: auto;
+      right: 15px;
     }
 
     /* Barre de choix de langue */
@@ -249,24 +291,15 @@
     }
     .profile-btn:hover { background-color: #1e40af; }
     .hidden { display: none !important; }
-
-    /* Style pour le bloc QR Code */
-    .qr-container {
-      text-align: center;
-      margin-top: 30px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 16px;
-      border: 1px solid rgba(0,0,0,0.2);
-    }
-    .qr-container canvas {
-      margin-top: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
   </style>
 </head>
 <body>
+
+  <!-- QR Code discret en haut à gauche -->
+  <div class="qr-badge-top-left" title="Scannez pour partager le site">
+    <canvas id="qrcodeCanvas"></canvas>
+    <span data-i18n="qr_code_label">QR Code</span>
+  </div>
 
   <main>
     <!-- Barre de choix de langue -->
@@ -444,7 +477,7 @@
         </div>
 
         <div class="card">
-          <h2 data-i18n="minyan_state_title">📊 État du Minyan pour هذه zone</h2>
+          <h2 data-i18n="minyan_state_title">📊 État du Minyan pour cette zone</h2>
           <div id="totauxContainer"></div>
         </div>
 
@@ -466,13 +499,6 @@
         </div>
       </div>
 
-    </div>
-
-    <!-- Section QR Code du site -->
-    <div class="qr-container">
-      <h3 data-i18n="qr_title">📱 סרוק קוד QR כדי לשתף את האתר</h3>
-      <p style="font-size: 0.9em; margin-bottom: 10px;" data-i18n="qr_desc">שתף את הקישור לאפליקציה בקלות עם חברים ובני משפחה</p>
-      <canvas id="qrcodeCanvas"></canvas>
     </div>
 
   </main>
@@ -518,7 +544,7 @@
         chk_phone_help: "ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.",
         lbl_men_count: "Nombre d'hommes / garçons (+13 ans) :",
         lbl_address: "Adresse ou Ville (France) :",
-        ph_address: "Ex: Chamonix-Mont-Blanc, Nice... (Éكrire en français obligatoirement)",
+        ph_address: "Ex: Chamonix-Mont-Blanc, Nice... (Écrire en français obligatoirement)",
         privacy_notice: "🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.",
         lbl_start_date: "Date d'arrivée :",
         lbl_end_date: "Date de départ :",
@@ -543,8 +569,7 @@
         th_city: "Ville / Secteur",
         th_dates: "Dates",
         th_action: "Action",
-        qr_title: "📱 QR Code du site",
-        qr_desc: "Scannez pour partager ou ouvrir l'application sur un autre appareil",
+        qr_code_label: "Partager",
         // Messages dynamiques
         msg_reset_email_sent: "E-mail de réinitialisation de mot de passe envoyé !",
         msg_enter_email_reset: "Veuillez entrer votre adresse e-mail ci-dessus pour réinitialiser le mot de passe.",
@@ -600,7 +625,7 @@
         publish_title: "Publish or Modify my Stay ✡️",
         publish_desc: "Register your accommodation and participants:",
         lbl_name: "Name:",
-        ph_name_optional: "Ex: Smith (optional - Write in French)",
+        ph_name_optional: "Ex: Smith (optional)",
         lbl_phone: "Phone number:",
         ph_phone: "+33 6 00 00 00 00",
         chk_phone_auth: "I agree to display my public phone number *",
@@ -632,8 +657,7 @@
         th_city: "City / Area",
         th_dates: "Dates",
         th_action: "Action",
-        qr_title: "📱 Site QR Code",
-        qr_desc: "Scan to share or open the app on another device",
+        qr_code_label: "Share",
         // Messages dynamiques
         msg_reset_email_sent: "Password reset email sent!",
         msg_enter_email_reset: "Please enter your email address above to reset your password.",
@@ -710,7 +734,7 @@
         opt_radius_20: "20 ק\"מ סביב",
         btn_search: "חפש",
         map_title: "מפת השהויות 🗺️",
-        map_subtitle: "לחץ على סמן במפה כדי להציג את הפרטים.",
+        map_subtitle: "לחץ על סמן במפה כדי להציג את הפרטים.",
         details_title: "📌 פרטי השהות שנבחרה",
         details_placeholder: "לחץ על שהות ברשימה או על סמן במפה כדי להציג את פרטיו כאן.",
         minyan_state_title: "📊 מצב המיניין באזור זה",
@@ -721,8 +745,7 @@
         th_city: "עיר / אזור",
         th_dates: "תאריכים",
         th_action: "פעולה",
-        qr_title: "📱 קוד QR של האתר",
-        qr_desc: "סרוק כדי לשתף או לפתוח את האפליקציה במכשיר אחר",
+        qr_code_label: "שיתוף",
         // Messages dynamiques
         msg_reset_email_sent: "אימייל לאיפוס סיסמה נשלח!",
         msg_enter_email_reset: "אנא הזן את כתובת האימייל שלך למעלה כדי לאפס סיסמה.",
@@ -762,7 +785,6 @@
       document.documentElement.setAttribute('dir', dir);
       document.documentElement.setAttribute('lang', lang);
 
-      // Traduction des textes normaux [data-i18n]
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (dict[key]) {
@@ -774,7 +796,6 @@
         }
       });
 
-      // Traduction des placeholders dynamiques [data-i18n-placeholder]
       document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
         const key = el.getAttribute('data-i18n-placeholder');
         if (dict[key]) {
@@ -784,7 +805,6 @@
 
       localStorage.setItem('minyan_lang', lang);
       
-      // Rafraîchir l'affichage de la carte et des listes pour appliquer les traductions dynamiques
       if (typeof mettreAJourAffichageGlobal === 'function') {
         mettreAJourAffichageGlobal();
       }
@@ -820,12 +840,11 @@
         window.rtdb = firebase.database();
         initialiserApplicationFirebase();
       }
-      // Génération automatique du QR Code pointant vers l'URL actuelle du site
       if (typeof QRious !== 'undefined') {
         new QRious({
           element: document.getElementById('qrcodeCanvas'),
           value: window.location.href,
-          size: 150
+          size: 100
         });
       }
     };
@@ -1331,7 +1350,7 @@
       }
 
       totauxContainer.innerHTML = '';
-      if (sejoursAffiches.length ===0) {
+      if (sejoursAffiches.length === 0) {
         totauxContainer.innerHTML = `<p>${t('msg_no_stay_recorded')}</p>`;
       } else {
         const totalHommesZone = sejoursAffiches.reduce((sum, s) => sum + s.nbHommes, 0);
