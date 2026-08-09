@@ -27,6 +27,9 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
+  <!-- qrious pour générer le QR Code dynamiquement -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -246,6 +249,21 @@
     }
     .profile-btn:hover { background-color: #1e40af; }
     .hidden { display: none !important; }
+
+    /* Style pour le bloc QR Code */
+    .qr-container {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,0.2);
+    }
+    .qr-container canvas {
+      margin-top: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
   </style>
 </head>
 <body>
@@ -426,7 +444,7 @@
         </div>
 
         <div class="card">
-          <h2 data-i18n="minyan_state_title">📊 État du Minyan pour cette zone</h2>
+          <h2 data-i18n="minyan_state_title">📊 État du Minyan pour هذه zone</h2>
           <div id="totauxContainer"></div>
         </div>
 
@@ -449,10 +467,18 @@
       </div>
 
     </div>
+
+    <!-- Section QR Code du site -->
+    <div class="qr-container">
+      <h3 data-i18n="qr_title">📱 סרוק קוד QR כדי לשתף את האתר</h3>
+      <p style="font-size: 0.9em; margin-bottom: 10px;" data-i18n="qr_desc">שתף את הקישור לאפליקציה בקלות עם חברים ובני משפחה</p>
+      <canvas id="qrcodeCanvas"></canvas>
+    </div>
+
   </main>
 
   <script>
-    // Dictionnaire complet des traductions (textes et exemples/placeholders)
+    // Dictionnaire complet des traductions incluant l'hébreu avec les instructions pour les adresses en français
     const translations = {
       fr: {
         meta_title: "minyan en vacances - Trouver un minyan en vacances en France",
@@ -492,14 +518,14 @@
         chk_phone_help: "ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.",
         lbl_men_count: "Nombre d'hommes / garçons (+13 ans) :",
         lbl_address: "Adresse ou Ville (France) :",
-        ph_address: "Ex: Chamonix-Mont-Blanc, Nice...",
+        ph_address: "Ex: Chamonix-Mont-Blanc, Nice... (Éكrire en français obligatoirement)",
         privacy_notice: "🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.",
         lbl_start_date: "Date d'arrivée :",
         lbl_end_date: "Date de départ :",
         btn_submit_stay: "Valider et enregistrer mon séjour",
         search_title: "🔍 Recherche de Séjours",
         lbl_search_city: "Entrez une ville pour cibler :",
-        ph_search_city: "Ex: Chamonix, Paris, Nice...",
+        ph_search_city: "Ex: Chamonix, Paris, Nice... (Écrire en français obligatoirement)",
         lbl_radius: "Rayon autour de la ville :",
         opt_radius_5: "5 km autour",
         opt_radius_10: "10 km autour",
@@ -517,6 +543,8 @@
         th_city: "Ville / Secteur",
         th_dates: "Dates",
         th_action: "Action",
+        qr_title: "📱 QR Code du site",
+        qr_desc: "Scannez pour partager ou ouvrir l'application sur un autre appareil",
         // Messages dynamiques
         msg_reset_email_sent: "E-mail de réinitialisation de mot de passe envoyé !",
         msg_enter_email_reset: "Veuillez entrer votre adresse e-mail ci-dessus pour réinitialiser le mot de passe.",
@@ -572,21 +600,21 @@
         publish_title: "Publish or Modify my Stay ✡️",
         publish_desc: "Register your accommodation and participants:",
         lbl_name: "Name:",
-        ph_name_optional: "Ex: Smith (optional)",
+        ph_name_optional: "Ex: Smith (optional - Write in French)",
         lbl_phone: "Phone number:",
         ph_phone: "+33 6 00 00 00 00",
         chk_phone_auth: "I agree to display my public phone number *",
         chk_phone_help: "ℹ️ <strong>Why is this mandatory?</strong><br>The goal of the app is to allow people on vacation in the same area to contact each other directly.",
         lbl_men_count: "Number of men / boys (13+ years):",
         lbl_address: "Address or City (France):",
-        ph_address: "Ex: Chamonix-Mont-Blanc, Nice...",
+        ph_address: "Ex: Chamonix, Nice... (Must be written in French)",
         privacy_notice: "🔒 <strong>Automatic protection:</strong> Only your <strong>City (Postal Code)</strong> will be displayed publicly.",
         lbl_start_date: "Arrival date:",
         lbl_end_date: "Departure date:",
         btn_submit_stay: "Validate and save my stay",
         search_title: "🔍 Search Stays",
         lbl_search_city: "Enter a city to target:",
-        ph_search_city: "Ex: Chamonix, Paris, Nice...",
+        ph_search_city: "Ex: Paris, Nice... (Must be written in French)",
         lbl_radius: "Radius around city:",
         opt_radius_5: "5 km around",
         opt_radius_10: "10 km around",
@@ -604,6 +632,8 @@
         th_city: "City / Area",
         th_dates: "Dates",
         th_action: "Action",
+        qr_title: "📱 Site QR Code",
+        qr_desc: "Scan to share or open the app on another device",
         // Messages dynamiques
         msg_reset_email_sent: "Password reset email sent!",
         msg_enter_email_reset: "Please enter your email address above to reset your password.",
@@ -631,10 +661,10 @@
       he: {
         meta_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
         auth_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
-        auth_desc1: "פלטפורמת עזרה הדדית קהילתי לארגון החופשה בראש שקט. האפליקציה מאפשרת לך לאתר נופשים ובתים סביבך באמצעות מיקום גיאוגרפי.",
+        auth_desc1: "פלטפורמת עזרה הדדית קהילתית לארגון החופשה בראש שקט. האפליקציה מאפשרת לך לאתר נופשים ובתים סביבך באמצעות מיקום גיאוגרפי.",
         auth_desc2: "אנא התחבר כדי לגשת לשהויות ולפרסם את המודעה שלך.",
         lbl_email: "כתובת אימייל:",
-        ph_email: "your.email@example.com",
+        ph_email: "votre.email@exemple.fr",
         lbl_password: "סיסמה:",
         ph_password: "••••••••",
         btn_login: "התחבר",
@@ -653,7 +683,7 @@
         ph_new_email: "כתובת אימייל חדשה",
         btn_update_email: "עדכן אימייל",
         lbl_new_pass: "סיסמה חדשה:",
-        ph_new_pass_secure: "סיסמה חדשה מאובטח (6 תווים לפחות)",
+        ph_new_pass_secure: "סיסמה חדשה מאובטחת (6 תווים לפחות)",
         btn_update_pass: "עדכן סיסמה",
         btn_logout: "התנתק",
         publish_title: "פרסם או ערוך את השהות שלי ✡️",
@@ -661,26 +691,26 @@
         lbl_name: "שם:",
         ph_name_optional: "לדוגמה: כהן (אופציונלי)",
         lbl_phone: "מספר טלפון:",
-        ph_phone: "050-0000000",
+        ph_phone: "06 00 00 00 00",
         chk_phone_auth: "אני מסכים להציג את מספר הטלפון הציבורי שלי *",
         chk_phone_help: "ℹ️ <strong>למה זה חובה?</strong><br>המטרה של האפליקציה היא לאפשר לאנשים בחופשה באותו אזור ליצור קשר ישיר.",
         lbl_men_count: "מספר גברים / נערים (גיל 13+):",
-        lbl_address: "כתובת או עיר (צרפת):",
-        ph_address: "לדוגמה: שאמוני, ניס...",
+        lbl_address: "כתובת או עיר בצרפת (יש להקליד בצרפתית בלבד):",
+        ph_address: "Chamonix, Paris, Nice... (יש להקליד בצרפתית בלבד)",
         privacy_notice: "🔒 <strong>הגנה אוטומטית:</strong> רק ה<strong>עיר (מיקוד)</strong> שלך תצורף ותוצג פומבית.",
         lbl_start_date: "תאריך הגעה:",
         lbl_end_date: "תאריך עזיבה:",
         btn_submit_stay: "אשר ושמור את השהות שלי",
         search_title: "🔍 חיפוש שהויות",
-        lbl_search_city: "הזן עיר לחיפוש:",
-        ph_search_city: "לדוגמה: שאמוני, פריז, ניס...",
+        lbl_search_city: "הזן עיר לחיפוש (יש להקליד בצרפתית בלבד):",
+        ph_search_city: "Chamonix, Paris, Nice... (יש להקליד בצרפתית בלבד)",
         lbl_radius: "רדיוס סביב העיר:",
         opt_radius_5: "5 ק\"מ סביב",
         opt_radius_10: "10 ק\"מ סביב",
         opt_radius_20: "20 ק\"מ סביב",
         btn_search: "חפש",
         map_title: "מפת השהויות 🗺️",
-        map_subtitle: "לחץ על סמן במפה כדי להציג את הפרטים.",
+        map_subtitle: "לחץ على סמן במפה כדי להציג את הפרטים.",
         details_title: "📌 פרטי השהות שנבחרה",
         details_placeholder: "לחץ על שהות ברשימה או על סמן במפה כדי להציג את פרטיו כאן.",
         minyan_state_title: "📊 מצב המיניין באזור זה",
@@ -691,9 +721,11 @@
         th_city: "עיר / אזור",
         th_dates: "תאריכים",
         th_action: "פעולה",
+        qr_title: "📱 קוד QR של האתר",
+        qr_desc: "סרוק כדי לשתף או לפתוח את האפליקציה במכשיר אחר",
         // Messages dynamiques
         msg_reset_email_sent: "אימייל לאיפוס סיסמה נשלח!",
-        msg_enter_email_reset: "אנא הזן את כתובת האימייל שלך למעלה כדי לאפסת סיסמה.",
+        msg_enter_email_reset: "אנא הזן את כתובת האימייל שלך למעלה כדי לאפס סיסמה.",
         msg_fill_login: "אנא מלא אימייל וסיסמה",
         msg_login_success: "התחברות הצליחה!",
         msg_signup_success: "חשבון חדש נוצר בהצלחה!",
@@ -708,7 +740,7 @@
         msg_stay_saved: "השהות נשמרה בהצלחה!",
         msg_enter_city_search: "אנא הזן או בחר עיר.",
         msg_choose_city_list: "אנא בחר עיר מרשימת ההצעות.",
-        msg_confirm_delete: "האם אתהis בטוח שברצונך למחוק שהות זו?",
+        msg_confirm_delete: "האם אתה בטוח שברצונך למחוק שהות זו?",
         msg_stay_deleted: "השהות נמחקה.",
         msg_no_stay_zone: "לא נמצאו שהויות באזור זה.",
         msg_no_stay_recorded: "אין שהויות רשומות.",
@@ -787,6 +819,14 @@
         window.auth = firebase.auth();
         window.rtdb = firebase.database();
         initialiserApplicationFirebase();
+      }
+      // Génération automatique du QR Code pointant vers l'URL actuelle du site
+      if (typeof QRious !== 'undefined') {
+        new QRious({
+          element: document.getElementById('qrcodeCanvas'),
+          value: window.location.href,
+          size: 150
+        });
       }
     };
 
@@ -1291,7 +1331,7 @@
       }
 
       totauxContainer.innerHTML = '';
-      if (sejoursAffiches.length === 0) {
+      if (sejoursAffiches.length ===0) {
         totauxContainer.innerHTML = `<p>${t('msg_no_stay_recorded')}</p>`;
       } else {
         const totalHommesZone = sejoursAffiches.reduce((sum, s) => sum + s.nbHommes, 0);
