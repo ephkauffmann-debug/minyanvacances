@@ -46,18 +46,17 @@
       position: relative;
     }
 
-    /* QR Code discret en haut à gauche */
+    /* QR Code discret en haut à gauche (sans texte) */
     .qr-badge-top-left {
       position: absolute;
       top: 15px;
       left: 15px;
-      background: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
-      padding: 6px 8px;
+      padding: 5px;
       border-radius: 8px;
       border: 1px solid rgba(0, 0, 0, 0.15);
-      text-align: center;
       z-index: 100;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
@@ -65,23 +64,15 @@
       width: 55px !important;
       height: 55px !important;
       display: block;
-      margin: 0 auto;
       border-radius: 4px;
-      opacity: 0.85;
+      opacity: 0.9;
       transition: opacity 0.2s;
     }
     .qr-badge-top-left canvas:hover {
       opacity: 1;
     }
-    .qr-badge-top-left span {
-      font-size: 0.65em;
-      font-weight: 600;
-      color: #444;
-      display: block;
-      margin-top: 2px;
-    }
 
-    /* Adaptation pour l'hébreu (RTL) : basculer le QR code en haut à droite si nécessaire ou le laisser à gauche */
+    /* Adaptation pour l'hébreu (RTL) : basculer le QR code en haut à droite si nécessaire */
     html[dir="rtl"] .qr-badge-top-left {
       left: auto;
       right: 15px;
@@ -296,9 +287,8 @@
 <body>
 
   <!-- QR Code discret en haut à gauche -->
-  <div class="qr-badge-top-left" title="Scannez pour partager le site">
+  <div class="qr-badge-top-left" title="Scannez pour ouvrir le site">
     <canvas id="qrcodeCanvas"></canvas>
-    <span data-i18n="qr_code_label">QR Code</span>
   </div>
 
   <main>
@@ -504,7 +494,6 @@
   </main>
 
   <script>
-    // Dictionnaire complet des traductions incluant l'hébreu avec les instructions pour les adresses en français
     const translations = {
       fr: {
         meta_title: "minyan en vacances - Trouver un minyan en vacances en France",
@@ -569,8 +558,6 @@
         th_city: "Ville / Secteur",
         th_dates: "Dates",
         th_action: "Action",
-        qr_code_label: "Partager",
-        // Messages dynamiques
         msg_reset_email_sent: "E-mail de réinitialisation de mot de passe envoyé !",
         msg_enter_email_reset: "Veuillez entrer votre adresse e-mail ci-dessus pour réinitialiser le mot de passe.",
         msg_fill_login: "Veuillez remplir l'email et le mot de passe",
@@ -657,8 +644,6 @@
         th_city: "City / Area",
         th_dates: "Dates",
         th_action: "Action",
-        qr_code_label: "Share",
-        // Messages dynamiques
         msg_reset_email_sent: "Password reset email sent!",
         msg_enter_email_reset: "Please enter your email address above to reset your password.",
         msg_fill_login: "Please fill in email and password",
@@ -745,8 +730,6 @@
         th_city: "עיר / אזור",
         th_dates: "תאריכים",
         th_action: "פעולה",
-        qr_code_label: "שיתוף",
-        // Messages dynamiques
         msg_reset_email_sent: "אימייל לאיפוס סיסמה נשלח!",
         msg_enter_email_reset: "אנא הזן את כתובת האימייל שלך למעלה כדי לאפס סיסמה.",
         msg_fill_login: "אנא מלא אימייל וסיסמה",
