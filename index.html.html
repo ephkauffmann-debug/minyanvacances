@@ -134,11 +134,13 @@
 
     .password-wrapper { position: relative; }
     .password-wrapper input { padding-right: 45px; }
+    html[dir="rtl"] .password-wrapper input { padding-right: 14px; padding-left: 45px; }
     .toggle-password {
       position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
       background: none; border: none; cursor: pointer; font-size: 1.2em;
       padding: 0; margin: 0; width: auto; color: #000;
     }
+    html[dir="rtl"] .toggle-password { right: auto; left: 12px; }
 
     .checkbox-container {
       background-color: rgba(255, 255, 255, 0.7) !important;
@@ -271,7 +273,7 @@
       <div class="row">
         <div class="col">
           <label for="auth_email" data-i18n="lbl_email">Adresse Email :</label>
-          <input type="email" id="auth_email" placeholder="votre.email@exemple.fr">
+          <input type="email" id="auth_email" data-i18n-placeholder="ph_email" placeholder="votre.email@exemple.fr">
         </div>
       </div>
 
@@ -280,7 +282,7 @@
           <div class="col">
             <label for="auth_password" data-i18n="lbl_password">Mot de passe :</label>
             <div class="password-wrapper">
-              <input type="password" id="auth_password" placeholder="••••••••">
+              <input type="password" id="auth_password" data-i18n-placeholder="ph_password" placeholder="••••••••">
               <button type="button" class="toggle-password" onclick="togglePasswordVisibility('auth_password', this)" aria-label="Afficher ou masquer le mot de passe">👁️</button>
             </div>
           </div>
@@ -301,7 +303,7 @@
           <div class="col">
             <label for="signup_password" data-i18n="lbl_choose_pass">Choisissez un mot de passe :</label>
             <div class="password-wrapper">
-              <input type="password" id="signup_password" placeholder="Minimum 6 caractères">
+              <input type="password" id="signup_password" data-i18n-placeholder="ph_min_pass" placeholder="Minimum 6 caractères">
               <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signup_password', this)" aria-label="Afficher ou masquer le mot de passe">👁️</button>
             </div>
           </div>
@@ -323,12 +325,12 @@
         <p style="font-size: 0.9em;" data-i18n="profile_desc">Modifiez vos informations de connexion ou déconnectez-vous.</p>
         
         <label for="new_email" data-i18n="lbl_new_email">Modifier mon adresse e-mail :</label>
-        <input type="email" id="new_email" placeholder="Nouvelle adresse e-mail">
+        <input type="email" id="new_email" data-i18n-placeholder="ph_new_email" placeholder="Nouvelle adresse e-mail">
         <button id="btnUpdateEmail" class="btn-warning" type="button" data-i18n="btn_update_email">Mettre à jour mon e-mail</button>
 
         <label for="new_password" style="margin-top: 18px;" data-i18n="lbl_new_pass">Nouveau mot de passe :</label>
         <div class="password-wrapper">
-          <input type="password" id="new_password" placeholder="Nouveau mot de passe sécurisé (6 caractères min.)">
+          <input type="password" id="new_password" data-i18n-placeholder="ph_new_pass_secure" placeholder="Nouveau mot de passe sécurisé (6 caractères min.)">
           <button type="button" class="toggle-password" onclick="togglePasswordVisibility('new_password', this)" aria-label="Afficher ou masquer le mot de passe">👁️</button>
         </div>
         <button id="btnUpdatePassword" class="btn-warning" type="button" data-i18n="btn_update_pass">Mettre à jour mon mot de passe</button>
@@ -343,10 +345,10 @@
         
         <form id="minyanForm">
           <label for="nom" data-i18n="lbl_name">Nom :</label>
-          <input type="text" id="nom" placeholder="Ex: Cohen (optionnel)">
+          <input type="text" id="nom" data-i18n-placeholder="ph_name_optional" placeholder="Ex: Cohen (optionnel)">
 
           <label for="telephone" data-i18n="lbl_phone">Numéro de téléphone :</label>
-          <input type="tel" id="telephone" placeholder="06 00 00 00 00" required>
+          <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="06 00 00 00 00" required>
 
           <div class="checkbox-container">
             <label class="checkbox-label">
@@ -364,7 +366,7 @@
 
           <label for="adresse_input" data-i18n="lbl_address">Adresse ou Ville (France) :</label>
           <div class="autocomplete-wrapper">
-            <input type="text" id="adresse_input" placeholder="Ex: Chamonix-Mont-Blanc, Nice..." autocomplete="off" required>
+            <input type="text" id="adresse_input" data-i18n-placeholder="ph_address" placeholder="Ex: Chamonix-Mont-Blanc, Nice..." autocomplete="off" required>
             <div id="suggestions" class="suggestions-list" style="display: none;"></div>
           </div>
 
@@ -391,7 +393,7 @@
         <h2 data-i18n="search_title">🔍 Recherche de Séjours</h2>
         <div class="autocomplete-wrapper">
           <label for="recherche_adresse" data-i18n="lbl_search_city">Entrez une ville pour cibler :</label>
-          <input type="text" id="recherche_adresse" placeholder="Ex: Chamonix, Paris, Nice..." autocomplete="off">
+          <input type="text" id="recherche_adresse" data-i18n-placeholder="ph_search_city" placeholder="Ex: Chamonix, Paris, Nice..." autocomplete="off">
           <div id="suggestions_recherche" class="suggestions-list" style="display: none;"></div>
         </div>
         
@@ -450,7 +452,7 @@
   </main>
 
   <script>
-    // Dictionnaire des traductions
+    // Dictionnaire complet des traductions (textes et exemples/placeholders)
     const translations = {
       fr: {
         meta_title: "minyan en vacances - Trouver un minyan en vacances en France",
@@ -458,12 +460,15 @@
         auth_desc1: "Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.",
         auth_desc2: "Veuillez vous connecter pour accéder aux séjours et publier votre annonce.",
         lbl_email: "Adresse Email :",
+        ph_email: "votre.email@exemple.fr",
         lbl_password: "Mot de passe :",
+        ph_password: "••••••••",
         btn_login: "Se connecter",
         link_forgot: "Mot de passe oublié ?",
         btn_show_signup: "Créer un nouveau compte",
         signup_header: "📝 Inscription d'un nouveau compte",
         lbl_choose_pass: "Choisissez un mot de passe :",
+        ph_min_pass: "Minimum 6 caractères",
         btn_validate_signup: "Valider la création du compte",
         btn_cancel: "Annuler",
         connected_as: "Connecté",
@@ -471,25 +476,31 @@
         profile_title: "⚙️ Mon Profil",
         profile_desc: "Modifiez vos informations de connexion ou déconnectez-vous.",
         lbl_new_email: "Modifier mon adresse e-mail :",
+        ph_new_email: "Nouvelle adresse e-mail",
         btn_update_email: "Mettre à jour mon e-mail",
         lbl_new_pass: "Nouveau mot de passe :",
+        ph_new_pass_secure: "Nouveau mot de passe sécurisé (6 caractères min.)",
         btn_update_pass: "Mettre à jour mon mot de passe",
         btn_logout: "Se déconnecter",
         publish_title: "Publier ou Modifier mon Séjour ✡️",
         publish_desc: "Inscrivez votre logement et vos participants :",
         lbl_name: "Nom :",
+        ph_name_optional: "Ex: Cohen (optionnel)",
         lbl_phone: "Numéro de téléphone :",
+        ph_phone: "06 00 00 00 00",
         chk_phone_auth: "J'accepte d'afficher mon numéro de téléphone public *",
         chk_phone_help: "ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.",
         lbl_men_count: "Nombre d'hommes / garçons (+13 ans) :",
         lbl_address: "Adresse ou Ville (France) :",
+        ph_address: "Ex: Chamonix-Mont-Blanc, Nice...",
         privacy_notice: "🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.",
         lbl_start_date: "Date d'arrivée :",
         lbl_end_date: "Date de départ :",
         btn_submit_stay: "Valider et enregistrer mon séjour",
         search_title: "🔍 Recherche de Séjours",
         lbl_search_city: "Entrez une ville pour cibler :",
-        lbl_rayon: "Rayon autour de la ville :",
+        ph_search_city: "Ex: Chamonix, Paris, Nice...",
+        lbl_radius: "Rayon autour de la ville :",
         opt_radius_5: "5 km autour",
         opt_radius_10: "10 km autour",
         opt_radius_20: "20 km autour",
@@ -505,7 +516,30 @@
         th_men: "+13 ans",
         th_city: "Ville / Secteur",
         th_dates: "Dates",
-        th_action: "Action"
+        th_action: "Action",
+        // Messages dynamiques
+        msg_reset_email_sent: "E-mail de réinitialisation de mot de passe envoyé !",
+        msg_enter_email_reset: "Veuillez entrer votre adresse e-mail ci-dessus pour réinitialiser le mot de passe.",
+        msg_fill_login: "Veuillez remplir l'email et le mot de passe",
+        msg_login_success: "Connexion réussie !",
+        msg_signup_success: "Nouveau compte créé avec succès !",
+        msg_email_updated: "Adresse e-mail mise à jour avec succès !",
+        msg_valid_email: "Veuillez entrer une adresse e-mail valide.",
+        msg_pass_length: "Le nouveau mot de passe doit faire au moins 6 caractères.",
+        msg_pass_updated: "Mot de passe mis à jour avec succès !",
+        msg_accept_phone: "Vous devez accepter l'affichage du numéro pour valider l'enregistrement.",
+        msg_choose_address: "Veuillez choisir une adresse dans la liste déroulante.",
+        msg_dates_past: "Les dates ne peuvent pas être antérieures à aujourd'hui.",
+        msg_dates_order: "La date de départ ne peut pas être antérieure à la date d'arrivée.",
+        msg_stay_saved: "Séjour enregistré avec succès !",
+        msg_enter_city_search: "Veuillez entrer ou sélectionner une ville.",
+        msg_choose_city_list: "Veu choisir une ville dans la liste déroulante des suggestions.",
+        msg_confirm_delete: "Voulez-vous vraiment supprimer ce séjour ?",
+        msg_stay_deleted: "Séjour supprimé.",
+        msg_no_stay_zone: "Aucun séjour trouvé dans cette zone.",
+        msg_no_stay_recorded: "Aucun séjour enregistré.",
+        point_clicked: "Point cliqué",
+        btn_delete_table: "Supprimer"
       },
       en: {
         meta_title: "minyan on vacation - Find a minyan on vacation in France",
@@ -513,12 +547,15 @@
         auth_desc1: "Community mutual aid platform to organize your vacation with complete peace of mind. Minyan on vacation allows you to locate vacationers and households around you using geolocation.",
         auth_desc2: "Please log in to access stays and publish your listing.",
         lbl_email: "Email Address:",
+        ph_email: "your.email@example.com",
         lbl_password: "Password:",
+        ph_password: "••••••••",
         btn_login: "Log in",
         link_forgot: "Forgot password?",
         btn_show_signup: "Create a new account",
         signup_header: "📝 New Account Registration",
         lbl_choose_pass: "Choose a password:",
+        ph_min_pass: "Minimum 6 characters",
         btn_validate_signup: "Confirm account creation",
         btn_cancel: "Cancel",
         connected_as: "Connected as",
@@ -526,25 +563,31 @@
         profile_title: "⚙️ My Profile",
         profile_desc: "Update your login info or log out.",
         lbl_new_email: "Change my email address:",
+        ph_new_email: "New email address",
         btn_update_email: "Update my email",
         lbl_new_pass: "New password:",
+        ph_new_pass_secure: "New secure password (6 chars min.)",
         btn_update_pass: "Update my password",
         btn_logout: "Log out",
         publish_title: "Publish or Modify my Stay ✡️",
         publish_desc: "Register your accommodation and participants:",
         lbl_name: "Name:",
+        ph_name_optional: "Ex: Smith (optional)",
         lbl_phone: "Phone number:",
+        ph_phone: "+33 6 00 00 00 00",
         chk_phone_auth: "I agree to display my public phone number *",
         chk_phone_help: "ℹ️ <strong>Why is this mandatory?</strong><br>The goal of the app is to allow people on vacation in the same area to contact each other directly.",
         lbl_men_count: "Number of men / boys (13+ years):",
         lbl_address: "Address or City (France):",
+        ph_address: "Ex: Chamonix-Mont-Blanc, Nice...",
         privacy_notice: "🔒 <strong>Automatic protection:</strong> Only your <strong>City (Postal Code)</strong> will be displayed publicly.",
         lbl_start_date: "Arrival date:",
         lbl_end_date: "Departure date:",
         btn_submit_stay: "Validate and save my stay",
         search_title: "🔍 Search Stays",
         lbl_search_city: "Enter a city to target:",
-        lbl_rayon: "Radius around city:",
+        ph_search_city: "Ex: Chamonix, Paris, Nice...",
+        lbl_radius: "Radius around city:",
         opt_radius_5: "5 km around",
         opt_radius_10: "10 km around",
         opt_radius_20: "20 km around",
@@ -560,7 +603,30 @@
         th_men: "13+ yrs",
         th_city: "City / Area",
         th_dates: "Dates",
-        th_action: "Action"
+        th_action: "Action",
+        // Messages dynamiques
+        msg_reset_email_sent: "Password reset email sent!",
+        msg_enter_email_reset: "Please enter your email address above to reset your password.",
+        msg_fill_login: "Please fill in email and password",
+        msg_login_success: "Login successful!",
+        msg_signup_success: "New account created successfully!",
+        msg_email_updated: "Email address updated successfully!",
+        msg_valid_email: "Please enter a valid email address.",
+        msg_pass_length: "New password must be at least 6 characters long.",
+        msg_pass_updated: "Password updated successfully!",
+        msg_accept_phone: "You must accept displaying the phone number to validate registration.",
+        msg_choose_address: "Please choose an address from the dropdown list.",
+        msg_dates_past: "Dates cannot be earlier than today.",
+        msg_dates_order: "Departure date cannot be earlier than arrival date.",
+        msg_stay_saved: "Stay successfully saved!",
+        msg_enter_city_search: "Please enter or select a city.",
+        msg_choose_city_list: "Please choose a city from the suggestion list.",
+        msg_confirm_delete: "Do you really want to delete this stay?",
+        msg_stay_deleted: "Stay deleted.",
+        msg_no_stay_zone: "No stays found in this area.",
+        msg_no_stay_recorded: "No stays recorded.",
+        point_clicked: "Clicked point",
+        btn_delete_table: "Delete"
       },
       he: {
         meta_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
@@ -568,12 +634,15 @@
         auth_desc1: "פלטפורמת עזרה הדדית קהילתי לארגון החופשה בראש שקט. האפליקציה מאפשרת לך לאתר נופשים ובתים סביבך באמצעות מיקום גיאוגרפי.",
         auth_desc2: "אנא התחבר כדי לגשת לשהויות ולפרסם את המודעה שלך.",
         lbl_email: "כתובת אימייל:",
+        ph_email: "your.email@example.com",
         lbl_password: "סיסמה:",
+        ph_password: "••••••••",
         btn_login: "התחבר",
         link_forgot: "שכחת סיסמה?",
         btn_show_signup: "יצירת חשבון חדש",
         signup_header: "📝 רישום חשבון חדש",
         lbl_choose_pass: "בחר סיסמה:",
+        ph_min_pass: "מינימום 6 תווים",
         btn_validate_signup: "אישור יצירת החשבון",
         btn_cancel: "ביטול",
         connected_as: "מחובר כ-",
@@ -581,25 +650,31 @@
         profile_title: "⚙️ הפרופיל שלי",
         profile_desc: "עדכן את פרטי ההתחברות שלך או התנתק.",
         lbl_new_email: "שינוי כתובת אימייל:",
+        ph_new_email: "כתובת אימייל חדשה",
         btn_update_email: "עדכן אימייל",
         lbl_new_pass: "סיסמה חדשה:",
+        ph_new_pass_secure: "סיסמה חדשה מאובטח (6 תווים לפחות)",
         btn_update_pass: "עדכן סיסמה",
         btn_logout: "התנתק",
         publish_title: "פרסם או ערוך את השהות שלי ✡️",
         publish_desc: "רשום את מקום האירוח והמשתתפים שלך:",
         lbl_name: "שם:",
+        ph_name_optional: "לדוגמה: כהן (אופציונלי)",
         lbl_phone: "מספר טלפון:",
+        ph_phone: "050-0000000",
         chk_phone_auth: "אני מסכים להציג את מספר הטלפון הציבורי שלי *",
         chk_phone_help: "ℹ️ <strong>למה זה חובה?</strong><br>המטרה של האפליקציה היא לאפשר לאנשים בחופשה באותו אזור ליצור קשר ישיר.",
         lbl_men_count: "מספר גברים / נערים (גיל 13+):",
         lbl_address: "כתובת או עיר (צרפת):",
+        ph_address: "לדוגמה: שאמוני, ניס...",
         privacy_notice: "🔒 <strong>הגנה אוטומטית:</strong> רק ה<strong>עיר (מיקוד)</strong> שלך תצורף ותוצג פומבית.",
         lbl_start_date: "תאריך הגעה:",
         lbl_end_date: "תאריך עזיבה:",
         btn_submit_stay: "אשר ושמור את השהות שלי",
         search_title: "🔍 חיפוש שהויות",
         lbl_search_city: "הזן עיר לחיפוש:",
-        lbl_rayon: "רדיוס סביב העיר:",
+        ph_search_city: "לדוגמה: שאמוני, פריז, ניס...",
+        lbl_radius: "רדיוס סביב העיר:",
         opt_radius_5: "5 ק\"מ סביב",
         opt_radius_10: "10 ק\"מ סביב",
         opt_radius_20: "20 ק\"מ סביב",
@@ -615,32 +690,72 @@
         th_men: "גילאי 13+",
         th_city: "עיר / אזור",
         th_dates: "תאריכים",
-        th_action: "פעולה"
+        th_action: "פעולה",
+        // Messages dynamiques
+        msg_reset_email_sent: "אימייל לאיפוס סיסמה נשלח!",
+        msg_enter_email_reset: "אנא הזן את כתובת האימייל שלך למעלה כדי לאפסת סיסמה.",
+        msg_fill_login: "אנא מלא אימייל וסיסמה",
+        msg_login_success: "התחברות הצליחה!",
+        msg_signup_success: "חשבון חדש נוצר בהצלחה!",
+        msg_email_updated: "כתובת האימייל עודכנה בהצלחה!",
+        msg_valid_email: "אנא הזן כתובת אימייל תקינה.",
+        msg_pass_length: "הסיסמה החדשה חייבת להכיל לפחות 6 תווים.",
+        msg_pass_updated: "הסיסמה עודכנה בהצלחה!",
+        msg_accept_phone: "עליך לאשר הצגת מספר טלפון כדי לאשר רישום.",
+        msg_choose_address: "אנא בחר כתובת מרשימת ההצעות.",
+        msg_dates_past: "התאריכים לא יכולים להיות מוקדמים מהיום.",
+        msg_dates_order: "תאריך העזיבה לא יכול להיות מוקדם מתאריך ההגעה.",
+        msg_stay_saved: "השהות נשמרה בהצלחה!",
+        msg_enter_city_search: "אנא הזן או בחר עיר.",
+        msg_choose_city_list: "אנא בחר עיר מרשימת ההצעות.",
+        msg_confirm_delete: "האם אתהis בטוח שברצונך למחוק שהות זו?",
+        msg_stay_deleted: "השהות נמחקה.",
+        msg_no_stay_zone: "לא נמצאו שהויות באזור זה.",
+        msg_no_stay_recorded: "אין שהויות רשומות.",
+        point_clicked: "נקודה שנלחצה",
+        btn_delete_table: "מחק"
       }
     };
 
-    function switchLanguage(lang) {
-      const t = translations[lang];
-      if (!t) return;
+    function t(key) {
+      const lang = localStorage.getItem('minyan_lang') || 'fr';
+      return (translations[lang] && translations[lang][key]) || (translations['fr'][key]) || key;
+    }
 
-      // Gestion du sens d'écriture (RTL pour l'hébreu, LTR sinon)
+    function switchLanguage(lang) {
+      const dict = translations[lang];
+      if (!dict) return;
+
       const dir = (lang === 'he') ? 'rtl' : 'ltr';
       document.documentElement.setAttribute('dir', dir);
       document.documentElement.setAttribute('lang', lang);
 
-      // Remplacement dynamique de tous les attributs data-i18n
+      // Traduction des textes normaux [data-i18n]
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (t[key]) {
+        if (dict[key]) {
           if (key === 'meta_title') {
-            document.title = t[key];
+            document.title = dict[key];
           } else {
-            el.innerHTML = t[key];
+            el.innerHTML = dict[key];
           }
         }
       });
 
+      // Traduction des placeholders dynamiques [data-i18n-placeholder]
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key]) {
+          el.placeholder = dict[key];
+        }
+      });
+
       localStorage.setItem('minyan_lang', lang);
+      
+      // Rafraîchir l'affichage de la carte et des listes pour appliquer les traductions dynamiques
+      if (typeof mettreAJourAffichageGlobal === 'function') {
+        mettreAJourAffichageGlobal();
+      }
     }
 
     window.togglePasswordVisibility = function(fieldId, btn) {
@@ -719,25 +834,24 @@
     }
 
     function initialiserApplicationFirebase() {
-      // Gestion du lien "Mot de passe oublié"
       document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
         e.preventDefault();
         const email = document.getElementById('auth_email').value.trim();
         if (!email) {
-          return showAlert("Veuillez entrer votre adresse e-mail ci-dessus pour réinitialiser le mot de passe.", true);
+          return showAlert(t('msg_enter_email_reset'), true);
         }
         auth.sendPasswordResetEmail(email)
-          .then(() => showAlert("E-mail de réinitialisation de mot de passe envoyé !"))
+          .then(() => showAlert(t('msg_reset_email_sent')))
           .catch(err => showAlert("Erreur : " + err.message, true));
       });
 
       document.getElementById('btnLogin').addEventListener('click', () => {
         const email = document.getElementById('auth_email').value;
         const pass = document.getElementById('auth_password').value;
-        if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
+        if (!email || !pass) return showAlert(t('msg_fill_login'), true);
 
         auth.signInWithEmailAndPassword(email, pass)
-          .then(() => showAlert("Connexion réussie !"))
+          .then(() => showAlert(t('msg_login_success')))
           .catch(err => showAlert("Erreur connexion : " + err.message, true));
       });
 
@@ -754,10 +868,10 @@
       document.getElementById('btnSignup').addEventListener('click', () => {
         const email = document.getElementById('auth_email').value;
         const pass = document.getElementById('signup_password').value;
-        if (!email || !pass) return showAlert("Veuillez remplir l'email et le mot de passe", true);
+        if (!email || !pass) return showAlert(t('msg_fill_login'), true);
 
         auth.createUserWithEmailAndPassword(email, pass)
-          .then(() => showAlert("Nouveau compte créé avec succès !"))
+          .then(() => showAlert(t('msg_signup_success')))
           .catch(err => showAlert("Erreur création : " + err.message, true));
       });
 
@@ -775,16 +889,16 @@
       document.getElementById('btnUpdateEmail').addEventListener('click', () => {
         const newEmail = document.getElementById('new_email').value.trim();
         if (!newEmail || !newEmail.includes('@')) {
-          return showAlert("Veuillez entrer une adresse e-mail valide.", true);
+          return showAlert(t('msg_valid_email'), true);
         }
         const user = auth.currentUser;
         if (user) {
           user.updateEmail(newEmail).then(() => {
-            showAlert("Adresse e-mail mise à jour avec succès !");
+            showAlert(t('msg_email_updated'));
             userEmailDisplay.textContent = user.email;
             profileCard.classList.add('hidden');
           }).catch(err => {
-            showAlert("Erreur : " + err.message + " (Reconnectez-vous pour confirmer).", true);
+            showAlert("Erreur : " + err.message, true);
           });
         }
       });
@@ -792,17 +906,17 @@
       document.getElementById('btnUpdatePassword').addEventListener('click', () => {
         const newPassword = document.getElementById('new_password').value;
         if (!newPassword || newPassword.length < 6) {
-          return showAlert("Le nouveau mot de passe doit faire au moins 6 caractères.", true);
+          return showAlert(t('msg_pass_length'), true);
         }
 
         const user = auth.currentUser;
         if (user) {
           user.updatePassword(newPassword).then(() => {
-            showAlert("Mot de passe mis à jour avec succès !");
+            showAlert(t('msg_pass_updated'));
             document.getElementById('new_password').value = '';
             profileCard.classList.add('hidden');
           }).catch(err => {
-            showAlert("Erreur mise à jour : " + err.message + " (Veuillez vous reconnecter récemment).", true);
+            showAlert("Erreur mise à jour : " + err.message, true);
           });
         }
       });
@@ -845,7 +959,7 @@
         selectedLocationSearch = {
           lat: e.latlng.lat,
           lon: e.latlng.lng,
-          label: "Point cliqué"
+          label: t('point_clicked')
         };
         mettreAJourAffichageGlobal();
       });
@@ -881,11 +995,11 @@
     document.getElementById('btnRechercher').addEventListener('click', () => {
       const saisie = document.getElementById('recherche_adresse').value.trim();
       if (!saisie) {
-        showAlert("Veuillez entrer ou sélectionner une ville.", true);
+        showAlert(t('msg_enter_city_search'), true);
         return;
       }
       if (!selectedLocationSearch) {
-        showAlert("Veu choisir une ville dans la liste déroulante des suggestions.", true);
+        showAlert(t('msg_choose_city_list'), true);
         return;
       }
       if (map && selectedLocationSearch) {
@@ -967,12 +1081,12 @@
 
       const autoriserTel = document.getElementById('autoriser_tel').checked;
       if (!autoriserTel) {
-        showAlert("Vous devez accepter l'affichage du numéro pour valider l'enregistrement.", true);
+        showAlert(t('msg_accept_phone'), true);
         return;
       }
 
       if (!selectedLocationForm) {
-        showAlert("Veuillez choisir une adresse dans la liste déroulante.", true);
+        showAlert(t('msg_choose_address'), true);
         return;
       }
 
@@ -981,12 +1095,12 @@
       const aujourdHui = new Date().toISOString().split('T')[0];
 
       if (dateDebut < aujourdHui || dateFin < aujourdHui) {
-        showAlert("Les dates ne peuvent pas être antérieures à aujourd'hui.", true);
+        showAlert(t('msg_dates_past'), true);
         return;
       }
 
       if (dateDebut > dateFin) {
-        showAlert("La date de départ ne peut pas être antérieure à la date d'arrivée.", true);
+        showAlert(t('msg_dates_order'), true);
         return;
       }
 
@@ -1016,7 +1130,7 @@
         userId: auth.currentUser.uid,
         userEmail: auth.currentUser.email
       }).then(() => {
-        showAlert("Séjour enregistré avec succès !");
+        showAlert(t('msg_stay_saved'));
         this.reset();
         document.getElementById('nb_hommes').value = "1";
         selectedLocationForm = null;
@@ -1043,11 +1157,11 @@
     }
 
     window.supprimerSejour = function(id) {
-      if (confirm("Voulez-vous vraiment supprimer ce séjour ?")) {
+      if (confirm(t('msg_confirm_delete'))) {
         rtdb.ref('sejours/' + id).remove()
           .then(() => {
             if (selectedSejourId === id) selectedSejourId = null;
-            showAlert("Séjour supprimé.");
+            showAlert(t('msg_stay_deleted'));
           })
           .catch(err => showAlert("Erreur : " + err.message, true));
       }
@@ -1070,10 +1184,10 @@
         const popupContent = `
           <div style="color:#000;">
             ${nomAffiche}
-            👥 <strong>${s.nbHommes} homme(s) (+13 ans)</strong><br>
-            📍 Ville : <strong>${s.lieu}</strong><br>
-            📞 Tél : <a href="tel:${s.telephone}">${s.telephone}</a><br>
-            📅 Du ${s.dateDebut} au ${s.dateFin}
+            👥 <strong>${s.nbHommes} ${t('th_men')}</strong><br>
+            📍 ${t('th_city')} : <strong>${s.lieu}</strong><br>
+            📞 ${t('th_phone')} : <a href="tel:${s.telephone}">${s.telephone}</a><br>
+            📅 ${t('th_dates')} : ${s.dateDebut} - ${s.dateFin}
           </div>
         `;
 
@@ -1125,18 +1239,18 @@
       const selectedObj = sejoursAffiches.find(s => s.id === selectedSejourId) || sejours.find(s => s.id === selectedSejourId);
 
       if (selectedObj) {
-        const nomAff = selectedObj.nom ? `👤 <strong>Nom :</strong> ${selectedObj.nom}<br>` : '';
+        const nomAff = selectedObj.nom ? `👤 <strong>${t('th_name')} :</strong> ${selectedObj.nom}<br>` : '';
         detailContainer.innerHTML = `
           <div class="selected-preview-card" style="margin:0;">
             ${nomAff}
-            📞 <strong>Téléphone :</strong> <a href="tel:${selectedObj.telephone}" style="color: #004085;">${selectedObj.telephone}</a><br>
-            👥 <strong>Hommes (+13 ans) :</strong> ${selectedObj.nbHommes}<br>
-            📍 <strong>Secteur :</strong> ${selectedObj.lieu}<br>
-            📅 <strong>Dates :</strong> Du ${selectedObj.dateDebut} au ${selectedObj.dateFin}
+            📞 <strong>${t('th_phone')} :</strong> <a href="tel:${selectedObj.telephone}" style="color: #004085;">${selectedObj.telephone}</a><br>
+            👥 <strong>${t('th_men')} :</strong> ${selectedObj.nbHommes}<br>
+            📍 <strong>${t('th_city')} :</strong> ${selectedObj.lieu}<br>
+            📅 <strong>${t('th_dates')} :</strong> ${selectedObj.dateDebut} -> ${selectedObj.dateFin}
           </div>
         `;
       } else {
-        detailContainer.innerHTML = `<p style="font-style: italic; margin:0; opacity: 0.8;">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>`;
+        detailContainer.innerHTML = `<p style="font-style: italic; margin:0; opacity: 0.8;">${t('details_placeholder')}</p>`;
       }
 
       const listeTbody = document.getElementById('listeInscrits');
@@ -1144,7 +1258,7 @@
 
       listeTbody.innerHTML = '';
       if (sejoursAffiches.length === 0) {
-        listeTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#000;">Aucun séjour trouvé dans cette zone.</td></tr>';
+        listeTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#000;">${t('msg_no_stay_zone')}</td></tr>`;
       } else {
         const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
 
@@ -1154,15 +1268,14 @@
 
           const tr = document.createElement('tr');
           tr.style.cursor = 'pointer';
-          tr.title = "Cliquez pour voir les détails en haut";
           tr.innerHTML = `
             <td>${nomAffichage}</td>
             <td><a href="tel:${s.telephone}" onclick="event.stopPropagation();" style="color: #004085;"><strong>${s.telephone}</strong></a></td>
-            <td><span class="badge-minyan">${s.nbHommes} homme(s)</span></td>
+            <td><span class="badge-minyan">${s.nbHommes}</span></td>
             <td><strong>${s.lieu}</strong></td>
-            <td>Du ${s.dateDebut} au ${s.dateFin}</td>
+            <td>${s.dateDebut} -> ${s.dateFin}</td>
             <td>
-              ${isOwner ? `<button class="btn-danger" onclick="event.stopPropagation(); supprimerSejour('${s.id}')">Supprimer</button>` : '-'}
+              ${isOwner ? `<button class="btn-danger" onclick="event.stopPropagation(); supprimerSejour('${s.id}')">${t('btn_delete_table')}</button>` : '-'}
             </td>
           `;
 
@@ -1179,17 +1292,17 @@
 
       totauxContainer.innerHTML = '';
       if (sejoursAffiches.length === 0) {
-        totauxContainer.innerHTML = '<p>Aucun séjour enregistré.</p>';
+        totauxContainer.innerHTML = `<p>${t('msg_no_stay_recorded')}</p>`;
       } else {
         const totalHommesZone = sejoursAffiches.reduce((sum, s) => sum + s.nbHommes, 0);
         const statusDiv = document.createElement('div');
         if (totalHommesZone >= 10) {
           statusDiv.className = 'minyan-status-card minyan-ok';
-          statusDiv.innerHTML = `🎉 <strong>MINYAN ASSURÉ !</strong><br>Il y a <strong>${totalHommesZone} hommes (+13 ans)</strong> recensés dans cette zone.`;
+          statusDiv.innerHTML = `🎉 <strong>MINYAN ASSURÉ !</strong><br>Il y a <strong>${totalHommesZone}</strong> (${t('th_men')}) recensés dans cette zone.`;
         } else {
           const manquants = 10 - totalHommesZone;
           statusDiv.className = 'minyan-status-card minyan-missing';
-          statusDiv.innerHTML = `⚠️ <strong>MINYAN INCOMPLET</strong><br>Il y a <strong>${totalHommesZone} / 10 hommes (+13 ans)</strong>.<br>Il en manque encore <strong>${manquants}</strong>.`;
+          statusDiv.innerHTML = `⚠️ <strong>MINYAN INCOMPLET</strong><br>Il y a <strong>${totalHommesZone} / 10</strong> (${t('th_men')}).<br>Il en manque encore <strong>${manquants}</strong>.`;
         }
         totauxContainer.appendChild(statusDiv);
       }
