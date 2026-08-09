@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="MXbLzV9KJPryAAM-U8z5WsLBk0DwShdZY6ee9-m39Wo" />
   
+  <!-- Configuration PWA (Application mobile) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0056b3">
+  
   <title data-i18n="meta_title">minyan en vacances - Trouver un minyan en vacances en France</title>
   <meta name="description" content="Trouvez facilement un minyan, organisez vos vacances et connectez-vous avec d'autres vacanciers en France. Géolocalisation, entraide et comptage communautaire.">
   <meta name="robots" content="index, follow">
@@ -494,6 +498,15 @@
   </main>
 
   <script>
+    // Enregistrement du Service Worker PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('Service Worker enregistré !', reg))
+          .catch(err => console.log('Erreur Service Worker :', err));
+      });
+    }
+
     const translations = {
       fr: {
         meta_title: "minyan en vacances - Trouver un minyan en vacances en France",
