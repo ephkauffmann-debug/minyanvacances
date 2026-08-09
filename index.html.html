@@ -217,6 +217,20 @@
     }
     .profile-btn:hover { background-color: #1e40af; }
     .hidden { display: none !important; }
+    
+    .forgot-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.85em;
+      color: #0056b3;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .forgot-link:hover { color: #004085; }
   </style>
 </head>
 <body>
@@ -253,6 +267,7 @@
         </div>
         <button id="btnLogin" type="button">Se connecter</button>
         <button id="btnShowSignup" type="button" class="btn-secondary" style="background-color: #218838;">Créer un nouveau compte</button>
+        <button type="button" id="btnShowForgot" class="forgot-link">Mot de passe oublié ?</button>
       </div>
 
       <div id="signupSection" class="hidden" style="margin-top: 20px; border-top: 2px dashed rgba(0,0,0,0.3); padding-top: 20px;">
@@ -268,6 +283,13 @@
         </div>
         <button id="btnSignup" type="button" style="background-color: #218838;">Valider la création du compte</button>
         <button id="btnCancelSignup" type="button" class="btn-secondary">Annuler</button>
+      </div>
+
+      <div id="forgotSection" class="hidden" style="margin-top: 20px; border-top: 2px dashed rgba(0,0,0,0.3); padding-top: 20px;">
+        <h3 style="color: #0056b3; font-size: 1.1em;">🔑 Récupération de mot de passe</h3>
+        <p style="font-size: 0.85em;">Entrez votre adresse email ci-dessus ou ci-dessous pour recevoir un lien de réinitialisation.</p>
+        <button id="btnResetPassword" type="button" style="background-color: #117a8b;">Envoyer l'e-mail de réinitialisation</button>
+        <button id="btnCancelForgot" type="button" class="btn-secondary">Retour à la connexion</button>
       </div>
     </div>
 
@@ -492,12 +514,41 @@
 
       document.getElementById('btnShowSignup').addEventListener('click', () => {
         document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('forgotSection').classList.add('hidden');
         document.getElementById('signupSection').classList.remove('hidden');
       });
 
       document.getElementById('btnCancelSignup').addEventListener('click', () => {
         document.getElementById('signupSection').classList.add('hidden');
         document.getElementById('loginSection').classList.remove('hidden');
+      });
+
+      document.getElementById('btnShowForgot').addEventListener('click', () => {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('signupSection').classList.add('hidden');
+        document.getElementById('forgotSection').classList.remove('hidden');
+      });
+
+      document.getElementById('btnCancelForgot').addEventListener('click', () => {
+        document.getElementById('forgotSection').classList.add('hidden');
+        document.getElementById('loginSection').classList.remove('hidden');
+      });
+
+      document.getElementById('btnResetPassword').addEventListener('click', () => {
+        const email = document.getElementById('auth_email').value.trim();
+        if (!email || !email.includes('@')) {
+          return showAlert("Veuillez entrer votre adresse e-mail dans le champ 'Adresse Email' ci-dessus.", true);
+        }
+
+        auth.sendPasswordResetEmail(email)
+          .then(() => {
+            showAlert("E-mail de réinitialisation envoyé ! Vérifiez votre boîte de réception.");
+            document.getElementById('forgotSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+          })
+          .catch(err => {
+            showAlert("Erreur : " + err.message, true);
+          });
       });
 
       document.getElementById('btnSignup').addEventListener('click', () => {
