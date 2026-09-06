@@ -296,6 +296,26 @@
   </div>
 
   <main>
+    <!-- Barre de navigation en haut avec petit rectangle cliquable pour afficher/masquer la description -->
+    <header style="background: #2563eb; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);">
+        <h1 style="margin: 0; font-size: 1.25rem; color: white;" data-i18n="nav_title">Minyan en vacances</h1>
+        <nav>
+            <button onclick="toggleAboutSection()" style="margin: 0; padding: 0.4rem 0.8rem; font-size: 0.85rem; background: rgba(255, 255, 255, 0.25); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 6px; color: white; cursor: pointer; width: auto;" data-i18n="btn_toggle_about">
+              ℹ️ À propos
+            </button>
+        </nav>
+    </header>
+
+    <!-- Section explicative (masquable via le petit rectangle du haut) -->
+    <section id="about" class="card" style="background: rgba(255, 255, 255, 0.9); text-align: center; margin-bottom: 20px;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h2 style="color: #1e293b; margin-top: 0;" data-i18n="about_heading">Qu'est-ce que Minyan en vacances ?</h2>
+            <p style="color: #475569; line-height: 1.6; font-size: 1rem; margin-bottom: 0;" data-i18n="about_text">
+                Notre plateforme permet aux voyageurs et aux vacanciers de trouver facilement un minyan, d'organiser des offices de prière communautaires et de se connecter avec d'autres personnes partout où ils se trouvent en vacances.
+            </p>
+        </div>
+    </section>
+
     <!-- Barre de choix de langue -->
     <div class="lang-bar">
       <button type="button" onclick="switchLanguage('fr')">FR</button>
@@ -510,6 +530,10 @@
     const translations = {
       fr: {
         meta_title: "minyan en vacances - Trouver un minyan en vacances en France",
+        nav_title: "Minyan en vacances",
+        btn_toggle_about: "ℹ️ À propos",
+        about_heading: "Qu'est-ce que Minyan en vacances ?",
+        about_text: "Notre plateforme permet aux voyageurs et aux vacanciers de trouver facilement un minyan, d'organiser des offices de prière communautaires et de se connecter avec d'autres personnes partout où ils se trouvent en vacances.",
         auth_title: "minyan en vacances - Trouver un minyan en vacances en France",
         auth_desc1: "Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.",
         auth_desc2: "Veuillez vous connecter pour accéder aux séjours et publier votre annonce.",
@@ -596,6 +620,10 @@
       },
       en: {
         meta_title: "minyan on vacation - Find a minyan on vacation in France",
+        nav_title: "Minyan on vacation",
+        btn_toggle_about: "ℹ️ About",
+        about_heading: "What is Minyan on vacation?",
+        about_text: "Our platform allows travelers and vacationers to easily find a minyan, organize community prayer services, and connect with other people wherever they are on vacation.",
         auth_title: "minyan on vacation - Find a minyan on vacation in France",
         auth_desc1: "Community mutual aid platform to organize your vacation with complete peace of mind. Minyan on vacation allows you to locate vacationers and households around you using geolocation.",
         auth_desc2: "Please log in to access stays and publish your listing.",
@@ -682,6 +710,10 @@
       },
       he: {
         meta_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
+        nav_title: "מיניין בחופשה",
+        btn_toggle_about: "ℹ️ אודות",
+        about_heading: "מה זה מיניין בחופשה?",
+        about_text: "הפלטפורמה שלנו מאפשרת למטיילים ולנופשים למצוא בקלות מיניין, לארגן מנייני תפילה קהילתיים ולהתחבר לאנשים אחרים בכל מקום שבו הם נמצאים בחופשה.",
         auth_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
         auth_desc1: "פלטפורמת עזרה הדדית קהילתית לארגון החופשה בראש שקט. האפליקציה מאפשרת לך לאתר נופשים ובתים סביבך באמצעות מיקום גיאוגרפי.",
         auth_desc2: "אנא התחבר כדי לגשת לשהויות ולפרסם את המודעה שלך.",
@@ -771,6 +803,15 @@
     function t(key) {
       const lang = localStorage.getItem('minyan_lang') || 'fr';
       return (translations[lang] && translations[lang][key]) || (translations['fr'][key]) || key;
+    }
+
+    function toggleAboutSection() {
+      const aboutSec = document.getElementById('about');
+      if (aboutSec.classList.contains('hidden')) {
+        aboutSec.classList.remove('hidden');
+      } else {
+        aboutSec.classList.add('hidden');
+      }
     }
 
     function switchLanguage(lang) {
