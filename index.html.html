@@ -50,36 +50,31 @@
       position: relative;
     }
 
-    /* QR Code discret en haut à gauche (sans texte) */
+    /* QR Code discret en haut à gauche */
     .qr-badge-top-left {
       position: absolute;
-      top: 15px;
-      left: 15px;
-      background: rgba(255, 255, 255, 0.85);
+      top: 25px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
-      padding: 5px;
-      border-radius: 8px;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      z-index: 100;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 6px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
     .qr-badge-top-left canvas {
       width: 55px !important;
       height: 55px !important;
       display: block;
       border-radius: 4px;
-      opacity: 0.9;
-      transition: opacity 0.2s;
-    }
-    .qr-badge-top-left canvas:hover {
-      opacity: 1;
     }
 
-    /* Adaptation pour l'hébreu (RTL) : basculer le QR code en haut à droite si nécessaire */
+    /* Adaptation pour l'hébreu (RTL) : basculer le QR code en haut à droite */
     html[dir="rtl"] .qr-badge-top-left {
       left: auto;
-      right: 15px;
+      right: 20px;
     }
 
     /* Barre de choix de langue */
@@ -302,6 +297,18 @@
     .profile-btn:hover { background-color: #1e40af; }
     .hidden { display: none !important; }
   </style>
+
+  <!-- Balises pour forcer Google à afficher "Minyan en vacances" -->
+  <meta property="og:site_name" content="Minyan en vacances">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Minyan en vacances",
+    "alternateName": ["minyan-vacances"],
+    "url": "https://minyan-vacances.vercel.app/"
+  }
+  </script>
 </head>
 <body>
 
@@ -326,7 +333,7 @@
         <div style="max-width: 800px; margin: 0 auto;">
             <h2 style="color: #1e293b; margin-top: 0;" data-i18n="about_heading">Qu'est-ce que Minyan en vacances ?</h2>
             <p style="color: #475569; line-height: 1.6; font-size: 1rem; margin-bottom: 0;" data-i18n="about_text">
-                Notre plateforme permet aux voyageurs et aux vacanciers de trouver facilement un minyan, d'organiser des offices de prière communautaires et de se connecter avec d'autres personnes partout où ils se trouvent en vacances.
+                Notre plateforme permet aux voyageurs et aux vacanciers de trouver facilement un minyan et de se connecter avec d'autres personnes partout où ils se trouvent en vacances.
             </p>
         </div>
     </section>
@@ -438,13 +445,13 @@
               <option value="+39">🇮🇹 +39</option>
               <option value="+34">🇪🇸 +34</option>
             </select>
-            <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="06 00 00 00 00" required>
+            <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="6 00 00 00 00" required>
           </div>
 
           <div class="checkbox-container">
             <label class="checkbox-label">
               <input type="checkbox" id="autoriser_tel" required>
-              <span data-i18n="chk_phone_auth">J'accepte d'afficher mon numéro de téléphone public *</span>
+              <span data-i18n="chk_phone_auth">J'accepte d'afficher mon numéro de téléphone *</span>
             </label>
             <div class="checkbox-help" data-i18n="chk_phone_help">
               ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>
@@ -559,7 +566,7 @@
         nav_title: "Minyan en vacances",
         btn_toggle_about: "ℹ️ À propos",
         about_heading: "Qu'est-ce que Minyan en vacances ?",
-        about_text: "Notre plateforme permet aux voyageurs et aux vacanciers de trouver facilement un minyan, d'organiser des offices de prière communautaires et de se connecter avec d'autres personnes partout où ils se trouvent en vacances.",
+        about_text: "Notre plateforme permet aux voyageurs et aux vacanciers de trouver facilement un minyan et de se connecter avec d'autres personnes partout où ils se trouvent en vacances.",
         auth_title: "minyan en vacances - Trouver un minyan en vacances en France",
         auth_desc1: "Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.",
         auth_desc2: "Veuillez vous connecter pour accéder aux séjours et publier votre annonce.",
@@ -591,8 +598,8 @@
         lbl_name: "Nom :",
         ph_name_optional: "Ex: Cohen (optionnel)",
         lbl_phone: "Numéro de téléphone :",
-        ph_phone: "06 00 00 00 00",
-        chk_phone_auth: "J'accepte d'afficher mon numéro de téléphone public *",
+        ph_phone: "6 00 00 00 00",
+        chk_phone_auth: "J'accepte d'afficher mon numéro de téléphone *",
         chk_phone_help: "ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.",
         lbl_men_count: "Nombre d'hommes / garçons (+13 ans) :",
         lbl_address: "Adresse ou Ville (France) :",
@@ -649,7 +656,7 @@
         nav_title: "Minyan on vacation",
         btn_toggle_about: "ℹ️ About",
         about_heading: "What is Minyan on vacation?",
-        about_text: "Our platform allows travelers and vacationers to easily find a minyan, organize community prayer services, and connect with other people wherever they are on vacation.",
+        about_text: "Our platform allows travelers and vacationers to easily find a minyan and connect with other people wherever they are on vacation.",
         auth_title: "minyan on vacation - Find a minyan on vacation in France",
         auth_desc1: "Community mutual aid platform to organize your vacation with complete peace of mind. Minyan on vacation allows you to locate vacationers and households around you using geolocation.",
         auth_desc2: "Please log in to access stays and publish your listing.",
@@ -681,8 +688,8 @@
         lbl_name: "Name:",
         ph_name_optional: "Ex: Smith (optional)",
         lbl_phone: "Phone number:",
-        ph_phone: "+33 6 00 00 00 00",
-        chk_phone_auth: "I agree to display my public phone number *",
+        ph_phone: "6 00 00 00 00",
+        chk_phone_auth: "I agree to display my phone number *",
         chk_phone_help: "ℹ️ <strong>Why is this mandatory?</strong><br>The goal of the app is to allow people on vacation in the same area to contact each other directly.",
         lbl_men_count: "Number of men / boys (13+ years):",
         lbl_address: "Address or City (France):",
@@ -739,7 +746,7 @@
         nav_title: "מיניין בחופשה",
         btn_toggle_about: "ℹ️ אודות",
         about_heading: "מה זה מיניין בחופשה?",
-        about_text: "הפלטפורמה שלנו מאפשרת למטיילים ולנופשים למצוא בקלות מיניין, לארגן מנייני תפילה קהילתיים ולהתחבר לאנשים אחרים בכל מקום שבו הם נמצאים בחופשה.",
+        about_text: "הפלטפורמה שלנו מאפשרת למטיילים ולנופשים למצוא בקלות מיניין ולהתחבר לאנשים אחרים בכל מקום שבו הם נמצאים בחופשה.",
         auth_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
         auth_desc1: "פלטפורמת עזרה הדדית קהילתית לארגון החופשה בראש שקט. האפליקציה מאפשרת לך לאתר נופשים ובתים סביבך באמצעות מיקום גיאוגרפי.",
         auth_desc2: "אנא התחבר כדי לגשת לשהויות ולפרסם את המודעה שלך.",
@@ -771,8 +778,8 @@
         lbl_name: "שם:",
         ph_name_optional: "לדוגמה: כהן (אופציונלי)",
         lbl_phone: "מספר טלפון:",
-        ph_phone: "06 00 00 00 00",
-        chk_phone_auth: "אני מסכים להציג את מספר הטלפון הציבורי שלי *",
+        ph_phone: "6 00 00 00 00",
+        chk_phone_auth: "אני מסכים להציג את מספר הטלפון שלי *",
         chk_phone_help: "ℹ️ <strong>למה זה חובה?</strong><br>המטרה של האפליקציה היא לאפשר לאנשים בחופשה באותו אזור ליצור קשר ישיר.",
         lbl_men_count: "מספר גברים / נערים (גיל 13+):",
         lbl_address: "כתובת או עיר בצרפת (יש להקליד בצרפתית בלבד):",
@@ -1227,8 +1234,14 @@
       }
 
       const nom = document.getElementById('nom').value.trim();
-      const rawPhone = document.getElementById('telephone').value.trim();
+      let rawPhone = document.getElementById('telephone').value.trim();
       const countryCode = document.getElementById('country_code').value;
+
+      // Enlève automatiquement le premier "0" si l'utilisateur l'a saisi (ex: 06 -> 6)
+      if (rawPhone.startsWith('0')) {
+        rawPhone = rawPhone.substring(1);
+      }
+
       const telephone = `${countryCode} ${rawPhone}`;
       const nbHommes = parseInt(document.getElementById('nb_hommes').value, 10) || 1;
 
