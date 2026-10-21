@@ -50,31 +50,21 @@
       position: relative;
     }
 
-    /* QR Code discret en haut à gauche */
-    .qr-badge-top-left {
-      position: absolute;
-      top: 25px;
-      left: 20px;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      padding: 6px;
-      border-radius: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    /* Style du QR Code intégré dans la barre */
+    .header-qr-container {
+      background: #ffffff;
+      padding: 3px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
-    .qr-badge-top-left canvas {
-      width: 55px !important;
-      height: 55px !important;
+    .header-qr-container canvas {
+      width: 38px !important;
+      height: 38px !important;
       display: block;
       border-radius: 4px;
-    }
-
-    /* Adaptation pour l'hébreu (RTL) : basculer le QR code en haut à droite */
-    html[dir="rtl"] .qr-badge-top-left {
-      left: auto;
-      right: 20px;
     }
 
     /* Barre de choix de langue */
@@ -312,15 +302,15 @@
 </head>
 <body>
 
-  <!-- QR Code discret en haut à gauche -->
-  <div class="qr-badge-top-left" title="Scannez pour ouvrir le site">
-    <canvas id="qrcodeCanvas"></canvas>
-  </div>
-
   <main>
-    <!-- Barre de navigation en haut -->
-    <header style="background: #2563eb; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);">
-        <h1 style="margin: 0; font-size: 1.25rem; color: white;" data-i18n="nav_title">Minyan en vacances</h1>
+    <!-- Barre de navigation en haut avec QR Code intégré -->
+    <header style="background: #2563eb; color: white; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="header-qr-container" title="Scannez pour ouvrir le site">
+              <canvas id="qrcodeCanvas"></canvas>
+            </div>
+            <h1 style="margin: 0; font-size: 1.15rem; color: white;" data-i18n="nav_title">Minyan en vacances</h1>
+        </div>
         <nav>
             <button onclick="toggleAboutSection()" style="margin: 0; padding: 0.4rem 0.8rem; font-size: 0.85rem; background: rgba(255, 255, 255, 0.25); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 6px; color: white; cursor: pointer; width: auto;" data-i18n="btn_toggle_about">
               ℹ️ À propos
@@ -914,7 +904,7 @@
         new QRious({
           element: document.getElementById('qrcodeCanvas'),
           value: window.location.href,
-          size: 100
+          size: 80
         });
       }
     };
