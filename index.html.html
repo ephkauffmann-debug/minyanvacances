@@ -170,6 +170,21 @@
 
     input::placeholder { color: rgba(0, 0, 0, 0.7); }
 
+    /* Groupe Téléphone avec Indicatif */
+    .phone-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .phone-group select {
+      width: 130px;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .phone-group input {
+      flex: 1;
+    }
+
     h1, h2, h3 { color: #000; margin-top: 0; letter-spacing: 0.3px; }
     label { display: block; margin-top: 14px; font-weight: 700; font-size: 0.9em; color: #000; }
 
@@ -413,7 +428,19 @@
           <input type="text" id="nom" data-i18n-placeholder="ph_name_optional" placeholder="Ex: Cohen (optionnel)">
 
           <label for="telephone" data-i18n="lbl_phone">Numéro de téléphone :</label>
-          <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="+33 6 00 00 00 00 ou 06 00 00 00 00" required>
+          <div class="phone-group">
+            <select id="country_code">
+              <option value="+33" selected>🇫🇷 FR +33</option>
+              <option value="+972">🇮🇱 IL +972</option>
+              <option value="+32">🇧🇪 BE +32</option>
+              <option value="+41">🇨🇭 CH +41</option>
+              <option value="+44">🇬🇧 GB +44</option>
+              <option value="+1">🇺🇸 US +1</option>
+              <option value="+39">🇮🇹 IT +39</option>
+              <option value="+34">🇪🇸 ES +34</option>
+            </select>
+            <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="6 00 00 00 00" required>
+          </div>
 
           <div class="checkbox-container">
             <label class="checkbox-label">
@@ -564,7 +591,7 @@
         lbl_name: "Nom :",
         ph_name_optional: "Ex: Cohen (optionnel)",
         lbl_phone: "Numéro de téléphone :",
-        ph_phone: "+33 6 00 00 00 00 ou 06 00 00 00 00",
+        ph_phone: "6 00 00 00 00",
         chk_phone_auth: "J'accepte d'afficher mon numéro de téléphone *",
         chk_phone_help: "ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.",
         lbl_men_count: "Nombre d'hommes / garçons (+13 ans) :",
@@ -654,7 +681,7 @@
         lbl_name: "Name:",
         ph_name_optional: "Ex: Smith (optional)",
         lbl_phone: "Phone number:",
-        ph_phone: "+33 6 00 00 00 00 or 06 00 00 00 00",
+        ph_phone: "6 00 00 00 00",
         chk_phone_auth: "I agree to display my phone number *",
         chk_phone_help: "ℹ️ <strong>Why is this mandatory?</strong><br>The goal of the app is to allow people on vacation in the same area to contact each other directly.",
         lbl_men_count: "Number of men / boys (13+ years):",
@@ -744,7 +771,7 @@
         lbl_name: "שם:",
         ph_name_optional: "לדוגמה: כהן (אופציונלי)",
         lbl_phone: "מספר טלפון:",
-        ph_phone: "+33 6 00 00 00 00 או 06 00 00 00 00",
+        ph_phone: "6 00 00 00 00",
         chk_phone_auth: "אני מסכים להציג את מספר הטלפון שלי *",
         chk_phone_help: "ℹ️ <strong>למה זה חובה?</strong><br>המטרה של האפליקציה היא לאפשר לאנשים בחופשה באותו אזור ליצור קשר ישיר.",
         lbl_men_count: "מספר גברים / נערים (גיל 13+):",
@@ -1201,13 +1228,13 @@
 
       const nom = document.getElementById('nom').value.trim();
       let rawPhone = document.getElementById('telephone').value.trim();
+      const countryCode = document.getElementById('country_code').value;
 
-      // Traitement automatique du numéro (international ou français)
-      let telephone = rawPhone;
-      if (telephone.startsWith('06') || telephone.startsWith('07') || telephone.startsWith('01') || telephone.startsWith('02') || telephone.startsWith('03') || telephone.startsWith('04') || telephone.startsWith('05') || telephone.startsWith('09')) {
-        telephone = '+33 ' + telephone.substring(1);
+      if (rawPhone.startsWith('0')) {
+        rawPhone = rawPhone.substring(1);
       }
 
+      const telephone = `${countryCode} ${rawPhone}`;
       const nbHommes = parseInt(document.getElementById('nb_hommes').value, 10) || 1;
 
       const offsetLat = (Math.random() - 0.5) * 0.006;
