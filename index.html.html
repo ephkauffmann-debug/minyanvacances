@@ -10,10 +10,26 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0056b3">
   
-  <title data-i18n="meta_title">minyan en vacances - Trouver un minyan en vacances en France</title>
-  <meta name="description" content="Trouvez facilement un minyan, organisez vos vacances et connectez-vous avec d'autres vacanciers en France. Géolocalisation, entraide et comptage communautaire.">
+  <title data-i18n="meta_title">Minyan en vacances - Trouver un minyan en vacances en France</title>
+  <meta name="description" content="Trouvez facilement un minyan, organisez vos vacances et connectez-vous avec d'autres vacanciers en France. Géolocalisation, entraide et comptage communautaire à Saint-Gervais, Chamonix, Megève et toute la France.">
+  <meta name="keywords" content="minyan, minyan vacances, minyan saint gervais, minyan chamonix, minyan megeve, tfillah vacances, minyan haute savoie">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://minyanvacance.firebaseapp.com/">
+  <link rel="canonical" href="https://minyan-vacances.vercel.app/">
+
+  <!-- Balises pour Google et Réseaux Sociaux -->
+  <meta property="og:site_name" content="Minyan en vacances">
+  <meta property="og:title" content="Minyan en vacances">
+  <meta property="og:type" content="website">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Minyan en vacances",
+    "alternateName": ["Minyan Vacances", "minyan-vacances"],
+    "url": "https://minyan-vacances.vercel.app/"
+  }
+  </script>
 
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="preconnect" href="https://www.gstatic.com">
@@ -50,7 +66,7 @@
       position: relative;
     }
 
-    /* Style du QR Code intégré dans la barre */
+    /* Style du QR Code intégré à l'intérieur de la barre */
     .header-qr-container {
       background: #ffffff;
       padding: 3px;
@@ -153,21 +169,6 @@
     }
 
     input::placeholder { color: rgba(0, 0, 0, 0.7); }
-
-    /* Groupe Téléphone avec Indicatif */
-    .phone-group {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .phone-group select {
-      width: 110px;
-      flex-shrink: 0;
-      margin-top: 6px;
-    }
-    .phone-group input {
-      flex: 1;
-    }
 
     h1, h2, h3 { color: #000; margin-top: 0; letter-spacing: 0.3px; }
     label { display: block; margin-top: 14px; font-weight: 700; font-size: 0.9em; color: #000; }
@@ -287,23 +288,11 @@
     .profile-btn:hover { background-color: #1e40af; }
     .hidden { display: none !important; }
   </style>
-
-  <!-- Balises pour forcer Google à afficher "Minyan en vacances" -->
-  <meta property="og:site_name" content="Minyan en vacances">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Minyan en vacances",
-    "alternateName": ["minyan-vacances"],
-    "url": "https://minyan-vacances.vercel.app/"
-  }
-  </script>
 </head>
 <body>
 
   <main>
-    <!-- Barre de navigation en haut avec QR Code intégré -->
+    <!-- Barre de navigation avec QR Code intégré -->
     <header style="background: #2563eb; color: white; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);">
         <div style="display: flex; align-items: center; gap: 12px;">
             <div class="header-qr-container" title="Scannez pour ouvrir le site">
@@ -318,7 +307,7 @@
         </nav>
     </header>
 
-    <!-- Section explicative (masquable via le bouton) -->
+    <!-- Section explicative -->
     <section id="about" class="card" style="background: rgba(255, 255, 255, 0.9); text-align: center; margin-bottom: 20px;">
         <div style="max-width: 800px; margin: 0 auto;">
             <h2 style="color: #1e293b; margin-top: 0;" data-i18n="about_heading">Qu'est-ce que Minyan en vacances ?</h2>
@@ -343,8 +332,8 @@
     <div id="statusAlert" class="status-alert hidden"></div>
 
     <div id="authCard" class="card">
-      <h1 data-i18n="auth_title">minyan en vacances - Trouver un minyan en vacances en France</h1>
-      <p data-i18n="auth_desc1">Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.</p>
+      <h1 data-i18n="auth_title">Minyan en vacances - Trouver un minyan en vacances en France</h1>
+      <p data-i18n="auth_desc1">Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. Minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.</p>
       <p data-i18n="auth_desc2">Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
       
       <div class="row">
@@ -424,19 +413,7 @@
           <input type="text" id="nom" data-i18n-placeholder="ph_name_optional" placeholder="Ex: Cohen (optionnel)">
 
           <label for="telephone" data-i18n="lbl_phone">Numéro de téléphone :</label>
-          <div class="phone-group">
-            <select id="country_code">
-              <option value="+33" selected>🇫🇷 +33</option>
-              <option value="+972">🇮🇱 +972</option>
-              <option value="+32">🇧🇪 +32</option>
-              <option value="+41">🇨🇭 +41</option>
-              <option value="+44">🇬🇧 +44</option>
-              <option value="+1">🇺🇸 +1</option>
-              <option value="+39">🇮🇹 +39</option>
-              <option value="+34">🇪🇸 +34</option>
-            </select>
-            <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="6 00 00 00 00" required>
-          </div>
+          <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="+33 6 00 00 00 00 ou 06 00 00 00 00" required>
 
           <div class="checkbox-container">
             <label class="checkbox-label">
@@ -541,7 +518,6 @@
   </main>
 
   <script>
-    // Enregistrement du Service Worker PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js')
@@ -552,13 +528,13 @@
 
     const translations = {
       fr: {
-        meta_title: "minyan en vacances - Trouver un minyan en vacances en France",
+        meta_title: "Minyan en vacances - Trouver un minyan en vacances en France",
         nav_title: "Minyan en vacances",
         btn_toggle_about: "ℹ️ À propos",
         about_heading: "Qu'est-ce que Minyan en vacances ?",
         about_text: "Notre plateforme permet aux voyageurs et aux vacanciers de trouver facilement un minyan et de se connecter avec d'autres personnes partout où ils se trouvent en vacances.",
-        auth_title: "minyan en vacances - Trouver un minyan en vacances en France",
-        auth_desc1: "Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.",
+        auth_title: "Minyan en vacances - Trouver un minyan en vacances en France",
+        auth_desc1: "Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. Minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.",
         auth_desc2: "Veuillez vous connecter pour accéder aux séjours et publier votre annonce.",
         lbl_email: "Adresse Email :",
         ph_email: "votre.email@exemple.fr",
@@ -588,7 +564,7 @@
         lbl_name: "Nom :",
         ph_name_optional: "Ex: Cohen (optionnel)",
         lbl_phone: "Numéro de téléphone :",
-        ph_phone: "6 00 00 00 00",
+        ph_phone: "+33 6 00 00 00 00 ou 06 00 00 00 00",
         chk_phone_auth: "J'accepte d'afficher mon numéro de téléphone *",
         chk_phone_help: "ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.",
         lbl_men_count: "Nombre d'hommes / garçons (+13 ans) :",
@@ -642,12 +618,12 @@
         btn_delete_table: "Supprimer"
       },
       en: {
-        meta_title: "minyan on vacation - Find a minyan on vacation in France",
+        meta_title: "Minyan on vacation - Find a minyan on vacation in France",
         nav_title: "Minyan on vacation",
         btn_toggle_about: "ℹ️ About",
         about_heading: "What is Minyan on vacation?",
         about_text: "Our platform allows travelers and vacationers to easily find a minyan and connect with other people wherever they are on vacation.",
-        auth_title: "minyan on vacation - Find a minyan on vacation in France",
+        auth_title: "Minyan on vacation - Find a minyan on vacation in France",
         auth_desc1: "Community mutual aid platform to organize your vacation with complete peace of mind. Minyan on vacation allows you to locate vacationers and households around you using geolocation.",
         auth_desc2: "Please log in to access stays and publish your listing.",
         lbl_email: "Email Address:",
@@ -678,7 +654,7 @@
         lbl_name: "Name:",
         ph_name_optional: "Ex: Smith (optional)",
         lbl_phone: "Phone number:",
-        ph_phone: "6 00 00 00 00",
+        ph_phone: "+33 6 00 00 00 00 or 06 00 00 00 00",
         chk_phone_auth: "I agree to display my phone number *",
         chk_phone_help: "ℹ️ <strong>Why is this mandatory?</strong><br>The goal of the app is to allow people on vacation in the same area to contact each other directly.",
         lbl_men_count: "Number of men / boys (13+ years):",
@@ -768,7 +744,7 @@
         lbl_name: "שם:",
         ph_name_optional: "לדוגמה: כהן (אופציונלי)",
         lbl_phone: "מספר טלפון:",
-        ph_phone: "6 00 00 00 00",
+        ph_phone: "+33 6 00 00 00 00 או 06 00 00 00 00",
         chk_phone_auth: "אני מסכים להציג את מספר הטלפון שלי *",
         chk_phone_help: "ℹ️ <strong>למה זה חובה?</strong><br>המטרה של האפליקציה היא לאפשר לאנשים בחופשה באותו אזור ליצור קשר ישיר.",
         lbl_men_count: "מספר גברים / נערים (גיל 13+):",
@@ -1023,417 +999,4 @@
       });
 
       document.getElementById('btnUpdatePassword').addEventListener('click', () => {
-        const newPassword = document.getElementById('new_password').value;
-        if (!newPassword || newPassword.length < 6) {
-          return showAlert(t('msg_pass_length'), true);
-        }
-
-        const user = auth.currentUser;
-        if (user) {
-          user.updatePassword(newPassword).then(() => {
-            showAlert(t('msg_pass_updated'));
-            document.getElementById('new_password').value = '';
-            profileCard.classList.add('hidden');
-          }).catch(err => {
-            showAlert("Erreur mise à jour : " + err.message, true);
-          });
-        }
-      });
-
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          authCard.classList.add('hidden');
-          appContent.classList.remove('hidden');
-          userEmailDisplay.textContent = user.email;
-          initialiserChampsDates();
-
-          setTimeout(() => {
-            if (!map) {
-              initMap();
-            } else {
-              map.invalidateSize();
-            }
-          }, 200);
-
-          écouterBaseDeDonnees();
-        } else {
-          authCard.classList.remove('hidden');
-          appContent.classList.add('hidden');
-        }
-      });
-    }
-
-    function initMap() {
-      if (map) return;
-      map = L.map('map').setView([46.603354, 1.888334], 6);
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
-
-      markersLayer = L.layerGroup().addTo(map);
-
-      map.on('click', (e) => {
-        selectedLocationSearch = {
-          lat: e.latlng.lat,
-          lon: e.latlng.lng,
-          label: t('point_clicked')
-        };
-        mettreAJourAffichageGlobal();
-      });
-
-      if (sejours.length > 0) {
-        mettreAJourAffichageGlobal();
-      }
-    }
-
-    function calculerDistanceKm(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c;
-    }
-
-    setupAutocomplete('adresse_input', 'suggestions', (location) => {
-      selectedLocationForm = location;
-    });
-
-    setupAutocomplete('recherche_adresse', 'suggestions_recherche', (location) => {
-      selectedLocationSearch = location;
-      if (map && location) {
-        map.setView([location.lat, location.lon], 12);
-        mettreAJourAffichageGlobal();
-      }
-    });
-
-    document.getElementById('btnRechercher').addEventListener('click', () => {
-      const saisie = document.getElementById('recherche_adresse').value.trim();
-      if (!saisie) {
-        showAlert(t('msg_enter_city_search'), true);
-        return;
-      }
-      if (!selectedLocationSearch) {
-        showAlert(t('msg_choose_city_list'), true);
-        return;
-      }
-      if (map && selectedLocationSearch) {
-        map.setView([selectedLocationSearch.lat, selectedLocationSearch.lon], 12);
-      }
-      mettreAJourAffichageGlobal();
-    });
-
-    document.getElementById('recherche_adresse').addEventListener('input', function() {
-      if (this.value.trim() === '') {
-        selectedLocationSearch = null;
-        resultatsBasContainer.classList.add('hidden');
-        if (circleLayer) { map.removeLayer(circleLayer); circleLayer = null; }
-      }
-    });
-
-    document.getElementById('rayon_select').addEventListener('change', () => {
-      if (selectedLocationSearch) mettreAJourAffichageGlobal();
-    });
-
-    function setupAutocomplete(inputId, boxId, onSelect) {
-      const input = document.getElementById(inputId);
-      const box = document.getElementById(boxId);
-      let timeoutId = null;
-
-      input.addEventListener('input', function() {
-        const query = this.value.trim();
-        clearTimeout(timeoutId);
-
-        if (query.length < 3) {
-          box.style.display = 'none';
-          return;
-        }
-
-        timeoutId = setTimeout(async () => {
-          try {
-            const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`);
-            const data = await response.json();
-
-            box.innerHTML = '';
-            if (data.features && data.features.length > 0) {
-              box.style.display = 'block';
-              data.features.forEach(f => {
-                const label = f.properties.label;
-                const city = f.properties.city || f.properties.name;
-                const postcode = f.properties.postcode || '';
-                const lat = f.geometry.coordinates[1];
-                const lon = f.geometry.coordinates[0];
-
-                const item = document.createElement('div');
-                item.className = 'suggestion-item';
-                item.textContent = label;
-
-                item.addEventListener('click', function() {
-                  input.value = label;
-                  onSelect({ label, city, postcode, lat, lon });
-                  box.style.display = 'none';
-                });
-                box.appendChild(item);
-              });
-            } else {
-              box.style.display = 'none';
-            }
-          } catch (err) {
-            console.error("Erreur autocomplétion :", err);
-          }
-        }, 300);
-      });
-
-      document.addEventListener('click', function(e) {
-        if (!input.contains(e.target) && !box.contains(e.target)) {
-          box.style.display = 'none';
-        }
-      });
-    }
-
-    document.getElementById('minyanForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const autoriserTel = document.getElementById('autoriser_tel').checked;
-      if (!autoriserTel) {
-        showAlert(t('msg_accept_phone'), true);
-        return;
-      }
-
-      if (!selectedLocationForm) {
-        showAlert(t('msg_choose_address'), true);
-        return;
-      }
-
-      const dateDebut = document.getElementById('date_debut').value;
-      const dateFin = document.getElementById('date_fin').value;
-      const aujourdHui = new Date().toISOString().split('T')[0];
-
-      if (dateDebut < aujourdHui || dateFin < aujourdHui) {
-        showAlert(t('msg_dates_past'), true);
-        return;
-      }
-
-      if (dateDebut > dateFin) {
-        showAlert(t('msg_dates_order'), true);
-        return;
-      }
-
-      const nom = document.getElementById('nom').value.trim();
-      let rawPhone = document.getElementById('telephone').value.trim();
-      const countryCode = document.getElementById('country_code').value;
-
-      // Enlève automatiquement le premier "0" si l'utilisateur l'a saisi (ex: 06 -> 6)
-      if (rawPhone.startsWith('0')) {
-        rawPhone = rawPhone.substring(1);
-      }
-
-      const telephone = `${countryCode} ${rawPhone}`;
-      const nbHommes = parseInt(document.getElementById('nb_hommes').value, 10) || 1;
-
-      const offsetLat = (Math.random() - 0.5) * 0.006;
-      const offsetLon = (Math.random() - 0.5) * 0.006;
-      const lat = selectedLocationForm.lat + offsetLat;
-      const lon = selectedLocationForm.lon + offsetLon;
-      
-      const lieuAffichage = selectedLocationForm.postcode 
-        ? `${selectedLocationForm.city} (${selectedLocationForm.postcode})`
-        : selectedLocationForm.city;
-
-      const newRef = rtdb.ref('sejours').push();
-      newRef.set({
-        nom: nom,
-        telephone: telephone,
-        nbHommes: nbHommes,
-        lieu: lieuAffichage,
-        dateDebut: dateDebut,
-        dateFin: dateFin,
-        lat: lat,
-        lon: lon,
-        userId: auth.currentUser.uid,
-        userEmail: auth.currentUser.email
-      }).then(() => {
-        showAlert(t('msg_stay_saved'));
-        this.reset();
-        document.getElementById('nb_hommes').value = "1";
-        selectedLocationForm = null;
-        initialiserChampsDates();
-      }).catch(err => {
-        showAlert("Erreur enregistrement : " + err.message, true);
-      });
-    });
-
-    function écouterBaseDeDonnees() {
-      rtdb.ref('sejours').on('value', snapshot => {
-        const val = snapshot.val();
-        sejours = [];
-        if (val) {
-          Object.keys(val).forEach(key => {
-            sejours.push({
-              id: key,
-              ...val[key]
-            });
-          });
-        }
-        mettreAJourAffichageGlobal();
-      });
-    }
-
-    window.supprimerSejour = function(id) {
-      if (confirm(t('msg_confirm_delete'))) {
-        rtdb.ref('sejours/' + id).remove()
-          .then(() => {
-            if (selectedSejourId === id) selectedSejourId = null;
-            showAlert(t('msg_stay_deleted'));
-          })
-          .catch(err => showAlert("Erreur : " + err.message, true));
-      }
-    };
-
-    function mettreAJourAffichageGlobal() {
-      if (!map) return;
-      
-      const activeIds = new Set(sejours.map(s => s.id));
-
-      Object.keys(markersMap).forEach(id => {
-        if (!activeIds.has(id)) {
-          markersLayer.removeLayer(markersMap[id]);
-          delete markersMap[id];
-        }
-      });
-
-      sejours.forEach(s => {
-        const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
-        const popupContent = `
-          <div style="color:#000;">
-            ${nomAffiche}
-            👥 <strong>${s.nbHommes} ${t('th_men')}</strong><br>
-            📍 ${t('th_city')} : <strong>${s.lieu}</strong><br>
-            📞 ${t('th_phone')} : <a href="tel:${s.telephone}">${s.telephone}</a><br>
-            📅 ${t('th_dates')} : ${s.dateDebut} - ${s.dateFin}
-          </div>
-        `;
-
-        if (markersMap[s.id]) {
-          markersMap[s.id].setLatLng([s.lat, s.lon]);
-          markersMap[s.id].setPopupContent(popupContent);
-        } else {
-          const marker = L.marker([s.lat, s.lon]).bindPopup(popupContent);
-          marker.on('click', () => {
-            selectedSejourId = s.id;
-            selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
-            resultatsBasControllerAffichage();
-          });
-          markersLayer.addLayer(marker);
-          markersMap[s.id] = marker;
-        }
-      });
-
-      if (!selectedLocationSearch) {
-        resultatsBasContainer.classList.add('hidden');
-        if (circleLayer) { map.removeLayer(circleLayer); circleLayer = null; }
-        return;
-      }
-
-      resultatsBasControllerAffichage();
-    }
-
-    function resultatsBasControllerAffichage() {
-      resultatsBasContainer.classList.remove('hidden');
-
-      const rayonKm = parseFloat(document.getElementById('rayon_select').value);
-      const centerLat = selectedLocationSearch.lat;
-      const centerLon = selectedLocationSearch.lon;
-
-      const sejoursAffiches = sejours.filter(s => {
-        const dist = calculerDistanceKm(centerLat, centerLon, s.lat, s.lon);
-        return dist <= rayonKm;
-      });
-
-      if (circleLayer) map.removeLayer(circleLayer);
-      circleLayer = L.circle([centerLat, centerLon], {
-        color: '#1d4ed8',
-        fillColor: '#1d4ed8',
-        fillOpacity: 0.2,
-        radius: rayonKm * 1000
-      }).addTo(map);
-
-      const detailContainer = document.getElementById('detailSelectionContainer');
-      const selectedObj = sejoursAffiches.find(s => s.id === selectedSejourId) || sejours.find(s => s.id === selectedSejourId);
-
-      if (selectedObj) {
-        const nomAff = selectedObj.nom ? `👤 <strong>${t('th_name')} :</strong> ${selectedObj.nom}<br>` : '';
-        detailContainer.innerHTML = `
-          <div class="selected-preview-card" style="margin:0;">
-            ${nomAff}
-            📞 <strong>${t('th_phone')} :</strong> <a href="tel:${selectedObj.telephone}" style="color: #004085;">${selectedObj.telephone}</a><br>
-            👥 <strong>${t('th_men')} :</strong> ${selectedObj.nbHommes}<br>
-            📍 <strong>${t('th_city')} :</strong> ${selectedObj.lieu}<br>
-            📅 <strong>${t('th_dates')} :</strong> ${selectedObj.dateDebut} -> ${selectedObj.dateFin}
-          </div>
-        `;
-      } else {
-        detailContainer.innerHTML = `<p style="font-style: italic; margin:0; opacity: 0.8;">${t('details_placeholder')}</p>`;
-      }
-
-      const listeTbody = document.getElementById('listeInscrits');
-      const totauxContainer = document.getElementById('totauxContainer');
-
-      listeTbody.innerHTML = '';
-      if (sejoursAffiches.length === 0) {
-        listeTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#000;">${t('msg_no_stay_zone')}</td></tr>`;
-      } else {
-        const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
-
-        sejoursAffiches.forEach(s => {
-          const isOwner = s.userId === currentUserId;
-          const nomAffichage = s.nom ? `<strong>${s.nom}</strong>` : '<i style="opacity: 0.6;">-</i>';
-
-          const tr = document.createElement('tr');
-          tr.style.cursor = 'pointer';
-          tr.innerHTML = `
-            <td>${nomAffichage}</td>
-            <td><a href="tel:${s.telephone}" onclick="event.stopPropagation();" style="color: #004085;"><strong>${s.telephone}</strong></a></td>
-            <td><span class="badge-minyan">${s.nbHommes}</span></td>
-            <td><strong>${s.lieu}</strong></td>
-            <td>${s.dateDebut} -> ${s.dateFin}</td>
-            <td>
-              ${isOwner ? `<button class="btn-danger" onclick="event.stopPropagation(); supprimerSejour('${s.id}')">${t('btn_delete_table')}</button>` : '-'}
-            </td>
-          `;
-
-          tr.addEventListener('click', () => {
-            selectedSejourId = s.id;
-            selectedLocationSearch = { lat: s.lat, lon: s.lon, label: s.lieu };
-            map.setView([s.lat, s.lon], 13);
-            resultatsBasControllerAffichage();
-          });
-
-          listeTbody.appendChild(tr);
-        });
-      }
-
-      totauxContainer.innerHTML = '';
-      if (sejoursAffiches.length === 0) {
-        totauxContainer.innerHTML = `<p>${t('msg_no_stay_recorded')}</p>`;
-      } else {
-        const totalHommesZone = sejoursAffiches.reduce((sum, s) => sum + s.nbHommes, 0);
-        const statusDiv = document.createElement('div');
-        if (totalHommesZone >= 10) {
-          statusDiv.className = 'minyan-status-card minyan-ok';
-          statusDiv.innerHTML = `🎉 <strong>MINYAN ASSURÉ !</strong><br>Il y a <strong>${totalHommesZone}</strong> (${t('th_men')}) recensés dans cette zone.`;
-        } else {
-          const manquants = 10 - totalHommesZone;
-          statusDiv.className = 'minyan-status-card minyan-missing';
-          statusDiv.innerHTML = `⚠️ <strong>MINYAN INCOMPLET</strong><br>Il y a <strong>${totalHommesZone} / 10</strong> (${t('th_men')}).<br>Il en manque encore <strong>${manquants}</strong>.`;
-        }
-        totauxContainer.appendChild(statusDiv);
-      }
-    }
-  </script>
-</body>
-</html>
+        const newPassword = document.getElementById
