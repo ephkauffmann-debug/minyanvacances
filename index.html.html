@@ -169,6 +169,21 @@
 
     input::placeholder { color: rgba(0, 0, 0, 0.7); }
 
+    /* Groupe Téléphone avec Indicatif */
+    .phone-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .phone-group select {
+      width: 110px;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .phone-group input {
+      flex: 1;
+    }
+
     h1, h2, h3 { color: #000; margin-top: 0; letter-spacing: 0.3px; }
     label { display: block; margin-top: 14px; font-weight: 700; font-size: 0.9em; color: #000; }
 
@@ -296,6 +311,26 @@
   </div>
 
   <main>
+    <!-- Barre de navigation en haut -->
+    <header style="background: #2563eb; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);">
+        <h1 style="margin: 0; font-size: 1.25rem; color: white;" data-i18n="nav_title">Minyan en vacances</h1>
+        <nav>
+            <button onclick="toggleAboutSection()" style="margin: 0; padding: 0.4rem 0.8rem; font-size: 0.85rem; background: rgba(255, 255, 255, 0.25); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 6px; color: white; cursor: pointer; width: auto;" data-i18n="btn_toggle_about">
+              ℹ️ À propos
+            </button>
+        </nav>
+    </header>
+
+    <!-- Section explicative (masquable via le bouton) -->
+    <section id="about" class="card" style="background: rgba(255, 255, 255, 0.9); text-align: center; margin-bottom: 20px;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h2 style="color: #1e293b; margin-top: 0;" data-i18n="about_heading">Qu'est-ce que Minyan en vacances ?</h2>
+            <p style="color: #475569; line-height: 1.6; font-size: 1rem; margin-bottom: 0;" data-i18n="about_text">
+                Notre plateforme permet aux voyageurs et aux vacanciers de trouver facilement un minyan, d'organiser des offices de prière communautaires et de se connecter avec d'autres personnes partout où ils se trouvent en vacances.
+            </p>
+        </div>
+    </section>
+
     <!-- Barre de choix de langue -->
     <div class="lang-bar">
       <button type="button" onclick="switchLanguage('fr')">FR</button>
@@ -303,7 +338,7 @@
       <button type="button" onclick="switchLanguage('he')">עב</button>
     </div>
 
-    <!-- Logo en grand affiché grâce au fichier img.png.png -->
+    <!-- Logo en grand -->
     <div class="logo-container">
       <img src="img.png.png" alt="Logo Minyan en vacances">
     </div>
@@ -334,7 +369,6 @@
         </div>
         <button id="btnLogin" type="button" data-i18n="btn_login">Se connecter</button>
         
-        <!-- Option Mot de passe oublié -->
         <p style="text-align:center; margin-top:15px;">
           <a href="#" id="forgotPasswordLink" style="color: #0056b3; cursor: pointer; font-weight: 600;" data-i18n="link_forgot">Mot de passe oublié ?</a>
         </p>
@@ -385,7 +419,7 @@
       </div>
 
       <div class="card" style="border-top: 4px solid #218838;">
-        <h2 data-i18n="publish_title">Publier ou Modifier mon Séjour ✡️</h2>
+        <h2 data-i18n="publish_title">Publier ou Modifier mon Séjour</h2>
         <p data-i18n="publish_desc">Inscrivez votre logement et vos participants :</p>
         
         <form id="minyanForm">
@@ -393,7 +427,19 @@
           <input type="text" id="nom" data-i18n-placeholder="ph_name_optional" placeholder="Ex: Cohen (optionnel)">
 
           <label for="telephone" data-i18n="lbl_phone">Numéro de téléphone :</label>
-          <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="06 00 00 00 00" required>
+          <div class="phone-group">
+            <select id="country_code">
+              <option value="+33" selected>🇫🇷 +33</option>
+              <option value="+972">🇮🇱 +972</option>
+              <option value="+32">🇧🇪 +32</option>
+              <option value="+41">🇨🇭 +41</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+39">🇮🇹 +39</option>
+              <option value="+34">🇪🇸 +34</option>
+            </select>
+            <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="06 00 00 00 00" required>
+          </div>
 
           <div class="checkbox-container">
             <label class="checkbox-label">
@@ -510,6 +556,10 @@
     const translations = {
       fr: {
         meta_title: "minyan en vacances - Trouver un minyan en vacances en France",
+        nav_title: "Minyan en vacances",
+        btn_toggle_about: "ℹ️ À propos",
+        about_heading: "Qu'est-ce que Minyan en vacances ?",
+        about_text: "Notre plateforme permet aux voyageurs et aux vacanciers de trouver facilement un minyan, d'organiser des offices de prière communautaires et de se connecter avec d'autres personnes partout où ils se trouvent en vacances.",
         auth_title: "minyan en vacances - Trouver un minyan en vacances en France",
         auth_desc1: "Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.",
         auth_desc2: "Veuillez vous connecter pour accéder aux séjours et publier votre annonce.",
@@ -536,7 +586,7 @@
         ph_new_pass_secure: "Nouveau mot de passe sécurisé (6 caractères min.)",
         btn_update_pass: "Mettre à jour mon mot de passe",
         btn_logout: "Se déconnecter",
-        publish_title: "Publier ou Modifier mon Séjour ✡️",
+        publish_title: "Publier ou Modifier mon Séjour",
         publish_desc: "Inscrivez votre logement et vos participants :",
         lbl_name: "Nom :",
         ph_name_optional: "Ex: Cohen (optionnel)",
@@ -596,6 +646,10 @@
       },
       en: {
         meta_title: "minyan on vacation - Find a minyan on vacation in France",
+        nav_title: "Minyan on vacation",
+        btn_toggle_about: "ℹ️ About",
+        about_heading: "What is Minyan on vacation?",
+        about_text: "Our platform allows travelers and vacationers to easily find a minyan, organize community prayer services, and connect with other people wherever they are on vacation.",
         auth_title: "minyan on vacation - Find a minyan on vacation in France",
         auth_desc1: "Community mutual aid platform to organize your vacation with complete peace of mind. Minyan on vacation allows you to locate vacationers and households around you using geolocation.",
         auth_desc2: "Please log in to access stays and publish your listing.",
@@ -622,7 +676,7 @@
         ph_new_pass_secure: "New secure password (6 chars min.)",
         btn_update_pass: "Update my password",
         btn_logout: "Log out",
-        publish_title: "Publish or Modify my Stay ✡️",
+        publish_title: "Publish or Modify my Stay",
         publish_desc: "Register your accommodation and participants:",
         lbl_name: "Name:",
         ph_name_optional: "Ex: Smith (optional)",
@@ -682,6 +736,10 @@
       },
       he: {
         meta_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
+        nav_title: "מיניין בחופשה",
+        btn_toggle_about: "ℹ️ אודות",
+        about_heading: "מה זה מיניין בחופשה?",
+        about_text: "הפלטפורמה שלנו מאפשרת למטיילים ולנופשים למצוא בקלות מיניין, לארגן מנייני תפילה קהילתיים ולהתחבר לאנשים אחרים בכל מקום שבו הם נמצאים בחופשה.",
         auth_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
         auth_desc1: "פלטפורמת עזרה הדדית קהילתית לארגון החופשה בראש שקט. האפליקציה מאפשרת לך לאתר נופשים ובתים סביבך באמצעות מיקום גיאוגרפי.",
         auth_desc2: "אנא התחבר כדי לגשת לשהויות ולפרסם את המודעה שלך.",
@@ -708,7 +766,7 @@
         ph_new_pass_secure: "סיסמה חדשה מאובטחת (6 תווים לפחות)",
         btn_update_pass: "עדכן סיסמה",
         btn_logout: "התנתק",
-        publish_title: "פרסם או ערוך את השהות שלי ✡️",
+        publish_title: "פרסם או ערוך את השהות שלי",
         publish_desc: "רשום את מקום האירוח והמשתתפים שלך:",
         lbl_name: "שם:",
         ph_name_optional: "לדוגמה: כהן (אופציונלי)",
@@ -771,6 +829,15 @@
     function t(key) {
       const lang = localStorage.getItem('minyan_lang') || 'fr';
       return (translations[lang] && translations[lang][key]) || (translations['fr'][key]) || key;
+    }
+
+    function toggleAboutSection() {
+      const aboutSec = document.getElementById('about');
+      if (aboutSec.classList.contains('hidden')) {
+        aboutSec.classList.remove('hidden');
+      } else {
+        aboutSec.classList.add('hidden');
+      }
     }
 
     function switchLanguage(lang) {
@@ -1160,7 +1227,9 @@
       }
 
       const nom = document.getElementById('nom').value.trim();
-      const telephone = document.getElementById('telephone').value.trim();
+      const rawPhone = document.getElementById('telephone').value.trim();
+      const countryCode = document.getElementById('country_code').value;
+      const telephone = `${countryCode} ${rawPhone}`;
       const nbHommes = parseInt(document.getElementById('nb_hommes').value, 10) || 1;
 
       const offsetLat = (Math.random() - 0.5) * 0.006;
