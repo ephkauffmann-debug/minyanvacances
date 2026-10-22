@@ -170,14 +170,14 @@
 
     input::placeholder { color: rgba(0, 0, 0, 0.7); }
 
-    /* Groupe Téléphone avec Indicatif */
+    /* Groupe Téléphone avec Indicatif Élargi */
     .phone-group {
       display: flex;
       gap: 8px;
       align-items: center;
     }
     .phone-group select {
-      width: 130px;
+      width: 140px;
       flex-shrink: 0;
       margin-top: 6px;
     }
@@ -432,12 +432,36 @@
             <select id="country_code">
               <option value="+33" selected>🇫🇷 FR +33</option>
               <option value="+972">🇮🇱 IL +972</option>
+              <option value="+1">🇺🇸 US +1</option>
+              <option value="+1">🇨🇦 CA +1</option>
+              <option value="+44">🇬🇧 GB +44</option>
               <option value="+32">🇧🇪 BE +32</option>
               <option value="+41">🇨🇭 CH +41</option>
-              <option value="+44">🇬🇧 GB +44</option>
-              <option value="+1">🇺🇸 US +1</option>
               <option value="+39">🇮🇹 IT +39</option>
               <option value="+34">🇪🇸 ES +34</option>
+              <option value="+49">🇩🇪 DE +49</option>
+              <option value="+31">🇳🇱 NL +31</option>
+              <option value="+352">🇱🇺 LU +352</option>
+              <option value="+351">🇵🇹 PT +351</option>
+              <option value="+43">🇦🇹 AT +43</option>
+              <option value="+30">🇬🇷 GR +30</option>
+              <option value="+353">🇮🇪 IE +353</option>
+              <option value="+48">🇵🇱 PL +48</option>
+              <option value="+420">🇨🇿 CZ +420</option>
+              <option value="+36">🇭🇺 HU +36</option>
+              <option value="+40">🇷🇴 RO +40</option>
+              <option value="+380">🇺🇦 UA +380</option>
+              <option value="+212">🇲🇦 MA +212</option>
+              <option value="+216">🇹🇳 TN +216</option>
+              <option value="+213">🇩🇿 DZ +213</option>
+              <option value="+55">🇧🇷 BR +55</option>
+              <option value="+54">🇦🇷 AR +54</option>
+              <option value="+52">🇲🇽 MX +52</option>
+              <option value="+506">🇨🇷 CR +506</option>
+              <option value="+507">🇵🇦 PA +507</option>
+              <option value="+27">🇿🇦 ZA +27</option>
+              <option value="+61">🇦🇺 AU +61</option>
+              <option value="+971">🇦🇪 AE +971</option>
             </select>
             <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="6 00 00 00 00" required>
           </div>
@@ -466,14 +490,94 @@
             🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.
           </div>
 
-          <div class="row">
+          <!-- Option calendrier hébraïque -->
+          <div style="margin-top: 15px; background: rgba(0, 86, 179, 0.1); padding: 10px; border-radius: 8px;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 0;">
+              <input type="checkbox" id="utiliser_hebraique" onchange="toggleCalendrierHebraique()" style="width: auto; margin:0;">
+              <span>📅 Saisir les dates en calendrier hébraïque (בס"ד)</span>
+            </label>
+          </div>
+
+          <!-- Section Calendrier Grégorien (Classique) -->
+          <div id="sectionGregorien" class="row">
             <div class="col">
               <label for="date_debut" data-i18n="lbl_start_date">Date d'arrivée :</label>
-              <input type="date" id="date_debut" required>
+              <input type="date" id="date_debut">
             </div>
             <div class="col">
               <label for="date_fin" data-i18n="lbl_end_date">Date de départ :</label>
-              <input type="date" id="date_fin" required>
+              <input type="date" id="date_fin">
+            </div>
+          </div>
+
+          <!-- Section Calendrier Hébraïque -->
+          <div id="sectionHebraique" class="hidden">
+            <div class="row">
+              <div class="col">
+                <label>Jour d'arrivée :</label>
+                <select id="heb_jour_debut">
+                  <!-- JS générera 1 à 30 -->
+                </select>
+              </div>
+              <div class="col">
+                <label>Mois d'arrivée :</label>
+                <select id="heb_mois_debut">
+                  <option value="Tichri">Tichri (תשרי)</option>
+                  <option value="Heshvan">Heshvan (חשוון)</option>
+                  <option value="Kislev">Kislev (כסלו)</option>
+                  <option value="Tevet">Tevet (טבת)</option>
+                  <option value="Chevat">Chevat (שבט)</option>
+                  <option value="Adar">Adar (אדר)</option>
+                  <option value="Nissan">Nissan (ניסן)</option>
+                  <option value="Iyar">Iyar (אייר)</option>
+                  <option value="Sivan">Sivan (סיון)</option>
+                  <option value="Tamouz">Tamouz (תמוז)</option>
+                  <option value="Av">Av (אב)</option>
+                  <option value="Eloul">Eloul (אלול)</option>
+                </select>
+              </div>
+              <div class="col">
+                <label>Année :</label>
+                <select id="heb_annee_debut">
+                  <option value="5786" selected>5786 (תשפ״ו)</option>
+                  <option value="5787">5787 (תשפ״ז)</option>
+                  <option value="5788">5788 (תשפ״ח)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+              <div class="col">
+                <label>Jour de départ :</label>
+                <select id="heb_jour_fin">
+                  <!-- JS générera 1 à 30 -->
+                </select>
+              </div>
+              <div class="col">
+                <label>Mois de départ :</label>
+                <select id="heb_mois_fin">
+                  <option value="Tichri">Tichri (תשרי)</option>
+                  <option value="Heshvan">Heshvan (חשוון)</option>
+                  <option value="Kislev">Kislev (כסלו)</option>
+                  <option value="Tevet">Tevet (טבת)</option>
+                  <option value="Chevat">Chevat (שבט)</option>
+                  <option value="Adar">Adar (אדר)</option>
+                  <option value="Nissan">Nissan (ניסן)</option>
+                  <option value="Iyar">Iyar (אייר)</option>
+                  <option value="Sivan">Sivan (סיון)</option>
+                  <option value="Tamouz">Tamouz (תמוז)</option>
+                  <option value="Av">Av (אב)</option>
+                  <option value="Eloul">Eloul (אלול)</option>
+                </select>
+              </div>
+              <div class="col">
+                <label>Année :</label>
+                <select id="heb_annee_fin">
+                  <option value="5786" selected>5786 (תשפ״ו)</option>
+                  <option value="5787">5787 (תשפ״ז)</option>
+                  <option value="5788">5788 (תשפ״ח)</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -885,6 +989,30 @@
       }
     };
 
+    function initialiserSelecteursJours() {
+      const jDebut = document.getElementById('heb_jour_debut');
+      const jFin = document.getElementById('heb_jour_fin');
+      jDebut.innerHTML = '';
+      jFin.innerHTML = '';
+      for (let i = 1; i <= 30; i++) {
+        jDebut.innerHTML += `<option value="${i}">${i}</option>`;
+        jFin.innerHTML += `<option value="${i}">${i}</option>`;
+      }
+    }
+
+    window.toggleCalendrierHebraique = function() {
+      const isHeb = document.getElementById('utiliser_hebraique').checked;
+      const secGreg = document.getElementById('sectionGregorien');
+      const secHeb = document.getElementById('sectionHebraique');
+      if (isHeb) {
+        secGreg.classList.add('hidden');
+        secHeb.classList.remove('hidden');
+      } else {
+        secHeb.classList.add('hidden');
+        secGreg.classList.remove('hidden');
+      }
+    };
+
     const firebaseConfig = {
       apiKey: "AIzaSyCp4ekhaoc3avzF1O_GXZUbRLWIF-rGLTo",
       authDomain: "minyanvacance.firebaseapp.com",
@@ -910,6 +1038,7 @@
           size: 80
         });
       }
+      initialiserSelecteursJours();
     };
 
     if (document.readyState === 'loading') {
@@ -1212,18 +1341,40 @@
         return;
       }
 
-      const dateDebut = document.getElementById('date_debut').value;
-      const dateFin = document.getElementById('date_fin').value;
-      const aujourdHui = new Date().toISOString().split('T')[0];
+      const isHeb = document.getElementById('utiliser_hebraique').checked;
+      let dateDebut, dateFin, datesAffichage;
 
-      if (dateDebut < aujourdHui || dateFin < aujourdHui) {
-        showAlert(t('msg_dates_past'), true);
-        return;
-      }
+      const aujourdHuiStr = new Date().toISOString().split('T')[0];
 
-      if (dateDebut > dateFin) {
-        showAlert(t('msg_dates_order'), true);
-        return;
+      if (isHeb) {
+        const jDebut = document.getElementById('heb_jour_debut').value;
+        const mDebut = document.getElementById('heb_mois_debut').value;
+        const aDebut = document.getElementById('heb_annee_debut').value;
+        
+        const jFin = document.getElementById('heb_jour_fin').value;
+        const mFin = document.getElementById('heb_mois_fin').value;
+        const aFin = document.getElementById('heb_annee_fin').value;
+
+        datesAffichage = `${jDebut} ${mDebut} ${aDebut} -> ${jFin} ${mFin} ${aFin}`;
+        
+        // Pour la suppression automatique, on simule une date de fin technique (approximative ou basée sur l'année/mois en cours pour éviter l'expiration immédiate si non géré, ou on stocke une date de tri lointaine)
+        dateDebut = aujourdHuiStr; 
+        dateFin = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]; // Par défaut valable 30 jours pour le nettoyage auto
+      } else {
+        dateDebut = document.getElementById('date_debut').value;
+        dateFin = document.getElementById('date_fin').value;
+        const aujourdHui = new Date().toISOString().split('T')[0];
+
+        if (dateDebut < aujourdHui || dateFin < aujourdHui) {
+          showAlert(t('msg_dates_past'), true);
+          return;
+        }
+
+        if (dateDebut > dateFin) {
+          showAlert(t('msg_dates_order'), true);
+          return;
+        }
+        datesAffichage = `${dateDebut} -> ${dateFin}`;
       }
 
       const nom = document.getElementById('nom').value.trim();
@@ -1253,7 +1404,8 @@
         nbHommes: nbHommes,
         lieu: lieuAffichage,
         dateDebut: dateDebut,
-        dateFin: dateFin,
+        dateFin: dateFin, // Utilisé pour la suppression automatique
+        datesAffichage: datesAffichage, // Affichage final (grogorien ou hébraïque)
         lat: lat,
         lon: lon,
         userId: auth.currentUser.uid,
@@ -1264,6 +1416,7 @@
         document.getElementById('nb_hommes').value = "1";
         selectedLocationForm = null;
         initialiserChampsDates();
+        initialiserSelecteursJours();
       }).catch(err => {
         showAlert("Erreur enregistrement : " + err.message, true);
       });
@@ -1273,12 +1426,20 @@
       rtdb.ref('sejours').on('value', snapshot => {
         const val = snapshot.val();
         sejours = [];
+        const aujourdHuiStr = new Date().toISOString().split('T')[0];
+
         if (val) {
           Object.keys(val).forEach(key => {
-            sejours.push({
-              id: key,
-              ...val[key]
-            });
+            const item = val[key];
+            // SUPPRESSION AUTOMATIQUE si la date de fin est dépassée
+            if (item.dateFin && item.dateFin < aujourdHuiStr) {
+              rtdb.ref('sejours/' + key).remove(); // Supprime de Firebase directement
+            } else {
+              sejours.push({
+                id: key,
+                ...item
+              });
+            }
           });
         }
         mettreAJourAffichageGlobal();
@@ -1310,13 +1471,14 @@
 
       sejours.forEach(s => {
         const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
+        const datesTexte = s.datesAffichage || `${s.dateDebut} - ${s.dateFin}`;
         const popupContent = `
           <div style="color:#000;">
             ${nomAffiche}
             👥 <strong>${s.nbHommes} ${t('th_men')}</strong><br>
             📍 ${t('th_city')} : <strong>${s.lieu}</strong><br>
             📞 ${t('th_phone')} : <a href="tel:${s.telephone}">${s.telephone}</a><br>
-            📅 ${t('th_dates')} : ${s.dateDebut} - ${s.dateFin}
+            📅 ${t('th_dates')} : ${datesTexte}
           </div>
         `;
 
@@ -1369,13 +1531,14 @@
 
       if (selectedObj) {
         const nomAff = selectedObj.nom ? `👤 <strong>${t('th_name')} :</strong> ${selectedObj.nom}<br>` : '';
+        const datesTexte = selectedObj.datesAffichage || `${selectedObj.dateDebut} -> ${selectedObj.dateFin}`;
         detailContainer.innerHTML = `
           <div class="selected-preview-card" style="margin:0;">
             ${nomAff}
             📞 <strong>${t('th_phone')} :</strong> <a href="tel:${selectedObj.telephone}" style="color: #004085;">${selectedObj.telephone}</a><br>
             👥 <strong>${t('th_men')} :</strong> ${selectedObj.nbHommes}<br>
             📍 <strong>${t('th_city')} :</strong> ${selectedObj.lieu}<br>
-            📅 <strong>${t('th_dates')} :</strong> ${selectedObj.dateDebut} -> ${selectedObj.dateFin}
+            📅 <strong>${t('th_dates')} :</strong> ${datesTexte}
           </div>
         `;
       } else {
@@ -1394,6 +1557,7 @@
         sejoursAffiches.forEach(s => {
           const isOwner = s.userId === currentUserId;
           const nomAffichage = s.nom ? `<strong>${s.nom}</strong>` : '<i style="opacity: 0.6;">-</i>';
+          const datesTexte = s.datesAffichage || `${s.dateDebut} -> ${s.dateFin}`;
 
           const tr = document.createElement('tr');
           tr.style.cursor = 'pointer';
@@ -1402,7 +1566,7 @@
             <td><a href="tel:${s.telephone}" onclick="event.stopPropagation();" style="color: #004085;"><strong>${s.telephone}</strong></a></td>
             <td><span class="badge-minyan">${s.nbHommes}</span></td>
             <td><strong>${s.lieu}</strong></td>
-            <td>${s.dateDebut} -> ${s.dateFin}</td>
+            <td>${datesTexte}</td>
             <td>
               ${isOwner ? `<button class="btn-danger" onclick="event.stopPropagation(); supprimerSejour('${s.id}')">${t('btn_delete_table')}</button>` : '-'}
             </td>
