@@ -453,7 +453,7 @@
               <option value="+380">🇺🇦 UA +380</option>
               <option value="+212">🇲🇦 MA +212</option>
               <option value="+216">🇹🇳 TN +216</option>
-              <option value="+213">🇩🇿 DZ +213</option>
+              <option value="+213">🇩ℤ DZ +213</option>
               <option value="+55">🇧🇷 BR +55</option>
               <option value="+54">🇦🇷 AR +54</option>
               <option value="+52">🇲🇽 MX +52</option>
@@ -490,15 +490,15 @@
             🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.
           </div>
 
-          <!-- Option calendrier hébraïque -->
+          <!-- Option calendrier hébraïque traduite -->
           <div style="margin-top: 15px; background: rgba(0, 86, 179, 0.1); padding: 10px; border-radius: 8px;">
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 0;">
               <input type="checkbox" id="utiliser_hebraique" onchange="toggleCalendrierHebraique()" style="width: auto; margin:0;">
-              <span>📅 Saisir les dates en calendrier hébraïque (בס"ד)</span>
+              <span data-i18n="chk_use_hebrew_cal">📅 Saisir les dates en calendrier hébraïque</span>
             </label>
           </div>
 
-          <!-- Section Calendrier Grégorien (Classique) -->
+          <!-- Section Calendrier Grégorien -->
           <div id="sectionGregorien" class="row">
             <div class="col">
               <label for="date_debut" data-i18n="lbl_start_date">Date d'arrivée :</label>
@@ -510,73 +510,35 @@
             </div>
           </div>
 
-          <!-- Section Calendrier Hébraïque -->
+          <!-- Section Calendrier Hébraïque Traduite -->
           <div id="sectionHebraique" class="hidden">
             <div class="row">
               <div class="col">
-                <label>Jour d'arrivée :</label>
-                <select id="heb_jour_debut">
-                  <!-- JS générera 1 à 30 -->
-                </select>
+                <label data-i18n="lbl_arr_day">Jour d'arrivée :</label>
+                <select id="heb_jour_debut"></select>
               </div>
               <div class="col">
-                <label>Mois d'arrivée :</label>
-                <select id="heb_mois_debut">
-                  <option value="Tichri">Tichri (תשרי)</option>
-                  <option value="Heshvan">Heshvan (חשוון)</option>
-                  <option value="Kislev">Kislev (כסלו)</option>
-                  <option value="Tevet">Tevet (טבת)</option>
-                  <option value="Chevat">Chevat (שבט)</option>
-                  <option value="Adar">Adar (אדר)</option>
-                  <option value="Nissan">Nissan (ניסן)</option>
-                  <option value="Iyar">Iyar (אייר)</option>
-                  <option value="Sivan">Sivan (סיון)</option>
-                  <option value="Tamouz">Tamouz (תמוז)</option>
-                  <option value="Av">Av (אב)</option>
-                  <option value="Eloul">Eloul (אלול)</option>
-                </select>
+                <label data-i18n="lbl_arr_month">Mois d'arrivée :</label>
+                <select id="heb_mois_debut"></select>
               </div>
               <div class="col">
-                <label>Année :</label>
-                <select id="heb_annee_debut">
-                  <option value="5786" selected>5786 (תשפ״ו)</option>
-                  <option value="5787">5787 (תשפ״ז)</option>
-                  <option value="5788">5788 (תשפ״ח)</option>
-                </select>
+                <label data-i18n="lbl_year">Année :</label>
+                <select id="heb_annee_debut"></select>
               </div>
             </div>
 
             <div class="row" style="margin-top: 10px;">
               <div class="col">
-                <label>Jour de départ :</label>
-                <select id="heb_jour_fin">
-                  <!-- JS générera 1 à 30 -->
-                </select>
+                <label data-i18n="lbl_dep_day">Jour de départ :</label>
+                <select id="heb_jour_fin"></select>
               </div>
               <div class="col">
-                <label>Mois de départ :</label>
-                <select id="heb_mois_fin">
-                  <option value="Tichri">Tichri (תשרי)</option>
-                  <option value="Heshvan">Heshvan (חשוון)</option>
-                  <option value="Kislev">Kislev (כסלו)</option>
-                  <option value="Tevet">Tevet (טבת)</option>
-                  <option value="Chevat">Chevat (שבט)</option>
-                  <option value="Adar">Adar (אדר)</option>
-                  <option value="Nissan">Nissan (ניסן)</option>
-                  <option value="Iyar">Iyar (אייר)</option>
-                  <option value="Sivan">Sivan (סיון)</option>
-                  <option value="Tamouz">Tamouz (תמוז)</option>
-                  <option value="Av">Av (אב)</option>
-                  <option value="Eloul">Eloul (אלול)</option>
-                </select>
+                <label data-i18n="lbl_dep_month">Mois de départ :</label>
+                <select id="heb_mois_fin"></select>
               </div>
               <div class="col">
-                <label>Année :</label>
-                <select id="heb_annee_fin">
-                  <option value="5786" selected>5786 (תשפ״ו)</option>
-                  <option value="5787">5787 (תשפ״ז)</option>
-                  <option value="5788">5788 (תשפ״ח)</option>
-                </select>
+                <label data-i18n="lbl_year">Année :</label>
+                <select id="heb_annee_fin"></select>
               </div>
             </div>
           </div>
@@ -702,8 +664,14 @@
         lbl_address: "Adresse ou Ville (France) :",
         ph_address: "Ex: Chamonix-Mont-Blanc, Nice... (Écrire en français obligatoirement)",
         privacy_notice: "🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.",
+        chk_use_hebrew_cal: "📅 Saisir les dates en calendrier hébraïque",
         lbl_start_date: "Date d'arrivée :",
         lbl_end_date: "Date de départ :",
+        lbl_arr_day: "Jour d'arrivée :",
+        lbl_arr_month: "Mois d'arrivée :",
+        lbl_dep_day: "Jour de départ :",
+        lbl_dep_month: "Mois de départ :",
+        lbl_year: "Année :",
         btn_submit_stay: "Valider et enregistrer mon séjour",
         search_title: "🔍 Recherche de Séjours",
         lbl_search_city: "Entrez une ville pour cibler :",
@@ -746,7 +714,9 @@
         msg_no_stay_zone: "Aucun séjour trouvé dans cette zone.",
         msg_no_stay_recorded: "Aucun séjour enregistré.",
         point_clicked: "Point cliqué",
-        btn_delete_table: "Supprimer"
+        btn_delete_table: "Supprimer",
+        hebrew_months: ["Tichri", "Heshvan", "Kislev", "Tevet", "Chevat", "Adar", "Nissan", "Iyar", "Sivan", "Tamouz", "Av", "Eloul"],
+        hebrew_years: { "5786": "5786 (2025-2026)", "5787": "5787 (2026-2027)", "5788": "5788 (2027-2028)" }
       },
       en: {
         meta_title: "Minyan on vacation - Find a minyan on vacation in France",
@@ -792,8 +762,14 @@
         lbl_address: "Address or City (France):",
         ph_address: "Ex: Chamonix, Nice... (Must be written in French)",
         privacy_notice: "🔒 <strong>Automatic protection:</strong> Only your <strong>City (Postal Code)</strong> will be displayed publicly.",
+        chk_use_hebrew_cal: "📅 Enter dates using the Hebrew calendar",
         lbl_start_date: "Arrival date:",
         lbl_end_date: "Departure date:",
+        lbl_arr_day: "Arrival day:",
+        lbl_arr_month: "Arrival month:",
+        lbl_dep_day: "Departure day:",
+        lbl_dep_month: "Departure month:",
+        lbl_year: "Year:",
         btn_submit_stay: "Validate and save my stay",
         search_title: "🔍 Search Stays",
         lbl_search_city: "Enter a city to target:",
@@ -836,7 +812,9 @@
         msg_no_stay_zone: "No stays found in this area.",
         msg_no_stay_recorded: "No stays recorded.",
         point_clicked: "Clicked point",
-        btn_delete_table: "Delete"
+        btn_delete_table: "Delete",
+        hebrew_months: ["Tishrei", "Cheschvan", "Kislev", "Tevet", "Shevat", "Adar", "Nisan", "Iyar", "Sivan", "Tammuz", "Av", "Elul"],
+        hebrew_years: { "5786": "5786 (2025-2026)", "5787": "5787 (2026-2027)", "5788": "5788 (2027-2028)" }
       },
       he: {
         meta_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
@@ -882,8 +860,14 @@
         lbl_address: "כתובת או עיר בצרפת (יש להקליד בצרפתית בלבד):",
         ph_address: "Chamonix, Paris, Nice... (יש להקליד בצרפתית בלבד)",
         privacy_notice: "🔒 <strong>הגנה אוטומטית:</strong> רק ה<strong>עיר (מיקוד)</strong> שלך תצורף ותוצג פומבית.",
+        chk_use_hebrew_cal: "📅 הזנת תאריכים לפי לוח שנה עברי",
         lbl_start_date: "תאריך הגעה:",
         lbl_end_date: "תאריך עזיבה:",
+        lbl_arr_day: "יום הגעה:",
+        lbl_arr_month: "חודש הגעה:",
+        lbl_dep_day: "יום עזיבה:",
+        lbl_dep_month: "חודש עזיבה:",
+        lbl_year: "שנה:",
         btn_submit_stay: "אשר ושמור את השהות שלי",
         search_title: "🔍 חיפוש שהויות",
         lbl_search_city: "הזן עיר לחיפוש (יש להקליד בצרפתית בלבד):",
@@ -926,7 +910,9 @@
         msg_no_stay_zone: "לא נמצאו שהויות באזור זה.",
         msg_no_stay_recorded: "אין שהויות רשומות.",
         point_clicked: "נקודה שנלחצה",
-        btn_delete_table: "מחק"
+        btn_delete_table: "מחק",
+        hebrew_months: ["תשרי", "חשוון", "כסלו", "טבת", "שבט", "אדר", "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול"],
+        hebrew_years: { "5786": "תשפ״ו (5786)", "5787": "תשפ״ז (5787)", "5788": "תשפ״ח (5788)" }
       }
     };
 
@@ -972,6 +958,8 @@
 
       localStorage.setItem('minyan_lang', lang);
       
+      initialiserMenuHebraique();
+
       if (typeof mettreAJourAffichageGlobal === 'function') {
         mettreAJourAffichageGlobal();
       }
@@ -992,11 +980,41 @@
     function initialiserSelecteursJours() {
       const jDebut = document.getElementById('heb_jour_debut');
       const jFin = document.getElementById('heb_jour_fin');
+      if (!jDebut || !jFin) return;
       jDebut.innerHTML = '';
       jFin.innerHTML = '';
       for (let i = 1; i <= 30; i++) {
         jDebut.innerHTML += `<option value="${i}">${i}</option>`;
         jFin.innerHTML += `<option value="${i}">${i}</option>`;
+      }
+    }
+
+    function initialiserMenuHebraique() {
+      const lang = localStorage.getItem('minyan_lang') || 'fr';
+      const months = translations[lang].hebrew_months || translations['fr'].hebrew_months;
+      const years = translations[lang].hebrew_years || translations['fr'].hebrew_years;
+
+      const mDebut = document.getElementById('heb_mois_debut');
+      const mFin = document.getElementById('heb_mois_fin');
+      const aDebut = document.getElementById('heb_annee_debut');
+      const aFin = document.getElementById('heb_annee_fin');
+
+      if (mDebut && mFin) {
+        mDebut.innerHTML = '';
+        mFin.innerHTML = '';
+        months.forEach(m => {
+          mDebut.innerHTML += `<option value="${m}">${m}</option>`;
+          mFin.innerHTML += `<option value="${m}">${m}</option>`;
+        });
+      }
+
+      if (aDebut && aFin) {
+        aDebut.innerHTML = '';
+        aFin.innerHTML = '';
+        Object.keys(years).forEach(yKey => {
+          aDebut.innerHTML += `<option value="${yKey}">${years[yKey]}</option>`;
+          aFin.innerHTML += `<option value="${yKey}">${years[yKey]}</option>`;
+        });
       }
     }
 
@@ -1039,6 +1057,7 @@
         });
       }
       initialiserSelecteursJours();
+      initialiserMenuHebraique();
     };
 
     if (document.readyState === 'loading') {
@@ -1357,9 +1376,8 @@
 
         datesAffichage = `${jDebut} ${mDebut} ${aDebut} -> ${jFin} ${mFin} ${aFin}`;
         
-        // Pour la suppression automatique, on simule une date de fin technique (approximative ou basée sur l'année/mois en cours pour éviter l'expiration immédiate si non géré, ou on stocke une date de tri lointaine)
         dateDebut = aujourdHuiStr; 
-        dateFin = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]; // Par défaut valable 30 jours pour le nettoyage auto
+        dateFin = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
       } else {
         dateDebut = document.getElementById('date_debut').value;
         dateFin = document.getElementById('date_fin').value;
@@ -1404,8 +1422,8 @@
         nbHommes: nbHommes,
         lieu: lieuAffichage,
         dateDebut: dateDebut,
-        dateFin: dateFin, // Utilisé pour la suppression automatique
-        datesAffichage: datesAffichage, // Affichage final (grogorien ou hébraïque)
+        dateFin: dateFin,
+        datesAffichage: datesAffichage,
         lat: lat,
         lon: lon,
         userId: auth.currentUser.uid,
@@ -1417,6 +1435,7 @@
         selectedLocationForm = null;
         initialiserChampsDates();
         initialiserSelecteursJours();
+        initialiserMenuHebraique();
       }).catch(err => {
         showAlert("Erreur enregistrement : " + err.message, true);
       });
@@ -1431,9 +1450,8 @@
         if (val) {
           Object.keys(val).forEach(key => {
             const item = val[key];
-            // SUPPRESSION AUTOMATIQUE si la date de fin est dépassée
             if (item.dateFin && item.dateFin < aujourdHuiStr) {
-              rtdb.ref('sejours/' + key).remove(); // Supprime de Firebase directement
+              rtdb.ref('sejours/' + key).remove();
             } else {
               sejours.push({
                 id: key,
