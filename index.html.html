@@ -20,6 +20,7 @@
   <meta property="og:site_name" content="Minyan en vacances">
   <meta property="og:title" content="Minyan en vacances">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="img.png.png">
 
   <script type="application/ld+json">
   {
@@ -111,12 +112,15 @@
       margin-bottom: 20px;
     }
 
+    /* Amélioration de l'affichage du logo pour qu'il soit bien net et bien dans le rond */
     .logo-container img {
       max-width: 220px;
       width: 100%;
       height: auto;
-      border-radius: 15px;
+      object-fit: cover;
+      border-radius: 50%;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      border: 4px solid rgba(255, 255, 255, 0.9);
     }
 
     .card, .top-bar, table, .autocomplete-wrapper input, input, select {
@@ -170,7 +174,7 @@
 
     input::placeholder { color: rgba(0, 0, 0, 0.7); }
 
-    /* Groupe Téléphone avec Indicatif adapté pour LTR et RTL */
+    /* Groupe Téléphone avec Indicatif adapté LTR / RTL */
     .phone-group {
       display: flex;
       gap: 8px;
@@ -1225,7 +1229,6 @@
       });
     }
 
-    /* Utilisation des tuiles standard OpenStreetMap (sans clé API requise) */
     function initMap() {
       if (map) return;
       map = L.map('map').setView([46.603354, 1.888334], 6);
