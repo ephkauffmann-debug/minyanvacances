@@ -112,7 +112,6 @@
       margin-bottom: 20px;
     }
 
-    /* Amélioration de l'affichage du logo pour qu'il soit bien net et bien dans le rond */
     .logo-container img {
       max-width: 220px;
       width: 100%;
@@ -174,7 +173,6 @@
 
     input::placeholder { color: rgba(0, 0, 0, 0.7); }
 
-    /* Groupe Téléphone avec Indicatif adapté LTR / RTL */
     .phone-group {
       display: flex;
       gap: 8px;
@@ -314,7 +312,6 @@
 <body>
 
   <main>
-    <!-- Barre de navigation avec QR Code intégré -->
     <header style="background: #2563eb; color: white; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);">
         <div style="display: flex; align-items: center; gap: 12px;">
             <div class="header-qr-container" title="Scannez pour ouvrir le site">
@@ -329,7 +326,6 @@
         </nav>
     </header>
 
-    <!-- Section explicative -->
     <section id="about" class="card" style="background: rgba(255, 255, 255, 0.9); text-align: center; margin-bottom: 20px;">
         <div style="max-width: 800px; margin: 0 auto;">
             <h2 style="color: #1e293b; margin-top: 0;" data-i18n="about_heading">Qu'est-ce que Minyan en vacances ?</h2>
@@ -339,14 +335,12 @@
         </div>
     </section>
 
-    <!-- Barre de choix de langue -->
     <div class="lang-bar">
       <button type="button" onclick="switchLanguage('fr')">FR</button>
       <button type="button" onclick="switchLanguage('en')">EN</button>
       <button type="button" onclick="switchLanguage('he')">עב</button>
     </div>
 
-    <!-- Logo en grand -->
     <div class="logo-container">
       <img src="img.png.png" alt="Logo Minyan en vacances">
     </div>
@@ -497,7 +491,6 @@
             🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.
           </div>
 
-          <!-- Option calendrier hébraïque traduite -->
           <div style="margin-top: 15px; background: rgba(0, 86, 179, 0.1); padding: 10px; border-radius: 8px;">
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 0;">
               <input type="checkbox" id="utiliser_hebraique" onchange="toggleCalendrierHebraique()" style="width: auto; margin:0;">
@@ -505,7 +498,6 @@
             </label>
           </div>
 
-          <!-- Section Calendrier Grégorien -->
           <div id="sectionGregorien" class="row">
             <div class="col">
               <label for="date_debut" data-i18n="lbl_start_date">Date d'arrivée :</label>
@@ -517,7 +509,6 @@
             </div>
           </div>
 
-          <!-- Section Calendrier Hébraïque Traduite -->
           <div id="sectionHebraique" class="hidden">
             <div class="row">
               <div class="col">
@@ -669,7 +660,7 @@
         chk_phone_help: "ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.",
         lbl_men_count: "Nombre d'hommes / garçons (+13 ans) :",
         lbl_address: "Adresse ou Ville (France) :",
-        ph_address: "Ex: Chamonix-Mont-Blanc, Nice... (Écrire en français obligatoirement)",
+        ph_address: "Ex: Chamonix-Mont-Blanc, Nice...",
         privacy_notice: "🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.",
         chk_use_hebrew_cal: "📅 Saisir les dates en calendrier hébraïque",
         lbl_start_date: "Date d'arrivée :",
@@ -682,7 +673,7 @@
         btn_submit_stay: "Valider et enregistrer mon séjour",
         search_title: "🔍 Recherche de Séjours",
         lbl_search_city: "Entrez une ville pour cibler :",
-        ph_search_city: "Ex: Chamonix, Paris, Nice... (Écrire en français obligatoirement)",
+        ph_search_city: "Ex: Chamonix, Paris, Nice...",
         lbl_radius: "Rayon autour de la ville :",
         opt_radius_5: "5 km autour",
         opt_radius_10: "10 km autour",
@@ -767,7 +758,7 @@
         chk_phone_help: "ℹ️ <strong>Why is this mandatory?</strong><br>The goal of the app is to allow people on vacation in the same area to contact each other directly.",
         lbl_men_count: "Number of men / boys (13+ years):",
         lbl_address: "Address or City (France):",
-        ph_address: "Ex: Chamonix, Nice... (Must be written in French)",
+        ph_address: "Ex: Chamonix, Nice...",
         privacy_notice: "🔒 <strong>Automatic protection:</strong> Only your <strong>City (Postal Code)</strong> will be displayed publicly.",
         chk_use_hebrew_cal: "📅 Enter dates using the Hebrew calendar",
         lbl_start_date: "Arrival date:",
@@ -780,7 +771,7 @@
         btn_submit_stay: "Validate and save my stay",
         search_title: "🔍 Search Stays",
         lbl_search_city: "Enter a city to target:",
-        ph_search_city: "Ex: Paris, Nice... (Must be written in French)",
+        ph_search_city: "Ex: Paris, Nice...",
         lbl_radius: "Radius around city:",
         opt_radius_5: "5 km around",
         opt_radius_10: "10 km around",
@@ -864,8 +855,8 @@
         chk_phone_auth: "אני מסכים להציג את מספר הטלפון שלי *",
         chk_phone_help: "ℹ️ <strong>למה זה חובה?</strong><br>המטרה של האפליקציה היא לאפשר לאנשים בחופשה באותו אזור ליצור קשר ישיר.",
         lbl_men_count: "מספר גברים / נערים (גיל 13+):",
-        lbl_address: "כתובת או עיר בצרפת (יש להקליד בצרפתית בלבד):",
-        ph_address: "Chamonix, Paris, Nice... (יש להקליד בצרפתית בלבד)",
+        lbl_address: "כתובת או עיר בצרפת :",
+        ph_address: "Chamonix, Paris, Nice...",
         privacy_notice: "🔒 <strong>הגנה אוטומטית:</strong> רק ה<strong>עיר (מיקוד)</strong> שלך תצורף ותוצג פומבית.",
         chk_use_hebrew_cal: "📅 הזנת תאריכים לפי לוח שנה עברי",
         lbl_start_date: "תאריך הגעה:",
@@ -877,8 +868,8 @@
         lbl_year: "שנה:",
         btn_submit_stay: "אשר ושמור את השהות שלי",
         search_title: "🔍 חיפוש שהויות",
-        lbl_search_city: "הזן עיר לחיפוש (יש להקליד בצרפתית בלבד):",
-        ph_search_city: "Chamonix, Paris, Nice... (יש להקליד בצרפתית בלבד)",
+        lbl_search_city: "הזן עיר לחיפוש :",
+        ph_search_city: "Chamonix, Paris, Nice...",
         lbl_radius: "רדיוס סביב העיר:",
         opt_radius_5: "5 ק\"מ סביב",
         opt_radius_10: "10 ק\"מ סביב",
@@ -930,11 +921,7 @@
 
     function toggleAboutSection() {
       const aboutSec = document.getElementById('about');
-      if (aboutSec.classList.contains('hidden')) {
-        aboutSec.classList.remove('hidden');
-      } else {
-        aboutSec.classList.add('hidden');
-      }
+      aboutSec.classList.toggle('hidden');
     }
 
     function switchLanguage(lang) {
@@ -964,7 +951,6 @@
       });
 
       localStorage.setItem('minyan_lang', lang);
-      
       initialiserMenuHebraique();
 
       if (typeof mettreAJourAffichageGlobal === 'function') {
@@ -1110,8 +1096,16 @@
       setTimeout(() => statusAlert.classList.add('hidden'), 4000);
     }
 
+    function getLocalDateString() {
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
     function initialiserChampsDates() {
-      const aujourdHui = new Date().toISOString().split('T')[0];
+      const aujourdHui = getLocalDateString();
       const dateDebutInput = document.getElementById('date_debut');
       const dateFinInput = document.getElementById('date_fin');
       if (dateDebutInput) dateDebutInput.min = aujourdHui;
@@ -1183,7 +1177,11 @@
             userEmailDisplay.textContent = user.email;
             profileCard.classList.add('hidden');
           }).catch(err => {
-            showAlert("Erreur : " + err.message, true);
+            if (err.code === 'auth/requires-recent-login') {
+              showAlert("Veuillez vous reconnecter pour modifier votre e-mail.", true);
+            } else {
+              showAlert("Erreur : " + err.message, true);
+            }
           });
         }
       });
@@ -1201,7 +1199,11 @@
             document.getElementById('new_password').value = '';
             profileCard.classList.add('hidden');
           }).catch(err => {
-            showAlert("Erreur mise à jour : " + err.message, true);
+            if (err.code === 'auth/requires-recent-login') {
+              showAlert("Veuillez vous reconnecter pour modifier votre mot de passe.", true);
+            } else {
+              showAlert("Erreur mise à jour : " + err.message, true);
+            }
           });
         }
       });
@@ -1377,8 +1379,7 @@
 
       const isHeb = document.getElementById('utiliser_hebraique').checked;
       let dateDebut, dateFin, datesAffichage;
-
-      const aujourdHuiStr = new Date().toISOString().split('T')[0];
+      const aujourdHuiStr = getLocalDateString();
 
       if (isHeb) {
         const jDebut = document.getElementById('heb_jour_debut').value;
@@ -1390,15 +1391,13 @@
         const aFin = document.getElementById('heb_annee_fin').value;
 
         datesAffichage = `${jDebut} ${mDebut} ${aDebut} -> ${jFin} ${mFin} ${aFin}`;
-        
         dateDebut = aujourdHuiStr; 
         dateFin = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
       } else {
         dateDebut = document.getElementById('date_debut').value;
         dateFin = document.getElementById('date_fin').value;
-        const aujourdHui = new Date().toISOString().split('T')[0];
 
-        if (dateDebut < aujourdHui || dateFin < aujourdHui) {
+        if (dateDebut < aujourdHuiStr || dateFin < aujourdHuiStr) {
           showAlert(t('msg_dates_past'), true);
           return;
         }
@@ -1460,7 +1459,7 @@
       rtdb.ref('sejours').on('value', snapshot => {
         const val = snapshot.val();
         sejours = [];
-        const aujourdHuiStr = new Date().toISOString().split('T')[0];
+        const aujourdHuiStr = getLocalDateString();
 
         if (val) {
           Object.keys(val).forEach(key => {
