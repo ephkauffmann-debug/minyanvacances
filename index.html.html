@@ -1062,7 +1062,6 @@
       initialiserSelecteursJours();
       initialiserMenuHebraique();
 
-      // Gestion dynamique de la sélection du pays pour actualiser le champ téléphone
       const countrySelect = document.getElementById('country_code');
       const phoneInput = document.getElementById('telephone');
       if (countrySelect && phoneInput) {
@@ -1226,14 +1225,14 @@
       });
     }
 
+    /* Utilisation des tuiles standard OpenStreetMap (sans clé API requise) */
     function initMap() {
       if (map) return;
       map = L.map('map').setView([46.603354, 1.888334], 6);
 
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        maxZoom: 20,
-        subdomains: 'abcd',
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; CARTO'
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map);
 
       markersLayer = L.layerGroup().addTo(map);
