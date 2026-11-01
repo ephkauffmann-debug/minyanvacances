@@ -67,7 +67,6 @@
       position: relative;
     }
 
-    /* Style du QR Code intégré à l'intérieur de la barre */
     .header-qr-container {
       background: #ffffff;
       padding: 3px;
@@ -84,7 +83,6 @@
       border-radius: 4px;
     }
 
-    /* Barre de choix de langue */
     .lang-bar {
       display: flex;
       justify-content: flex-end;
@@ -307,11 +305,35 @@
     }
     .profile-btn:hover { background-color: #1e40af; }
     .hidden { display: none !important; }
+
+    .office-row {
+      display: flex; gap: 10px; align-items: center; margin-top: 8px; background: rgba(255,255,255,0.5); padding: 8px; border-radius: 8px;
+    }
+    .office-row label {
+      display: flex; align-items: center; gap: 6px; margin-top: 0; font-weight: 600; cursor: pointer; flex: 1;
+    }
+    .office-row input[type="checkbox"] {
+      width: auto; margin-top: 0;
+    }
+    .office-row input[type="time"] {
+      width: 120px; margin-top: 0; padding: 6px;
+    }
+    .badge-office {
+      display: inline-block; background: #2563eb; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 0.8em; margin-right: 4px;
+    }
+    .btn-share {
+      background-color: #25d366; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85em; width: auto; display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+    }
+    .btn-share:hover { background-color: #1eb853; }
+    .btn-locate {
+      background-color: #0d6efd; color: white; padding: 10px; border-radius: 8px; margin-top: 8px; font-size: 0.9em;
+    }
   </style>
 </head>
 <body>
 
   <main>
+    <!-- Header avec QR Code -->
     <header style="background: #2563eb; color: white; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);">
         <div style="display: flex; align-items: center; gap: 12px;">
             <div class="header-qr-container" title="Scannez pour ouvrir le site">
@@ -326,6 +348,7 @@
         </nav>
     </header>
 
+    <!-- Section explicative -->
     <section id="about" class="card" style="background: rgba(255, 255, 255, 0.9); text-align: center; margin-bottom: 20px;">
         <div style="max-width: 800px; margin: 0 auto;">
             <h2 style="color: #1e293b; margin-top: 0;" data-i18n="about_heading">Qu'est-ce que Minyan en vacances ?</h2>
@@ -335,22 +358,264 @@
         </div>
     </section>
 
+    <!-- Barre de langues -->
     <div class="lang-bar">
       <button type="button" onclick="switchLanguage('fr')">FR</button>
       <button type="button" onclick="switchLanguage('en')">EN</button>
       <button type="button" onclick="switchLanguage('he')">עב</button>
     </div>
 
+    <!-- Logo -->
     <div class="logo-container">
       <img src="img.png.png" alt="Logo Minyan en vacances">
     </div>
 
     <div id="statusAlert" class="status-alert hidden"></div>
 
+    <!-- Top Bar d'état de connexion -->
+    <div id="userStateBar" class="top-bar">
+      <div id="userInfoGuest">
+        <span data-i18n="guest_mode">👁️ Mode Consultation Sécurisé</span>
+      </div>
+      <div id="userInfoAuth" class="hidden">
+        <span><span data-i18n="connected_as">Connecté</span> : <strong id="userEmailDisplay"></strong></span>
+      </div>
+      <div>
+        <button id="btnShowAuthModal" class="profile-btn" onclick="scrollToAuth()" data-i18n="btn_login_signup">🔑 Connexion / Inscription</button>
+        <button id="btnToggleProfile" class="profile-btn hidden" data-i18n="btn_profile">⚙️ Mon Profil</button>
+      </div>
+    </div>
+
+    <!-- Carte Profil -->
+    <div id="profileCard" class="card hidden" style="border-left: 4px solid #1d4ed8;">
+      <h3 data-i18n="profile_title">⚙️ Mon Profil</h3>
+      <p style="font-size: 0.9em;" data-i18n="profile_desc">Modifiez vos informations de connexion ou déconnectez-vous.</p>
+      
+      <label for="new_email" data-i18n="lbl_new_email">Modifier mon adresse e-mail :</label>
+      <input type="email" id="new_email" data-i18n-placeholder="ph_new_email" placeholder="Nouvelle adresse e-mail">
+      <button id="btnUpdateEmail" class="btn-warning" type="button" data-i18n="btn_update_email">Mettre à jour mon e-mail</button>
+
+      <label for="new_password" style="margin-top: 18px;" data-i18n="lbl_new_pass">Nouveau mot de passe :</label>
+      <div class="password-wrapper">
+        <input type="password" id="new_password" data-i18n-placeholder="ph_new_pass_secure" placeholder="Nouveau mot de passe sécurisé (6 caractères min.)">
+        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('new_password', this)" aria-label="Afficher ou masquer le mot de passe">👁️</button>
+      </div>
+      <button id="btnUpdatePassword" class="btn-warning" type="button" data-i18n="btn_update_pass">Mettre à jour mon mot de passe</button>
+      
+      <hr style="margin: 20px 0; border:0; border-top:1px solid rgba(0,0,0,0.2);">
+      <button id="btnLogout" class="btn-danger" style="width:100%; padding: 11px;" data-i18n="btn_logout">Se déconnecter</button>
+    </div>
+
+    <!-- Carte de recherche de séjours (Disponible pour TOUS) -->
+    <div class="card" style="border-top: 4px solid #1d4ed8;">
+      <h2 data-i18n="search_title">🔍 Recherche de Séjours</h2>
+      <div class="autocomplete-wrapper">
+        <label for="recherche_adresse" data-i18n="lbl_search_city">Entrez une ville pour cibler :</label>
+        <input type="text" id="recherche_adresse" data-i18n-placeholder="ph_search_city" placeholder="Ex: Chamonix, Paris, Nice..." autocomplete="off">
+        <div id="suggestions_recherche" class="suggestions-list" style="display: none;"></div>
+      </div>
+      
+      <button type="button" class="btn-locate" onclick="geolocaliserUtilisateur()">📍 Utiliser ma position actuelle</button>
+
+      <div class="row">
+        <div class="col">
+          <label for="rayon_select" data-i18n="lbl_radius">Rayon autour de la ville :</label>
+          <select id="rayon_select">
+            <option value="5" selected data-i18n="opt_radius_5">5 km autour</option>
+            <option value="10" data-i18n="opt_radius_10">10 km autour</option>
+            <option value="20" data-i18n="opt_radius_20">20 km autour</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="btnRechercher" type="button" style="background-color: #1d4ed8; margin-top: 18px;" data-i18n="btn_search">Chercher</button>
+    </div>
+
+    <!-- Carte Leaflet -->
+    <div class="card">
+      <h2 data-i18n="map_title">Carte des Séjours 🗺️</h2>
+      <p style="font-size: 0.85em; opacity: 0.9; margin-top: -4px;" data-i18n="map_subtitle">Cliquez sur un marqueur pour afficher ses détails.</p>
+      <div id="map"></div>
+    </div>
+
+    <!-- Résultats de Recherche & Détails -->
+    <div id="resultatsBasContainer" class="hidden">
+      <div class="card" style="border-top: 4px solid #117a8b;">
+        <h2 data-i18n="details_title">📌 Détails du séjour sélectionné</h2>
+        <div id="detailSelectionContainer">
+          <p style="font-style: italic; margin:0; opacity: 0.8;" data-i18n="details_placeholder">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 data-i18n="minyan_state_title">📊 État du Minyan pour cette zone</h2>
+        <div id="totauxContainer"></div>
+        <button id="btnShareZone" class="btn-share" onclick="partagerZoneActuelle()">📲 Partager cette zone sur WhatsApp</button>
+      </div>
+
+      <div class="card">
+        <h2 data-i18n="list_title">Liste des foyers & participants trouvés</h2>
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="th_name">Nom</th>
+              <th data-i18n="th_phone">Téléphone</th>
+              <th data-i18n="th_men">+13 ans</th>
+              <th data-i18n="th_offices">Offices & Horaires</th>
+              <th data-i18n="th_city">Ville / Secteur</th>
+              <th data-i18n="th_dates">Dates</th>
+              <th data-i18n="th_action">Action</th>
+            </tr>
+          </thead>
+          <tbody id="listeInscrits"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Publication de Séjour (Exige d'être connecté) -->
+    <div id="publishContainer" class="card hidden" style="border-top: 4px solid #218838;">
+      <h2 data-i18n="publish_title">Publier ou Modifier mon Séjour</h2>
+      <p data-i18n="publish_desc">Inscrivez votre logement et vos participants :</p>
+      
+      <form id="minyanForm">
+        <label for="nom" data-i18n="lbl_name">Nom :</label>
+        <input type="text" id="nom" data-i18n-placeholder="ph_name_optional" placeholder="Ex: Cohen (optionnel)">
+
+        <label for="telephone" data-i18n="lbl_phone">Numéro de téléphone :</label>
+        <div class="phone-group">
+          <select id="country_code">
+            <option value="+33" selected>🇫🇷 +33</option>
+            <option value="+972">🇮🇱 +972</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+1">🇨🇦 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+32">🇧🇪 +32</option>
+            <option value="+41">🇨🇭 +41</option>
+            <option value="+39">🇮🇹 +39</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+31">🇳🇱 +31</option>
+            <option value="+352">🇱🇺 +352</option>
+            <option value="+351">🇵🇹 +351</option>
+            <option value="+43">🇦🇹 +43</option>
+            <option value="+30">🇬🇷 +30</option>
+            <option value="+353">🇮🇪 +353</option>
+            <option value="+48">🇵🇱 +48</option>
+            <option value="+420">🇨🇿 +420</option>
+            <option value="+36">🇭🇺 +36</option>
+            <option value="+40">🇷🇴 +40</option>
+            <option value="+380">🇺🇦 +380</option>
+            <option value="+212">🇲🇦 +212</option>
+            <option value="+216">🇹🇳 +216</option>
+            <option value="+213">🇩🇿 +213</option>
+            <option value="+55">🇧🇷 +55</option>
+            <option value="+54">🇦🇷 +54</option>
+            <option value="+52">🇲🇽 +52</option>
+            <option value="+506">🇨🇷 +506</option>
+            <option value="+507">🇵🇦 +507</option>
+            <option value="+27">🇿🇦 +27</option>
+            <option value="+61">🇦🇺 +61</option>
+            <option value="+971">🇦🇪 +971</option>
+          </select>
+          <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="600000000" required>
+        </div>
+
+        <div class="checkbox-container">
+          <label class="checkbox-label">
+            <input type="checkbox" id="autoriser_tel" required>
+            <span data-i18n="chk_phone_auth">J'accepte d'afficher mon numéro de téléphone aux membres connectés *</span>
+          </label>
+          <div class="checkbox-help" data-i18n="chk_phone_help">
+            ℹ️ <strong>Protection de la vie privée :</strong> Votre numéro de téléphone ne sera visible que par les personnes inscrites et connectées sur l'application.
+          </div>
+        </div>
+
+        <label for="nb_hommes" data-i18n="lbl_men_count">Nombre d'hommes / garçons (+13 ans) :</label>
+        <input type="number" id="nb_hommes" min="1" value="1" required>
+
+        <label data-i18n="lbl_offices">Offices et Horaires :</label>
+        
+        <div class="office-row">
+          <label><input type="checkbox" id="chk_chaharit" checked> 🌅 Chaharit</label>
+          <input type="time" id="time_chaharit" value="08:00">
+        </div>
+        <div class="office-row">
+          <label><input type="checkbox" id="chk_minha" checked> ☀️ Minha</label>
+          <input type="time" id="time_minha" value="19:00">
+        </div>
+        <div class="office-row">
+          <label><input type="checkbox" id="chk_arvit" checked> 🌙 Arvit</label>
+          <input type="time" id="time_arvit" value="21:30">
+        </div>
+
+        <label for="adresse_input" data-i18n="lbl_address">Adresse ou Ville (France) :</label>
+        <div class="autocomplete-wrapper">
+          <input type="text" id="adresse_input" data-i18n-placeholder="ph_address" placeholder="Ex: Chamonix-Mont-Blanc, Nice..." autocomplete="off" required>
+          <div id="suggestions" class="suggestions-list" style="display: none;"></div>
+        </div>
+
+        <div class="privacy-notice" data-i18n="privacy_notice">
+          🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.
+        </div>
+
+        <div style="margin-top: 15px; background: rgba(0, 86, 179, 0.1); padding: 10px; border-radius: 8px;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 0;">
+            <input type="checkbox" id="utiliser_hebraique" onchange="toggleCalendrierHebraique()" style="width: auto; margin:0;">
+            <span data-i18n="chk_use_hebrew_cal">📅 Saisir les dates en calendrier hébraïque</span>
+          </label>
+        </div>
+
+        <div id="sectionGregorien" class="row">
+          <div class="col">
+            <label for="date_debut" data-i18n="lbl_start_date">Date d'arrivée :</label>
+            <input type="date" id="date_debut">
+          </div>
+          <div class="col">
+            <label for="date_fin" data-i18n="lbl_end_date">Date de départ :</label>
+            <input type="date" id="date_fin">
+          </div>
+        </div>
+
+        <div id="sectionHebraique" class="hidden">
+          <div class="row">
+            <div class="col">
+              <label data-i18n="lbl_arr_day">Jour d'arrivée :</label>
+              <select id="heb_jour_debut"></select>
+            </div>
+            <div class="col">
+              <label data-i18n="lbl_arr_month">Mois d'arrivée :</label>
+              <select id="heb_mois_debut"></select>
+            </div>
+            <div class="col">
+              <label data-i18n="lbl_year">Année :</label>
+              <select id="heb_annee_debut"></select>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px;">
+            <div class="col">
+              <label data-i18n="lbl_dep_day">Jour de départ :</label>
+              <select id="heb_jour_fin"></select>
+            </div>
+            <div class="col">
+              <label data-i18n="lbl_dep_month">Mois de départ :</label>
+              <select id="heb_mois_fin"></select>
+            </div>
+            <div class="col">
+              <label data-i18n="lbl_year">Année :</label>
+              <select id="heb_annee_fin"></select>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" style="background-color: #218838; margin-top: 20px;" data-i18n="btn_submit_stay">Valider et enregistrer mon séjour</button>
+      </form>
+    </div>
+
+    <!-- Section Authentification -->
     <div id="authCard" class="card">
-      <h1 data-i18n="auth_title">Minyan en vacances - Trouver un minyan en vacances en France</h1>
-      <p data-i18n="auth_desc1">Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. Minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.</p>
-      <p data-i18n="auth_desc2">Veuillez vous connecter pour accéder aux séjours et publier votre annonce.</p>
+      <h2 data-i18n="auth_title">🔐 Espace Compte Membre</h2>
+      <p data-i18n="auth_desc1">Connectez-vous pour voir les numéros de téléphone et publier votre annonce de séjour.</p>
       
       <div class="row">
         <div class="col">
@@ -394,218 +659,6 @@
       </div>
     </div>
 
-    <div id="appContent" class="hidden">
-      
-      <div class="top-bar">
-        <span><span data-i18n="connected_as">Connecté</span> : <strong id="userEmailDisplay"></strong></span>
-        <button id="btnToggleProfile" class="profile-btn" data-i18n="btn_profile">⚙️ Mon Profil</button>
-      </div>
-
-      <div id="profileCard" class="card hidden" style="border-left: 4px solid #1d4ed8;">
-        <h3 data-i18n="profile_title">⚙️ Mon Profil</h3>
-        <p style="font-size: 0.9em;" data-i18n="profile_desc">Modifiez vos informations de connexion ou déconnectez-vous.</p>
-        
-        <label for="new_email" data-i18n="lbl_new_email">Modifier mon adresse e-mail :</label>
-        <input type="email" id="new_email" data-i18n-placeholder="ph_new_email" placeholder="Nouvelle adresse e-mail">
-        <button id="btnUpdateEmail" class="btn-warning" type="button" data-i18n="btn_update_email">Mettre à jour mon e-mail</button>
-
-        <label for="new_password" style="margin-top: 18px;" data-i18n="lbl_new_pass">Nouveau mot de passe :</label>
-        <div class="password-wrapper">
-          <input type="password" id="new_password" data-i18n-placeholder="ph_new_pass_secure" placeholder="Nouveau mot de passe sécurisé (6 caractères min.)">
-          <button type="button" class="toggle-password" onclick="togglePasswordVisibility('new_password', this)" aria-label="Afficher ou masquer le mot de passe">👁️</button>
-        </div>
-        <button id="btnUpdatePassword" class="btn-warning" type="button" data-i18n="btn_update_pass">Mettre à jour mon mot de passe</button>
-        
-        <hr style="margin: 20px 0; border:0; border-top:1px solid rgba(0,0,0,0.2);">
-        <button id="btnLogout" class="btn-danger" style="width:100%; padding: 11px;" data-i18n="btn_logout">Se déconnecter</button>
-      </div>
-
-      <div class="card" style="border-top: 4px solid #218838;">
-        <h2 data-i18n="publish_title">Publier ou Modifier mon Séjour</h2>
-        <p data-i18n="publish_desc">Inscrivez votre logement et vos participants :</p>
-        
-        <form id="minyanForm">
-          <label for="nom" data-i18n="lbl_name">Nom :</label>
-          <input type="text" id="nom" data-i18n-placeholder="ph_name_optional" placeholder="Ex: Cohen (optionnel)">
-
-          <label for="telephone" data-i18n="lbl_phone">Numéro de téléphone :</label>
-          <div class="phone-group">
-            <select id="country_code">
-              <option value="+33" selected>🇫🇷 +33</option>
-              <option value="+972">🇮🇱 +972</option>
-              <option value="+1">🇺🇸 +1</option>
-              <option value="+1">🇨🇦 +1</option>
-              <option value="+44">🇬🇧 +44</option>
-              <option value="+32">🇧🇪 +32</option>
-              <option value="+41">🇨🇭 +41</option>
-              <option value="+39">🇮🇹 +39</option>
-              <option value="+34">🇪🇸 +34</option>
-              <option value="+49">🇩🇪 +49</option>
-              <option value="+31">🇳🇱 +31</option>
-              <option value="+352">🇱🇺 +352</option>
-              <option value="+351">🇵🇹 +351</option>
-              <option value="+43">🇦🇹 +43</option>
-              <option value="+30">🇬🇷 +30</option>
-              <option value="+353">🇮🇪 +353</option>
-              <option value="+48">🇵🇱 +48</option>
-              <option value="+420">🇨🇿 +420</option>
-              <option value="+36">🇭🇺 +36</option>
-              <option value="+40">🇷🇴 +40</option>
-              <option value="+380">🇺🇦 +380</option>
-              <option value="+212">🇲🇦 +212</option>
-              <option value="+216">🇹🇳 +216</option>
-              <option value="+213">🇩🇿 +213</option>
-              <option value="+55">🇧🇷 +55</option>
-              <option value="+54">🇦🇷 +54</option>
-              <option value="+52">🇲🇽 +52</option>
-              <option value="+506">🇨🇷 +506</option>
-              <option value="+507">🇵🇦 +507</option>
-              <option value="+27">🇿🇦 +27</option>
-              <option value="+61">🇦🇺 +61</option>
-              <option value="+971">🇦🇪 +971</option>
-            </select>
-            <input type="tel" id="telephone" data-i18n-placeholder="ph_phone" placeholder="6 00 00 00 00" required>
-          </div>
-
-          <div class="checkbox-container">
-            <label class="checkbox-label">
-              <input type="checkbox" id="autoriser_tel" required>
-              <span data-i18n="chk_phone_auth">J'accepte d'afficher mon numéro de téléphone *</span>
-            </label>
-            <div class="checkbox-help" data-i18n="chk_phone_help">
-              ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>
-              Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.
-            </div>
-          </div>
-
-          <label for="nb_hommes" data-i18n="lbl_men_count">Nombre d'hommes / garçons (+13 ans) :</label>
-          <input type="number" id="nb_hommes" min="1" value="1" required>
-
-          <label for="adresse_input" data-i18n="lbl_address">Adresse ou Ville (France) :</label>
-          <div class="autocomplete-wrapper">
-            <input type="text" id="adresse_input" data-i18n-placeholder="ph_address" placeholder="Ex: Chamonix-Mont-Blanc, Nice..." autocomplete="off" required>
-            <div id="suggestions" class="suggestions-list" style="display: none;"></div>
-          </div>
-
-          <div class="privacy-notice" data-i18n="privacy_notice">
-            🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.
-          </div>
-
-          <div style="margin-top: 15px; background: rgba(0, 86, 179, 0.1); padding: 10px; border-radius: 8px;">
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 0;">
-              <input type="checkbox" id="utiliser_hebraique" onchange="toggleCalendrierHebraique()" style="width: auto; margin:0;">
-              <span data-i18n="chk_use_hebrew_cal">📅 Saisir les dates en calendrier hébraïque</span>
-            </label>
-          </div>
-
-          <div id="sectionGregorien" class="row">
-            <div class="col">
-              <label for="date_debut" data-i18n="lbl_start_date">Date d'arrivée :</label>
-              <input type="date" id="date_debut">
-            </div>
-            <div class="col">
-              <label for="date_fin" data-i18n="lbl_end_date">Date de départ :</label>
-              <input type="date" id="date_fin">
-            </div>
-          </div>
-
-          <div id="sectionHebraique" class="hidden">
-            <div class="row">
-              <div class="col">
-                <label data-i18n="lbl_arr_day">Jour d'arrivée :</label>
-                <select id="heb_jour_debut"></select>
-              </div>
-              <div class="col">
-                <label data-i18n="lbl_arr_month">Mois d'arrivée :</label>
-                <select id="heb_mois_debut"></select>
-              </div>
-              <div class="col">
-                <label data-i18n="lbl_year">Année :</label>
-                <select id="heb_annee_debut"></select>
-              </div>
-            </div>
-
-            <div class="row" style="margin-top: 10px;">
-              <div class="col">
-                <label data-i18n="lbl_dep_day">Jour de départ :</label>
-                <select id="heb_jour_fin"></select>
-              </div>
-              <div class="col">
-                <label data-i18n="lbl_dep_month">Mois de départ :</label>
-                <select id="heb_mois_fin"></select>
-              </div>
-              <div class="col">
-                <label data-i18n="lbl_year">Année :</label>
-                <select id="heb_annee_fin"></select>
-              </div>
-            </div>
-          </div>
-
-          <button type="submit" style="background-color: #218838; margin-top: 20px;" data-i18n="btn_submit_stay">Valider et enregistrer mon séjour</button>
-        </form>
-      </div>
-
-      <div class="card" style="border-top: 4px solid #1d4ed8;">
-        <h2 data-i18n="search_title">🔍 Recherche de Séjours</h2>
-        <div class="autocomplete-wrapper">
-          <label for="recherche_adresse" data-i18n="lbl_search_city">Entrez une ville pour cibler :</label>
-          <input type="text" id="recherche_adresse" data-i18n-placeholder="ph_search_city" placeholder="Ex: Chamonix, Paris, Nice..." autocomplete="off">
-          <div id="suggestions_recherche" class="suggestions-list" style="display: none;"></div>
-        </div>
-        
-        <div class="row">
-          <div class="col">
-            <label for="rayon_select" data-i18n="lbl_radius">Rayon autour de la ville :</label>
-            <select id="rayon_select">
-              <option value="5" selected data-i18n="opt_radius_5">5 km autour</option>
-              <option value="10" data-i18n="opt_radius_10">10 km autour</option>
-              <option value="20" data-i18n="opt_radius_20">20 km autour</option>
-            </select>
-          </div>
-        </div>
-
-        <button id="btnRechercher" type="button" style="background-color: #1d4ed8; margin-top: 18px;" data-i18n="btn_search">Chercher</button>
-      </div>
-
-      <div class="card">
-        <h2 data-i18n="map_title">Carte des Séjours 🗺️</h2>
-        <p style="font-size: 0.85em; opacity: 0.9; margin-top: -4px;" data-i18n="map_subtitle">Cliquez sur un marqueur pour afficher ses détails.</p>
-        <div id="map"></div>
-      </div>
-
-      <div id="resultatsBasContainer" class="hidden">
-        <div class="card" style="border-top: 4px solid #117a8b;">
-          <h2 data-i18n="details_title">📌 Détails du séjour sélectionné</h2>
-          <div id="detailSelectionContainer">
-            <p style="font-style: italic; margin:0; opacity: 0.8;" data-i18n="details_placeholder">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <h2 data-i18n="minyan_state_title">📊 État du Minyan pour cette zone</h2>
-          <div id="totauxContainer"></div>
-        </div>
-
-        <div class="card">
-          <h2 data-i18n="list_title">Liste des foyers & participants trouvés</h2>
-          <table>
-            <thead>
-              <tr>
-                <th data-i18n="th_name">Nom</th>
-                <th data-i18n="th_phone">Téléphone</th>
-                <th data-i18n="th_men">+13 ans</th>
-                <th data-i18n="th_city">Ville / Secteur</th>
-                <th data-i18n="th_dates">Dates</th>
-                <th data-i18n="th_action">Action</th>
-              </tr>
-            </thead>
-            <tbody id="listeInscrits"></tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
-
   </main>
 
   <script>
@@ -624,9 +677,10 @@
         btn_toggle_about: "ℹ️ À propos",
         about_heading: "Qu'est-ce que Minyan en vacances ?",
         about_text: "Notre plateforme permet aux voyageurs et aux vacanciers de trouver facilement un minyan et de se connecter avec d'autres personnes partout où ils se trouvent en vacances.",
-        auth_title: "Minyan en vacances - Trouver un minyan en vacances en France",
-        auth_desc1: "Plateforme communautaire d'entraide pour organiser vos vacances en toute sérénité. Minyan en vacances vous permet de localiser les vacanciers et les foyers autour de vous grâce à la géolocalisation.",
-        auth_desc2: "Veuillez vous connecter pour accéder aux séjours et publier votre annonce.",
+        auth_title: "🔐 Espace Compte Membre",
+        auth_desc1: "Connectez-vous pour voir les numéros de téléphone et publier votre annonce de séjour.",
+        guest_mode: "👁️ Mode Consultation Sécurisé",
+        btn_login_signup: "🔑 Connexion / Inscription",
         lbl_email: "Adresse Email :",
         ph_email: "votre.email@exemple.fr",
         lbl_password: "Mot de passe :",
@@ -655,10 +709,11 @@
         lbl_name: "Nom :",
         ph_name_optional: "Ex: Cohen (optionnel)",
         lbl_phone: "Numéro de téléphone :",
-        ph_phone: "6 00 00 00 00",
-        chk_phone_auth: "J'accepte d'afficher mon numéro de téléphone *",
-        chk_phone_help: "ℹ️ <strong>Pourquoi est-ce obligatoire ?</strong><br>Le but de l'application est de permettre aux personnes en vacances dans le même secteur de se contacter directement.",
+        ph_phone: "600000000",
+        chk_phone_auth: "J'accepte d'afficher mon numéro de téléphone aux membres connectés *",
+        chk_phone_help: "ℹ️ <strong>Protection de la vie privée :</strong> Votre numéro de téléphone ne sera visible que par les personnes inscrites et connectées sur l'application.",
         lbl_men_count: "Nombre d'hommes / garçons (+13 ans) :",
+        lbl_offices: "Offices et Horaires :",
         lbl_address: "Adresse ou Ville (France) :",
         ph_address: "Ex: Chamonix-Mont-Blanc, Nice...",
         privacy_notice: "🔒 <strong>Protection automatique :</strong> Seule votre <strong>Ville (Code Postal)</strong> sera affichée publiquement.",
@@ -688,6 +743,7 @@
         th_name: "Nom",
         th_phone: "Téléphone",
         th_men: "+13 ans",
+        th_offices: "Offices & Horaires",
         th_city: "Ville / Secteur",
         th_dates: "Dates",
         th_action: "Action",
@@ -706,7 +762,7 @@
         msg_dates_order: "La date de départ ne peut pas être antérieure à la date d'arrivée.",
         msg_stay_saved: "Séjour enregistré avec succès !",
         msg_enter_city_search: "Veuillez entrer ou sélectionner une ville.",
-        msg_choose_city_list: "Veu choisir une ville dans la liste déroulante des suggestions.",
+        msg_choose_city_list: "Veuillez choisir une ville dans la liste déroulante des suggestions.",
         msg_confirm_delete: "Voulez-vous vraiment supprimer ce séjour ?",
         msg_stay_deleted: "Séjour supprimé.",
         msg_no_stay_zone: "Aucun séjour trouvé dans cette zone.",
@@ -722,9 +778,10 @@
         btn_toggle_about: "ℹ️ About",
         about_heading: "What is Minyan on vacation?",
         about_text: "Our platform allows travelers and vacationers to easily find a minyan and connect with other people wherever they are on vacation.",
-        auth_title: "Minyan on vacation - Find a minyan on vacation in France",
-        auth_desc1: "Community mutual aid platform to organize your vacation with complete peace of mind. Minyan on vacation allows you to locate vacationers and households around you using geolocation.",
-        auth_desc2: "Please log in to access stays and publish your listing.",
+        auth_title: "🔐 Member Space",
+        auth_desc1: "Log in to see phone numbers and publish your stay listing.",
+        guest_mode: "👁️ Secure Public Mode",
+        btn_login_signup: "🔑 Login / Signup",
         lbl_email: "Email Address:",
         ph_email: "your.email@example.com",
         lbl_password: "Password:",
@@ -753,10 +810,11 @@
         lbl_name: "Name:",
         ph_name_optional: "Ex: Smith (optional)",
         lbl_phone: "Phone number:",
-        ph_phone: "6 00 00 00 00",
-        chk_phone_auth: "I agree to display my phone number *",
-        chk_phone_help: "ℹ️ <strong>Why is this mandatory?</strong><br>The goal of the app is to allow people on vacation in the same area to contact each other directly.",
+        ph_phone: "600000000",
+        chk_phone_auth: "I agree to display my phone number to logged-in members *",
+        chk_phone_help: "ℹ️ <strong>Privacy Protection:</strong> Your phone number will only be visible to registered members.",
         lbl_men_count: "Number of men / boys (13+ years):",
+        lbl_offices: "Services and Times:",
         lbl_address: "Address or City (France):",
         ph_address: "Ex: Chamonix, Nice...",
         privacy_notice: "🔒 <strong>Automatic protection:</strong> Only your <strong>City (Postal Code)</strong> will be displayed publicly.",
@@ -786,6 +844,7 @@
         th_name: "Name",
         th_phone: "Phone",
         th_men: "13+ yrs",
+        th_offices: "Services & Times",
         th_city: "City / Area",
         th_dates: "Dates",
         th_action: "Action",
@@ -820,9 +879,10 @@
         btn_toggle_about: "ℹ️ אודות",
         about_heading: "מה זה מיניין בחופשה?",
         about_text: "הפלטפורמה שלנו מאפשרת למטיילים ולנופשים למצוא בקלות מיניין ולהתחבר לאנשים אחרים בכל מקום שבו הם נמצאים בחופשה.",
-        auth_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
-        auth_desc1: "פלטפורמת עזרה הדדית קהילתית לארגון החופשה בראש שקט. האפליקציה מאפשרת לך לאתר נופשים ובתים סביבך באמצעות מיקום גיאוגרפי.",
-        auth_desc2: "אנא התחבר כדי לגשת לשהויות ולפרסם את המודעה שלך.",
+        auth_title: "🔐 אזור אישי לחברים",
+        auth_desc1: "התחבר כדי לראות מספרי טלפון ולפרסם את השהות שלך.",
+        guest_mode: "👁️ מצב צפייה מאובטח",
+        btn_login_signup: "🔑 התחברות / הרשמה",
         lbl_email: "כתובת אימייל:",
         ph_email: "votre.email@exemple.fr",
         lbl_password: "סיסמה:",
@@ -851,10 +911,11 @@
         lbl_name: "שם:",
         ph_name_optional: "לדוגמה: כהן (אופציונלי)",
         lbl_phone: "מספר טלפון:",
-        ph_phone: "6 00 00 00 00",
-        chk_phone_auth: "אני מסכים להציג את מספר הטלפון שלי *",
-        chk_phone_help: "ℹ️ <strong>למה זה חובה?</strong><br>המטרה של האפליקציה היא לאפשר לאנשים בחופשה באותו אזור ליצור קשר ישיר.",
+        ph_phone: "600000000",
+        chk_phone_auth: "אני מסכים להציג את מספר הטלפון שלי לחברים מחוברים *",
+        chk_phone_help: "ℹ️ <strong>הגנת פרטיות:</strong> מספר הטלפון שלך יוצג רק למשתמשים רשומים ומחוברים.",
         lbl_men_count: "מספר גברים / נערים (גיל 13+):",
+        lbl_offices: "תפילות ושעות:",
         lbl_address: "כתובת או עיר בצרפת :",
         ph_address: "Chamonix, Paris, Nice...",
         privacy_notice: "🔒 <strong>הגנה אוטומטית:</strong> רק ה<strong>עיר (מיקוד)</strong> שלך תצורף ותוצג פומבית.",
@@ -884,6 +945,7 @@
         th_name: "שם",
         th_phone: "טלפון",
         th_men: "גילאי 13+",
+        th_offices: "תפילות ושעות",
         th_city: "עיר / אזור",
         th_dates: "תאריכים",
         th_action: "פעולה",
@@ -922,6 +984,10 @@
     function toggleAboutSection() {
       const aboutSec = document.getElementById('about');
       aboutSec.classList.toggle('hidden');
+    }
+
+    function scrollToAuth() {
+      document.getElementById('authCard').scrollIntoView({ behavior: 'smooth' });
     }
 
     function switchLanguage(lang) {
@@ -1059,6 +1125,10 @@
           phoneInput.focus();
         });
       }
+
+      setTimeout(() => {
+        if (!map) initMap();
+      }, 300);
     };
 
     if (document.readyState === 'loading') {
@@ -1083,7 +1153,7 @@
     let markersMap = {};
 
     const authCard = document.getElementById('authCard');
-    const appContent = document.getElementById('appContent');
+    const publishContainer = document.getElementById('publishContainer');
     const userEmailDisplay = document.getElementById('userEmailDisplay');
     const statusAlert = document.getElementById('statusAlert');
     const profileCard = document.getElementById('profileCard');
@@ -1110,6 +1180,16 @@
       const dateFinInput = document.getElementById('date_fin');
       if (dateDebutInput) dateDebutInput.min = aujourdHui;
       if (dateFinInput) dateFinInput.min = aujourdHui;
+    }
+
+    function formatTelephoneProtege(phoneStr) {
+      if (auth && auth.currentUser) {
+        return `<a href="tel:${phoneStr}" style="color: #004085;"><strong>${phoneStr}</strong></a>`;
+      } else {
+        const visibleParts = phoneStr.split(' ');
+        const code = visibleParts[0] || '';
+        return `<span style="color:#666; font-style:italic;" title="Connectez-vous pour voir le numéro">${code} •• •• •• •• 🔒</span>`;
+      }
     }
 
     function initialiserApplicationFirebase() {
@@ -1210,24 +1290,27 @@
 
       auth.onAuthStateChanged(user => {
         if (user) {
+          document.getElementById('userInfoGuest').classList.add('hidden');
+          document.getElementById('userInfoAuth').classList.remove('hidden');
+          document.getElementById('btnShowAuthModal').classList.add('hidden');
+          document.getElementById('btnToggleProfile').classList.remove('hidden');
+          
           authCard.classList.add('hidden');
-          appContent.classList.remove('hidden');
+          publishContainer.classList.remove('hidden');
           userEmailDisplay.textContent = user.email;
           initialiserChampsDates();
-
-          setTimeout(() => {
-            if (!map) {
-              initMap();
-            } else {
-              map.invalidateSize();
-            }
-          }, 200);
-
-          écouterBaseDeDonnees();
         } else {
+          document.getElementById('userInfoGuest').classList.remove('hidden');
+          document.getElementById('userInfoAuth').classList.add('hidden');
+          document.getElementById('btnShowAuthModal').classList.remove('hidden');
+          document.getElementById('btnToggleProfile').classList.add('hidden');
+          
           authCard.classList.remove('hidden');
-          appContent.classList.add('hidden');
+          publishContainer.classList.add('hidden');
+          profileCard.classList.add('hidden');
         }
+
+        écouterBaseDeDonnees();
       });
     }
 
@@ -1253,6 +1336,22 @@
 
       if (sejours.length > 0) {
         mettreAJourAffichageGlobal();
+      }
+    }
+
+    function geolocaliserUtilisateur() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          selectedLocationSearch = { lat, lon, label: "Ma position" };
+          if (map) map.setView([lat, lon], 12);
+          mettreAJourAffichageGlobal();
+        }, () => {
+          showAlert("Impossible d'accéder à votre géolocalisation.", true);
+        });
+      } else {
+        showAlert("Géolocalisation non supportée par votre navigateur.", true);
       }
     }
 
@@ -1410,7 +1509,7 @@
       }
 
       const nom = document.getElementById('nom').value.trim();
-      let rawPhone = document.getElementById('telephone').value.trim();
+      let rawPhone = document.getElementById('telephone').value.trim().replace(/\s+/g, '');
       const countryCode = document.getElementById('country_code').value;
 
       if (rawPhone.startsWith('0')) {
@@ -1419,6 +1518,21 @@
 
       const telephone = `${countryCode} ${rawPhone}`;
       const nbHommes = parseInt(document.getElementById('nb_hommes').value, 10) || 1;
+
+      // Récupération des offices et de leurs horaires
+      const offices = [];
+      if (document.getElementById('chk_chaharit').checked) {
+        const time = document.getElementById('time_chaharit').value || '08:00';
+        offices.push(`Chaharit (${time})`);
+      }
+      if (document.getElementById('chk_minha').checked) {
+        const time = document.getElementById('time_minha').value || '19:00';
+        offices.push(`Minha (${time})`);
+      }
+      if (document.getElementById('chk_arvit').checked) {
+        const time = document.getElementById('time_arvit').value || '21:30';
+        offices.push(`Arvit (${time})`);
+      }
 
       const offsetLat = (Math.random() - 0.5) * 0.006;
       const offsetLon = (Math.random() - 0.5) * 0.006;
@@ -1434,6 +1548,7 @@
         nom: nom,
         telephone: telephone,
         nbHommes: nbHommes,
+        offices: offices,
         lieu: lieuAffichage,
         dateDebut: dateDebut,
         dateFin: dateFin,
@@ -1456,6 +1571,7 @@
     });
 
     function écouterBaseDeDonnees() {
+      if (!window.rtdb) return;
       rtdb.ref('sejours').on('value', snapshot => {
         const val = snapshot.val();
         sejours = [];
@@ -1465,7 +1581,9 @@
           Object.keys(val).forEach(key => {
             const item = val[key];
             if (item.dateFin && item.dateFin < aujourdHuiStr) {
-              rtdb.ref('sejours/' + key).remove();
+              if (auth && auth.currentUser) {
+                rtdb.ref('sejours/' + key).remove();
+              }
             } else {
               sejours.push({
                 id: key,
@@ -1489,6 +1607,18 @@
       }
     };
 
+    function partagerZoneActuelle() {
+      if (!selectedLocationSearch) return;
+      const url = `${window.location.origin}${window.location.pathname}`;
+      const text = `Rejoignez-nous pour former un minyan à ${selectedLocationSearch.label} ! Consulter les détails ici : ${url}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function rendreBadgesOffices(officesList) {
+      if (!officesList || officesList.length === 0) return '-';
+      return officesList.map(o => `<span class="badge-office">${o}</span>`).join(' ');
+    }
+
     function mettreAJourAffichageGlobal() {
       if (!map) return;
       
@@ -1504,12 +1634,16 @@
       sejours.forEach(s => {
         const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
         const datesTexte = s.datesAffichage || `${s.dateDebut} - ${s.dateFin}`;
+        const telFormate = formatTelephoneProtege(s.telephone);
+        const officesBadges = rendreBadgesOffices(s.offices);
+
         const popupContent = `
           <div style="color:#000;">
             ${nomAffiche}
             👥 <strong>${s.nbHommes} ${t('th_men')}</strong><br>
+            🕌 <strong>Offices :</strong> ${officesBadges}<br>
             📍 ${t('th_city')} : <strong>${s.lieu}</strong><br>
-            📞 ${t('th_phone')} : <a href="tel:${s.telephone}">${s.telephone}</a><br>
+            📞 ${t('th_phone')} : ${telFormate}<br>
             📅 ${t('th_dates')} : ${datesTexte}
           </div>
         `;
@@ -1564,11 +1698,15 @@
       if (selectedObj) {
         const nomAff = selectedObj.nom ? `👤 <strong>${t('th_name')} :</strong> ${selectedObj.nom}<br>` : '';
         const datesTexte = selectedObj.datesAffichage || `${selectedObj.dateDebut} -> ${selectedObj.dateFin}`;
+        const telFormate = formatTelephoneProtege(selectedObj.telephone);
+        const officesBadges = rendreBadgesOffices(selectedObj.offices);
+
         detailContainer.innerHTML = `
           <div class="selected-preview-card" style="margin:0;">
             ${nomAff}
-            📞 <strong>${t('th_phone')} :</strong> <a href="tel:${selectedObj.telephone}" style="color: #004085;">${selectedObj.telephone}</a><br>
+            📞 <strong>${t('th_phone')} :</strong> ${telFormate}<br>
             👥 <strong>${t('th_men')} :</strong> ${selectedObj.nbHommes}<br>
+            🕌 <strong>Offices & Horaires :</strong> ${officesBadges}<br>
             📍 <strong>${t('th_city')} :</strong> ${selectedObj.lieu}<br>
             📅 <strong>${t('th_dates')} :</strong> ${datesTexte}
           </div>
@@ -1582,21 +1720,24 @@
 
       listeTbody.innerHTML = '';
       if (sejoursAffiches.length === 0) {
-        listeTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#000;">${t('msg_no_stay_zone')}</td></tr>`;
+        listeTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#000;">${t('msg_no_stay_zone')}</td></tr>`;
       } else {
-        const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
+        const currentUserId = (auth && auth.currentUser) ? auth.currentUser.uid : null;
 
         sejoursAffiches.forEach(s => {
           const isOwner = s.userId === currentUserId;
           const nomAffichage = s.nom ? `<strong>${s.nom}</strong>` : '<i style="opacity: 0.6;">-</i>';
           const datesTexte = s.datesAffichage || `${s.dateDebut} -> ${s.dateFin}`;
+          const telFormate = formatTelephoneProtege(s.telephone);
+          const officesBadges = rendreBadgesOffices(s.offices);
 
           const tr = document.createElement('tr');
           tr.style.cursor = 'pointer';
           tr.innerHTML = `
             <td>${nomAffichage}</td>
-            <td><a href="tel:${s.telephone}" onclick="event.stopPropagation();" style="color: #004085;"><strong>${s.telephone}</strong></a></td>
+            <td>${telFormate}</td>
             <td><span class="badge-minyan">${s.nbHommes}</span></td>
+            <td>${officesBadges}</td>
             <td><strong>${s.lieu}</strong></td>
             <td>${datesTexte}</td>
             <td>
