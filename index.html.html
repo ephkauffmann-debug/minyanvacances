@@ -412,7 +412,7 @@
     </div>
 
     <div class="card" style="border-top: 4px solid #1d4ed8;">
-      <h2 data-i18n="search_title">🔍 Recherche de Séjours</h2>
+      <h2 data-i18n="search_title">🔍 Recherche d'Emplacements</h2>
       <div class="autocomplete-wrapper">
         <label for="recherche_adresse" data-i18n="lbl_search_city">Entrez une ville pour cibler :</label>
         <input type="text" id="recherche_adresse" data-i18n-placeholder="ph_search_city" placeholder="Ex: Chamonix, Paris, Nice..." autocomplete="off">
@@ -436,16 +436,16 @@
     </div>
 
     <div class="card">
-      <h2 data-i18n="map_title">Carte des Séjours 🗺️</h2>
+      <h2 data-i18n="map_title">Carte des Emplacements 🗺️</h2>
       <p style="font-size: 0.85em; opacity: 0.9; margin-top: -4px;" data-i18n="map_subtitle">Cliquez sur un marqueur pour afficher ses détails.</p>
       <div id="map"></div>
     </div>
 
     <div id="resultatsBasContainer" class="hidden">
       <div class="card" style="border-top: 4px solid #117a8b;">
-        <h2 data-i18n="details_title">📌 Détails du séjour sélectionné</h2>
+        <h2 data-i18n="details_title">📌 Détails de l'emplacement sélectionné</h2>
         <div id="detailSelectionContainer">
-          <p style="font-style: italic; margin:0; opacity: 0.8;" data-i18n="details_placeholder">Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>
+          <p style="font-style: italic; margin:0; opacity: 0.8;" data-i18n="details_placeholder">Cliquez sur un emplacement dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.</p>
         </div>
       </div>
 
@@ -475,8 +475,8 @@
     </div>
 
     <div id="publishContainer" class="card hidden" style="border-top: 4px solid #218838;">
-      <h2 data-i18n="publish_title">Publier ou Modifier mon Séjour</h2>
-      <p data-i18n="publish_desc">Inscrivez votre logement et vos participants :</p>
+      <h2 data-i18n="publish_title">Publier ou Modifier mon Emplacement</h2>
+      <p data-i18n="publish_desc">Inscrivez votre emplacement et vos participants :</p>
       
       <form id="minyanForm">
         <label for="nom" data-i18n="lbl_name">Nom :</label>
@@ -621,13 +621,13 @@
           </div>
         </div>
 
-        <button type="submit" style="background-color: #218838; margin-top: 20px;" data-i18n="btn_submit_stay">Valider et enregistrer mon séjour</button>
+        <button type="submit" style="background-color: #218838; margin-top: 20px;" data-i18n="btn_submit_stay">Valider et enregistrer mon emplacement</button>
       </form>
     </div>
 
     <div id="authCard" class="card">
       <h2 data-i18n="auth_title">🔐 Espace Compte Membre</h2>
-      <p data-i18n="auth_desc1">Connectez-vous pour voir les numéros de téléphone et publier votre annonce de séjour.</p>
+      <p data-i18n="auth_desc1">Connectez-vous pour voir les numéros de téléphone et publier votre emplacement.</p>
       
       <div class="row">
         <div class="col">
@@ -690,7 +690,7 @@
         about_heading: "Qu'est-ce que Minyan en vacances ?",
         about_text: "Notre plateforme permet aux voyageurs et aux vacanciers de trouver facilement un minyan et de se connecter avec d'autres personnes partout où ils se trouvent en vacances.",
         auth_title: "🔐 Espace Compte Membre",
-        auth_desc1: "Connectez-vous pour voir les numéros de téléphone et publier votre annonce de séjour.",
+        auth_desc1: "Connectez-vous pour voir les numéros de téléphone et publier votre emplacement.",
         guest_mode: "👁️ Mode Consultation Sécurisé",
         btn_login_signup: "🔑 Connexion / Inscription",
         lbl_email: "Adresse Email :",
@@ -716,8 +716,8 @@
         ph_new_pass_secure: "Nouveau mot de passe sécurisé (6 caractères min.)",
         btn_update_pass: "Mettre à jour mon mot de passe",
         btn_logout: "Se déconnecter",
-        publish_title: "Publier ou Modifier mon Séjour",
-        publish_desc: "Inscrivez votre logement et vos participants :",
+        publish_title: "Publier ou Modifier mon Emplacement",
+        publish_desc: "Inscrivez votre emplacement et vos participants :",
         lbl_name: "Nom :",
         ph_name_optional: "Ex: Cohen (optionnel)",
         lbl_phone: "Numéro de téléphone :",
@@ -734,8 +734,13 @@
         chk_use_hebrew_cal: "📅 Saisir les dates en calendrier hébraïque",
         lbl_start_date: "Date d'arrivée :",
         lbl_end_date: "Date de départ :",
-        btn_submit_stay: "Valider et enregistrer mon séjour",
-        search_title: "🔍 Recherche de Séjours",
+        lbl_arr_day: "Jour d'arrivée :",
+        lbl_arr_month: "Mois d'arrivée :",
+        lbl_dep_day: "Jour de départ :",
+        lbl_dep_month: "Mois de départ :",
+        lbl_year: "Année :",
+        btn_submit_stay: "Valider et enregistrer mon emplacement",
+        search_title: "🔍 Recherche d'Emplacements",
         lbl_search_city: "Entrez une ville pour cibler :",
         ph_search_city: "Ex: Chamonix, Paris, Nice...",
         lbl_radius: "Rayon autour de la ville :",
@@ -743,10 +748,10 @@
         opt_radius_10: "10 km autour",
         opt_radius_20: "20 km autour",
         btn_search: "Chercher",
-        map_title: "Carte des Séjours 🗺️",
+        map_title: "Carte des Emplacements 🗺️",
         map_subtitle: "Cliquez sur un marqueur pour afficher ses détails.",
-        details_title: "📌 Détails du séjour sélectionné",
-        details_placeholder: "Cliquez sur un séjour dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.",
+        details_title: "📌 Détails de l'emplacement sélectionné",
+        details_placeholder: "Cliquez sur un emplacement dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.",
         minyan_state_title: "📊 État du Minyan pour cette zone",
         list_title: "Liste des foyers & participants trouvés",
         th_name: "Nom",
@@ -756,7 +761,30 @@
         th_city: "Ville / Secteur",
         th_dates: "Dates",
         th_action: "Action",
-        msg_stay_saved: "Séjour enregistré avec succès !"
+        msg_reset_email_sent: "E-mail de réinitialisation de mot de passe envoyé !",
+        msg_enter_email_reset: "Veuillez entrer votre adresse e-mail ci-dessus pour réinitialiser le mot de passe.",
+        msg_fill_login: "Veuillez remplir l'email et le mot de passe",
+        msg_login_success: "Connexion réussie !",
+        msg_signup_success: "Nouveau compte créé avec succès !",
+        msg_email_updated: "Adresse e-mail mise à jour avec succès !",
+        msg_valid_email: "Veuillez entrer une adresse e-mail valide.",
+        msg_pass_length: "Le nouveau mot de passe doit faire au moins 6 caractères.",
+        msg_pass_updated: "Mot de passe mis à jour avec succès !",
+        msg_accept_phone: "Vous devez accepter l'affichage du numéro pour valider l'enregistrement.",
+        msg_choose_address: "Veuillez choisir une adresse dans la liste déroulante.",
+        msg_dates_past: "Les dates ne peuvent pas être antérieures à aujourd'hui.",
+        msg_dates_order: "La date de départ ne peut pas être antérieure à la date d'arrivée.",
+        msg_stay_saved: "Emplacement enregistré avec succès !",
+        msg_enter_city_search: "Veuillez entrer ou sélectionner une ville.",
+        msg_choose_city_list: "Veuillez choisir une ville dans la liste déroulante des suggestions.",
+        msg_confirm_delete: "Voulez-vous vraiment supprimer cet emplacement ?",
+        msg_stay_deleted: "Emplacement supprimé.",
+        msg_no_stay_zone: "Aucun emplacement trouvé dans cette zone.",
+        msg_no_stay_recorded: "Aucun emplacement enregistré.",
+        point_clicked: "Point cliqué",
+        btn_delete_table: "Supprimer",
+        hebrew_months: ["Tichri", "Heshvan", "Kislev", "Tevet", "Chevat", "Adar", "Nissan", "Iyar", "Sivan", "Tamouz", "Av", "Eloul"],
+        hebrew_years: { "5786": "5786 (2025-2026)", "5787": "5787 (2026-2027)", "5788": "5788 (2027-2028)" }
       },
       en: {
         meta_title: "Minyan on vacation - Find a minyan on vacation in France",
@@ -765,7 +793,7 @@
         about_heading: "What is Minyan on vacation?",
         about_text: "Our platform allows travelers and vacationers to easily find a minyan and connect with other people wherever they are on vacation.",
         auth_title: "🔐 Member Space",
-        auth_desc1: "Log in to see phone numbers and publish your stay listing.",
+        auth_desc1: "Log in to see phone numbers and publish your location listing.",
         guest_mode: "👁️ Secure Public Mode",
         btn_login_signup: "🔑 Login / Signup",
         lbl_email: "Email Address:",
@@ -791,8 +819,8 @@
         ph_new_pass_secure: "New secure password (6 chars min.)",
         btn_update_pass: "Update my password",
         btn_logout: "Log out",
-        publish_title: "Publish or Modify my Stay",
-        publish_desc: "Register your accommodation and participants:",
+        publish_title: "Publish or Modify my Location",
+        publish_desc: "Register your location and participants:",
         lbl_name: "Name:",
         ph_name_optional: "Ex: Smith (optional)",
         lbl_phone: "Phone number:",
@@ -809,8 +837,13 @@
         chk_use_hebrew_cal: "📅 Enter dates using the Hebrew calendar",
         lbl_start_date: "Arrival date:",
         lbl_end_date: "Departure date:",
-        btn_submit_stay: "Validate and save my stay",
-        search_title: "🔍 Search Stays",
+        lbl_arr_day: "Arrival day:",
+        lbl_arr_month: "Arrival month:",
+        lbl_dep_day: "Departure day:",
+        lbl_dep_month: "Departure month:",
+        lbl_year: "Year:",
+        btn_submit_stay: "Validate and save my location",
+        search_title: "🔍 Search Locations",
         lbl_search_city: "Enter a city to target:",
         ph_search_city: "Ex: Paris, Nice...",
         lbl_radius: "Radius around city:",
@@ -818,10 +851,10 @@
         opt_radius_10: "10 km around",
         opt_radius_20: "20 km around",
         btn_search: "Search",
-        map_title: "Stays Map 🗺️",
+        map_title: "Locations Map 🗺️",
         map_subtitle: "Click on a marker to show details.",
-        details_title: "📌 Selected Stay Details",
-        details_placeholder: "Click on a stay in the list or on a map marker to display its info here.",
+        details_title: "📌 Selected Location Details",
+        details_placeholder: "Click on a location in the list or on a map marker to display its info here.",
         minyan_state_title: "📊 Minyan Status for this Area",
         list_title: "List of found households & participants",
         th_name: "Name",
@@ -831,7 +864,30 @@
         th_city: "City / Area",
         th_dates: "Dates",
         th_action: "Action",
-        msg_stay_saved: "Stay successfully saved!"
+        msg_reset_email_sent: "Password reset email sent!",
+        msg_enter_email_reset: "Please enter your email address above to reset your password.",
+        msg_fill_login: "Please fill in email and password",
+        msg_login_success: "Login successful!",
+        msg_signup_success: "New account created successfully!",
+        msg_email_updated: "Email address updated successfully!",
+        msg_valid_email: "Please enter a valid email address.",
+        msg_pass_length: "New password must be at least 6 characters long.",
+        msg_pass_updated: "Password updated successfully!",
+        msg_accept_phone: "You must accept displaying the phone number to validate registration.",
+        msg_choose_address: "Please choose an address from the dropdown list.",
+        msg_dates_past: "Dates cannot be earlier than today.",
+        msg_dates_order: "Departure date cannot be earlier than arrival date.",
+        msg_stay_saved: "Location successfully saved!",
+        msg_enter_city_search: "Please enter or select a city.",
+        msg_choose_city_list: "Please choose a city from the suggestion list.",
+        msg_confirm_delete: "Do you really want to delete this location?",
+        msg_stay_deleted: "Location deleted.",
+        msg_no_stay_zone: "No locations found in this area.",
+        msg_no_stay_recorded: "No locations recorded.",
+        point_clicked: "Clicked point",
+        btn_delete_table: "Delete",
+        hebrew_months: ["Tishrei", "Cheschvan", "Kislev", "Tevet", "Shevat", "Adar", "Nisan", "Iyar", "Sivan", "Tammuz", "Av", "Elul"],
+        hebrew_years: { "5786": "5786 (2025-2026)", "5787": "5787 (2026-2027)", "5788": "5788 (2027-2028)" }
       },
       he: {
         meta_title: "מיניין בחופשה - מציאת מיניין בחופשה בצרפת",
@@ -840,7 +896,7 @@
         about_heading: "מה זה מיניין בחופשה?",
         about_text: "הפלטפורמה שלנו מאפשרת למטיילים ולנופשים למצוא בקלות מיניין ולהתחבר לאנשים אחרים בכל מקום שבו הם נמצאים בחופשה.",
         auth_title: "🔐 אזור אישי לחברים",
-        auth_desc1: "התחבר כדי לראות מספרי טלפון ולפרסם את השהות שלך.",
+        auth_desc1: "התחבר כדי לראות מספרי טלפון ולפרסם את המיקום שלך.",
         guest_mode: "👁️ מצב צפייה מאובטח",
         btn_login_signup: "🔑 התחברות / הרשמה",
         lbl_email: "כתובת אימייל:",
@@ -866,8 +922,8 @@
         ph_new_pass_secure: "סיסמה חדשה מאובטחת (6 תווים לפחות)",
         btn_update_pass: "עדכן סיסמה",
         btn_logout: "התנתק",
-        publish_title: "פרסם או ערוך את השהות שלי",
-        publish_desc: "רשום את מקום האירוח והמשתתפים שלך:",
+        publish_title: "פרסם או ערוך את המיקום שלי",
+        publish_desc: "רשום את המיקום והמשתתפים שלך:",
         lbl_name: "שם:",
         ph_name_optional: "לדוגמה: כהן (אופציונלי)",
         lbl_phone: "מספר טלפון:",
@@ -884,8 +940,13 @@
         chk_use_hebrew_cal: "📅 הזנת תאריכים לפי לוח שנה עברי",
         lbl_start_date: "תאריך הגעה:",
         lbl_end_date: "תאריך עזיבה:",
-        btn_submit_stay: "אשר ושמור את השהות שלי",
-        search_title: "🔍 חיפוש שהויות",
+        lbl_arr_day: "יום הגעה:",
+        lbl_arr_month: "חודש הגעה:",
+        lbl_dep_day: "יום עזיבה:",
+        lbl_dep_month: "חודש עזיבה:",
+        lbl_year: "שנה:",
+        btn_submit_stay: "אשר ושמור את המיקום שלי",
+        search_title: "🔍 חיפוש מיקומים",
         lbl_search_city: "הזן עיר לחיפוש :",
         ph_search_city: "Chamonix, Paris, Nice...",
         lbl_radius: "רדיוס סביב העיר:",
@@ -893,10 +954,10 @@
         opt_radius_10: "10 ק\"מ סביב",
         opt_radius_20: "20 ק\"מ סביב",
         btn_search: "חפש",
-        map_title: "מפת השהויות 🗺️",
+        map_title: "מפת המיקומים 🗺️",
         map_subtitle: "לחץ על סמן במפה כדי להציג את הפרטים.",
-        details_title: "📌 פרטי השהות שנבחרה",
-        details_placeholder: "לחץ על שהות ברשימה או על סמן במפה כדי להציג את פרטיו כאן.",
+        details_title: "📌 פרטי המיקום שנבחר",
+        details_placeholder: "לחץ על מיקום ברשימה או על סמן במפה כדי להציג את פרטיו כאן.",
         minyan_state_title: "📊 מצב המיניין באזור זה",
         list_title: "רשימת בתי האב והמשתתפים שנמצאו",
         th_name: "שם",
@@ -906,7 +967,30 @@
         th_city: "עיר / אזור",
         th_dates: "תאריכים",
         th_action: "פעולה",
-        msg_stay_saved: "השהות נשמרה בהצלחה!"
+        msg_reset_email_sent: "אימייל לאיפוס סיסמה נשלח!",
+        msg_enter_email_reset: "אנא הזן את כתובת האימייל שלך למעלה כדי לאפס סיסמה.",
+        msg_fill_login: "אנא מלא אימייל וסיסמה",
+        msg_login_success: "התחברות הצליחה!",
+        msg_signup_success: "חשבון חדש נוצר בהצלחה!",
+        msg_email_updated: "כתובת האימייל עודכנה בהצלחה!",
+        msg_valid_email: "אנא הזן כתובת אימייל תקינה.",
+        msg_pass_length: "הסיסמה החדשה חייבת להכיל לפחות 6 תווים.",
+        msg_pass_updated: "הסיסמה עודכנה בהצלחה!",
+        msg_accept_phone: "עליך לאשר הצגת מספר טלפון כדי לאשר רישום.",
+        msg_choose_address: "אנא בחר כתובת מרשימת ההצעות.",
+        msg_dates_past: "התאריכים לא יכולים להיות מוקדמים מהיום.",
+        msg_dates_order: "תאריך העזיבה לא יכול להיות מוקדם מתאריך ההגעה.",
+        msg_stay_saved: "המיקום נשמר בהצלחה!",
+        msg_enter_city_search: "אנא הזן או בחר עיר.",
+        msg_choose_city_list: "אנא בחר עיר מרשימת ההצעות.",
+        msg_confirm_delete: "האם אתה בטוח שברצונך למחוק מיקום זה?",
+        msg_stay_deleted: "המיקום נמחק.",
+        msg_no_stay_zone: "לא נמצאו מיקומים באזור זה.",
+        msg_no_stay_recorded: "אין מיקומים רשומים.",
+        point_clicked: "נקודה שנלחצה",
+        btn_delete_table: "מחק",
+        hebrew_months: ["תשרי", "חשוון", "כסלו", "טבת", "שבט", "אדר", "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול"],
+        hebrew_years: { "5786": "תשפ״ו (5786)", "5787": "תשפ״ז (5787)", "5788": "תשפ״ח (5788)" }
       }
     };
 
