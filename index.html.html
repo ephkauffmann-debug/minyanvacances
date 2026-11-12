@@ -120,7 +120,7 @@
       border: 4px solid rgba(255, 255, 255, 0.9);
     }
 
-    .card, .top-bar, table, .autocomplete-wrapper input, input, select {
+    .card, .top-bar, table, .autocomplete-wrapper input, input, select, textarea {
       background: rgba(255, 255, 255, 0.85) !important;
       backdrop-filter: blur(10px) !important;
       -webkit-backdrop-filter: blur(10px) !important;
@@ -156,7 +156,7 @@
       border: 1px solid rgba(0, 0, 0, 0.2);
     }
 
-    input, select {
+    input, select, textarea {
       display: block;
       width: 100%;
       padding: 11px 14px;
@@ -167,9 +167,10 @@
       font-weight: 600;
       font-size: 0.95em;
       color: #000 !important;
+      font-family: inherit;
     }
 
-    input::placeholder { color: rgba(0, 0, 0, 0.7); }
+    input::placeholder, textarea::placeholder { color: rgba(0, 0, 0, 0.7); }
 
     .phone-group {
       display: flex;
@@ -266,7 +267,7 @@
     }
 
     th, td {
-      border: 1px solid rgba(0, 0, 0, 0.2); padding: 12px; text-align: left; font-size: 0.9em; color: #000;
+      border: 1px solid rgba(0, 0, 0, 0.2); padding: 10px; text-align: left; font-size: 0.88em; color: #000;
     }
     html[dir="rtl"] th, html[dir="rtl"] td { text-align: right; }
     th { background-color: rgba(230, 235, 240, 0.9) !important; color: #000; font-weight: 700; }
@@ -327,17 +328,71 @@
       width: 120px; margin-top: 0; padding: 6px;
     }
     .badge-office {
-      display: inline-block; background: #2563eb; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 0.8em; margin-right: 4px;
+      display: inline-block; background: #2563eb; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 0.78em; margin: 1px;
     }
     .badge-presence {
-      display: inline-block; background: #6c757d; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 0.8em;
+      display: inline-block; background: #6c757d; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 0.78em;
+    }
+    .badge-host {
+      display: inline-block; background: #198754; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 0.78em; margin-top: 3px;
+    }
+    .badge-fete {
+      display: inline-block; background: #6f42c1; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 0.78em; margin-top: 3px;
+    }
+    .zone-actions {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;
     }
     .btn-share {
-      background-color: #25d366; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85em; width: auto; display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+      background-color: #25d366; color: white; border: none; padding: 9px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85em; width: auto; display: inline-flex; align-items: center; gap: 6px; margin-top: 0;
     }
     .btn-share:hover { background-color: #1eb853; }
+    .btn-alert-sub {
+      background-color: #f59e0b; color: #000; border: none; padding: 9px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85em; width: auto; display: inline-flex; align-items: center; gap: 6px; margin-top: 0;
+    }
+    .btn-alert-sub.subscribed {
+      background-color: #10b981; color: #fff;
+    }
     .btn-locate {
       background-color: #0d6efd; color: white; padding: 10px; border-radius: 8px; margin-top: 8px; font-size: 0.9em;
+    }
+
+    /* Styles Chat / Messages de zone */
+    .chat-box {
+      max-height: 250px;
+      overflow-y: auto;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(0,0,0,0.2);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .chat-msg {
+      background: rgba(255,255,255,0.9);
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      border-left: 3px solid #2563eb;
+      font-size: 0.9em;
+    }
+    .chat-msg-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8em;
+      color: #555;
+      margin-bottom: 4px;
+    }
+    .chat-input-group {
+      display: flex;
+      gap: 8px;
+    }
+    .chat-input-group input {
+      margin-top: 0;
+      flex: 1;
+    }
+    .chat-input-group button {
+      margin-top: 0;
+      width: auto;
+      padding: 0 18px;
     }
   </style>
 </head>
@@ -452,7 +507,27 @@
       <div class="card">
         <h2 data-i18n="minyan_state_title">📊 État du Minyan pour cette zone</h2>
         <div id="totauxContainer"></div>
-        <button id="btnShareZone" class="btn-share" onclick="partagerZoneActuelle()">📲 Partager cette zone sur WhatsApp</button>
+        <div class="zone-actions">
+          <button id="btnShareZone" class="btn-share" onclick="partagerZoneActuelle()">📲 Partager sur WhatsApp</button>
+          <button id="btnAlertZone" class="btn-alert-sub" onclick="basculerAlerteZone()">🔔 Recevoir les alertes pour cette zone</button>
+        </div>
+      </div>
+
+      <!-- Chat / Messages communautaires pour la zone -->
+      <div class="card" style="border-top: 4px solid #6f42c1;">
+        <h2 data-i18n="chat_title">💬 Messages & Organisation de la zone</h2>
+        <div id="chatContainer" class="chat-box">
+          <p style="font-style:italic; opacity:0.7;">Aucun message pour cette zone pour le moment.</p>
+        </div>
+        <div id="chatFormAuth" class="hidden">
+          <div class="chat-input-group">
+            <input type="text" id="chatInput" placeholder="Écrire une info (ex: RDV à 8h15 chez moi...)" maxlength="250">
+            <button type="button" onclick="envoyerMessageZone()">Envoyer</button>
+          </div>
+        </div>
+        <div id="chatFormGuest">
+          <p style="font-size:0.85em; opacity:0.8; margin:0;">🔒 Connectez-vous pour participer à la discussion de cette zone.</p>
+        </div>
       </div>
 
       <div class="card">
@@ -463,7 +538,7 @@
               <th data-i18n="th_name">Nom</th>
               <th data-i18n="th_phone">Téléphone</th>
               <th data-i18n="th_men">+13 ans</th>
-              <th data-i18n="th_offices">Type / Horaires</th>
+              <th data-i18n="th_offices">Infos & Horaires</th>
               <th data-i18n="th_city">Ville / Secteur</th>
               <th data-i18n="th_dates">Dates</th>
               <th data-i18n="th_action">Action</th>
@@ -528,8 +603,31 @@
           </label>
         </div>
 
-        <label for="nb_hommes" data-i18n="lbl_men_count">Nombre d'hommes / garçons (+13 ans) :</label>
-        <input type="number" id="nb_hommes" min="1" value="1" required>
+        <div class="row">
+          <div class="col">
+            <label for="nb_hommes" data-i18n="lbl_men_count">Hommes / garçons (+13 ans) :</label>
+            <input type="number" id="nb_hommes" min="1" value="1" required>
+          </div>
+          <div class="col">
+            <label for="periode_type" data-i18n="lbl_period_type">Période concernée :</label>
+            <select id="periode_type">
+              <option value="semaine">🗓️ Toute la semaine & Chabbath</option>
+              <option value="chabbath">🕯️ Chabbath uniquement</option>
+              <option value="fetes">🍷 Fêtes (Yom Tov)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label for="capacite_accueil" data-i18n="lbl_host_cap">Capacité d'accueil :</label>
+            <select id="capacite_accueil">
+              <option value="deplacement">🚶 Peut se déplacer (Pas d'accueil)</option>
+              <option value="accueil_10">🏠 Peut accueillir chez soi (10+ pers.)</option>
+              <option value="accueil_20">🏛️ Grande salle / Accueil (20+ pers.)</option>
+            </select>
+          </div>
+        </div>
 
         <!-- Choix du mode : Sans horaire ou Avec horaire -->
         <label style="margin-top: 18px;" data-i18n="lbl_mode_type">Type de déclaration :</label>
@@ -723,7 +821,9 @@
         lbl_phone: "Numéro de téléphone :",
         ph_phone: "600000000",
         chk_phone_auth: "J'accepte d'afficher mon numéro de téléphone aux membres connectés *",
-        lbl_men_count: "Nombre d'hommes / garçons (+13 ans) :",
+        lbl_men_count: "Hommes / garçons (+13 ans) :",
+        lbl_period_type: "Période concernée :",
+        lbl_host_cap: "Capacité d'accueil :",
         lbl_mode_type: "Type de déclaration :",
         mode_presence: "📍 Simple présence (Sans horaire)",
         mode_minyan: "🕌 Organisation de Minyan (Avec horaires)",
@@ -753,11 +853,12 @@
         details_title: "📌 Détails de l'emplacement sélectionné",
         details_placeholder: "Cliquez sur un emplacement dans la liste ou sur un marqueur de la carte pour afficher ses informations ici.",
         minyan_state_title: "📊 État du Minyan pour cette zone",
+        chat_title: "💬 Messages & Organisation de la zone",
         list_title: "Liste des foyers & participants trouvés",
         th_name: "Nom",
         th_phone: "Téléphone",
         th_men: "+13 ans",
-        th_offices: "Type / Horaires",
+        th_offices: "Infos & Horaires",
         th_city: "Ville / Secteur",
         th_dates: "Dates",
         th_action: "Action",
@@ -826,7 +927,9 @@
         lbl_phone: "Phone number:",
         ph_phone: "600000000",
         chk_phone_auth: "I agree to display my phone number to logged-in members *",
-        lbl_men_count: "Number of men / boys (13+ years):",
+        lbl_men_count: "Men / boys (13+ years):",
+        lbl_period_type: "Period:",
+        lbl_host_cap: "Hosting capacity:",
         lbl_mode_type: "Declaration type:",
         mode_presence: "📍 Presence only (No schedule)",
         mode_minyan: "🕌 Minyan Organization (With schedules)",
@@ -856,11 +959,12 @@
         details_title: "📌 Selected Location Details",
         details_placeholder: "Click on a location in the list or on a map marker to display its info here.",
         minyan_state_title: "📊 Minyan Status for this Area",
+        chat_title: "💬 Area Messages & Coordination",
         list_title: "List of found households & participants",
         th_name: "Name",
         th_phone: "Phone",
         th_men: "13+ yrs",
-        th_offices: "Type / Times",
+        th_offices: "Info & Times",
         th_city: "City / Area",
         th_dates: "Dates",
         th_action: "Action",
@@ -929,7 +1033,9 @@
         lbl_phone: "מספר טלפון:",
         ph_phone: "600000000",
         chk_phone_auth: "אני מסכים להציג את מספר הטלפון שלי לחברים מחוברים *",
-        lbl_men_count: "מספר גברים / נערים (גיל 13+):",
+        lbl_men_count: "גברים / נערים (גיל 13+):",
+        lbl_period_type: "תקופה:",
+        lbl_host_cap: "יכולת אירוח:",
         lbl_mode_type: "סוג הצהרה:",
         mode_presence: "📍 נוכחות בלבד (ללא שעות)",
         mode_minyan: "🕌 ארגון מיניין (כולל שעות תפילה)",
@@ -959,11 +1065,12 @@
         details_title: "📌 פרטי המיקום שנבחר",
         details_placeholder: "לחץ על מיקום ברשימה או על סמן במפה כדי להציג את פרטיו כאן.",
         minyan_state_title: "📊 מצב המיניין באזור זה",
+        chat_title: "💬 הודעות ותיאום באזור",
         list_title: "רשימת בתי האב והמשתתפים שנמצאו",
         th_name: "שם",
         th_phone: "טלפון",
         th_men: "גילאי 13+",
-        th_offices: "סוג / שעות",
+        th_offices: "פרטים ושעות",
         th_city: "עיר / אזור",
         th_dates: "תאריכים",
         th_action: "פעולה",
@@ -1171,6 +1278,8 @@
     }
 
     let sejours = [];
+    let messagesZone = [];
+    let userAlertes = {};
     let map = null;
     let markersLayer = null;
     let circleLayer = null;
@@ -1322,19 +1431,32 @@
           document.getElementById('btnShowAuthModal').classList.add('hidden');
           document.getElementById('btnToggleProfile').classList.remove('hidden');
           
+          document.getElementById('chatFormAuth').classList.remove('hidden');
+          document.getElementById('chatFormGuest').classList.add('hidden');
+
           authCard.classList.add('hidden');
           publishContainer.classList.remove('hidden');
           userEmailDisplay.textContent = user.email;
           initialiserChampsDates();
+
+          // Écouter les alertes de l'utilisateur connecté
+          rtdb.ref('alertes_utilisateurs/' + user.uid).on('value', snap => {
+            userAlertes = snap.val() || {};
+            mettreAJourBoutonAlerte();
+          });
         } else {
           document.getElementById('userInfoGuest').classList.remove('hidden');
           document.getElementById('userInfoAuth').classList.add('hidden');
           document.getElementById('btnShowAuthModal').classList.remove('hidden');
           document.getElementById('btnToggleProfile').classList.add('hidden');
           
+          document.getElementById('chatFormAuth').classList.add('hidden');
+          document.getElementById('chatFormGuest').classList.remove('hidden');
+
           authCard.classList.remove('hidden');
           publishContainer.classList.add('hidden');
           profileCard.classList.add('hidden');
+          userAlertes = {};
         }
 
         écouterBaseDeDonnees();
@@ -1545,8 +1667,9 @@
 
       const telephone = `${countryCode} ${rawPhone}`;
       const nbHommes = parseInt(document.getElementById('nb_hommes').value, 10) || 1;
+      const periodeType = document.getElementById('periode_type').value;
+      const capaciteAccueil = document.getElementById('capacite_accueil').value;
 
-      // Récupération du type de déclaration (Présence simple ou Minyan avec horaires)
       const typeDeclaration = document.querySelector('input[name="type_declaration"]:checked').value;
       const offices = [];
 
@@ -1579,6 +1702,8 @@
         nom: nom,
         telephone: telephone,
         nbHommes: nbHommes,
+        periodeType: periodeType,
+        capaciteAccueil: capaciteAccueil,
         typeDeclaration: typeDeclaration,
         offices: offices,
         lieu: lieuAffichage,
@@ -1627,6 +1752,20 @@
         }
         mettreAJourAffichageGlobal();
       });
+
+      // Écouter les messages de zone
+      rtdb.ref('messages_zone').on('value', snapshot => {
+        const val = snapshot.val();
+        messagesZone = [];
+        if (val) {
+          Object.keys(val).forEach(key => {
+            messagesZone.push({ id: key, ...val[key] });
+          });
+        }
+        if (selectedLocationSearch) {
+          afficherChatZone();
+        }
+      });
     }
 
     window.supprimerSejour = function(id) {
@@ -1647,11 +1786,124 @@
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
     }
 
-    function formaterAffichageOffices(s) {
-      if (s.typeDeclaration === 'presence' || !s.offices || s.offices.length === 0) {
-        return `<span class="badge-presence">📍 Simple présence</span>`;
+    // Gestion de l'abonnement aux alertes d'une zone
+    function getZoneKey() {
+      if (!selectedLocationSearch) return null;
+      return selectedLocationSearch.label.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+    }
+
+    function basculerAlerteZone() {
+      if (!auth || !auth.currentUser) {
+        showAlert("Connectez-vous pour activer les alertes de cette zone.", true);
+        scrollToAuth();
+        return;
       }
-      return s.offices.map(o => `<span class="badge-office">${o}</span>`).join(' ');
+      const zoneKey = getZoneKey();
+      if (!zoneKey) return;
+
+      const ref = rtdb.ref(`alertes_utilisateurs/${auth.currentUser.uid}/${zoneKey}`);
+      if (userAlertes[zoneKey]) {
+        ref.remove().then(() => showAlert("Alerte désactivée pour cette zone."));
+      } else {
+        ref.set({
+          ville: selectedLocationSearch.label,
+          email: auth.currentUser.email,
+          date: new Date().toISOString()
+        }).then(() => showAlert("🔔 Vous êtes abonné aux alertes pour " + selectedLocationSearch.label));
+      }
+    }
+
+    function mettreAJourBoutonAlerte() {
+      const btn = document.getElementById('btnAlertZone');
+      if (!btn) return;
+      const zoneKey = getZoneKey();
+      if (zoneKey && userAlertes[zoneKey]) {
+        btn.classList.add('subscribed');
+        btn.innerHTML = "✅ Abonné aux alertes";
+      } else {
+        btn.classList.remove('subscribed');
+        btn.innerHTML = "🔔 Recevoir les alertes pour cette zone";
+      }
+    }
+
+    // Gestion du Chat / Messages de zone
+    function envoyerMessageZone() {
+      if (!auth || !auth.currentUser || !selectedLocationSearch) return;
+      const input = document.getElementById('chatInput');
+      const texte = input.value.trim();
+      if (!texte) return;
+
+      const auteur = auth.currentUser.email.split('@')[0];
+      rtdb.ref('messages_zone').push({
+        texte: texte,
+        auteur: auteur,
+        userId: auth.currentUser.uid,
+        lat: selectedLocationSearch.lat,
+        lon: selectedLocationSearch.lon,
+        lieu: selectedLocationSearch.label,
+        timestamp: Date.now()
+      }).then(() => {
+        input.value = '';
+      });
+    }
+
+    window.supprimerMessage = function(id) {
+      rtdb.ref('messages_zone/' + id).remove();
+    };
+
+    function afficherChatZone() {
+      const container = document.getElementById('chatContainer');
+      if (!container || !selectedLocationSearch) return;
+
+      const rayonKm = parseFloat(document.getElementById('rayon_select').value);
+      const msgs = messagesZone.filter(m => {
+        const dist = calculerDistanceKm(selectedLocationSearch.lat, selectedLocationSearch.lon, m.lat, m.lon);
+        return dist <= rayonKm;
+      }).sort((a, b) => a.timestamp - b.timestamp);
+
+      if (msgs.length === 0) {
+        container.innerHTML = `<p style="font-style:italic; opacity:0.7; margin:0;">Aucun message pour cette zone pour le moment.</p>`;
+        return;
+      }
+
+      const currentUid = (auth && auth.currentUser) ? auth.currentUser.uid : null;
+      container.innerHTML = msgs.map(m => {
+        const d = new Date(m.timestamp);
+        const heure = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+        const delBtn = (m.userId === currentUid) ? `<span style="color:red; cursor:pointer; margin-left:8px;" onclick="supprimerMessage('${m.id}')">🗑️</span>` : '';
+        return `
+          <div class="chat-msg">
+            <div class="chat-msg-header">
+              <strong>👤 ${m.auteur}</strong>
+              <span>${heure} ${delBtn}</span>
+            </div>
+            <div>${m.texte}</div>
+          </div>
+        `;
+      }).join('');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function formaterBadgesDetails(s) {
+      let html = '';
+      if (s.typeDeclaration === 'presence' || !s.offices || s.offices.length === 0) {
+        html += `<span class="badge-presence">📍 Simple présence</span><br>`;
+      } else {
+        html += s.offices.map(o => `<span class="badge-office">${o}</span>`).join(' ') + '<br>';
+      }
+
+      if (s.periodeType === 'chabbath') {
+        html += `<span class="badge-fete">🕯️ Chabbath uniquement</span> `;
+      } else if (s.periodeType === 'fetes') {
+        html += `<span class="badge-fete">🍷 Fêtes (Yom Tov)</span> `;
+      }
+
+      if (s.capaciteAccueil === 'accueil_10') {
+        html += `<span class="badge-host">🏠 Accueil 10+ pers.</span>`;
+      } else if (s.capaciteAccueil === 'accueil_20') {
+        html += `<span class="badge-host">🏛️ Accueil 20+ pers.</span>`;
+      }
+      return html;
     }
 
     function mettreAJourAffichageGlobal() {
@@ -1670,13 +1922,13 @@
         const nomAffiche = s.nom ? `👤 <strong>${s.nom}</strong><br>` : '';
         const datesTexte = s.datesAffichage || `${s.dateDebut} - ${s.dateFin}`;
         const telFormate = formatTelephoneProtege(s.telephone);
-        const officesHtml = formaterAffichageOffices(s);
+        const badgesHtml = formaterBadgesDetails(s);
 
         const popupContent = `
           <div style="color:#000;">
             ${nomAffiche}
             👥 <strong>${s.nbHommes} ${t('th_men')}</strong><br>
-            🕌 ${officesHtml}<br>
+            ${badgesHtml}<br>
             📍 ${t('th_city')} : <strong>${s.lieu}</strong><br>
             📞 ${t('th_phone')} : ${telFormate}<br>
             📅 ${t('th_dates')} : ${datesTexte}
@@ -1709,6 +1961,8 @@
 
     function resultatsBasControllerAffichage() {
       resultatsBasContainer.classList.remove('hidden');
+      mettreAJourBoutonAlerte();
+      afficherChatZone();
 
       const rayonKm = parseFloat(document.getElementById('rayon_select').value);
       const centerLat = selectedLocationSearch.lat;
@@ -1734,14 +1988,14 @@
         const nomAff = selectedObj.nom ? `👤 <strong>${t('th_name')} :</strong> ${selectedObj.nom}<br>` : '';
         const datesTexte = selectedObj.datesAffichage || `${selectedObj.dateDebut} -> ${selectedObj.dateFin}`;
         const telFormate = formatTelephoneProtege(selectedObj.telephone);
-        const officesHtml = formaterAffichageOffices(selectedObj);
+        const badgesHtml = formaterBadgesDetails(selectedObj);
 
         detailContainer.innerHTML = `
           <div class="selected-preview-card" style="margin:0;">
             ${nomAff}
             📞 <strong>${t('th_phone')} :</strong> ${telFormate}<br>
             👥 <strong>${t('th_men')} :</strong> ${selectedObj.nbHommes}<br>
-            🕌 <strong>Statut :</strong> ${officesHtml}<br>
+            🕌 <strong>Détails :</strong><br>${badgesHtml}<br>
             📍 <strong>${t('th_city')} :</strong> ${selectedObj.lieu}<br>
             📅 <strong>${t('th_dates')} :</strong> ${datesTexte}
           </div>
@@ -1764,7 +2018,7 @@
           const nomAffichage = s.nom ? `<strong>${s.nom}</strong>` : '<i style="opacity: 0.6;">-</i>';
           const datesTexte = s.datesAffichage || `${s.dateDebut} -> ${s.dateFin}`;
           const telFormate = formatTelephoneProtege(s.telephone);
-          const officesHtml = formaterAffichageOffices(s);
+          const badgesHtml = formaterBadgesDetails(s);
 
           const tr = document.createElement('tr');
           tr.style.cursor = 'pointer';
@@ -1772,7 +2026,7 @@
             <td>${nomAffichage}</td>
             <td>${telFormate}</td>
             <td><span class="badge-minyan">${s.nbHommes}</span></td>
-            <td>${officesHtml}</td>
+            <td>${badgesHtml}</td>
             <td><strong>${s.lieu}</strong></td>
             <td>${datesTexte}</td>
             <td>
